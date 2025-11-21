@@ -180,7 +180,7 @@ public function test_can_fetch_coins() {
 
 The `.env` file shows CoinGecko API configuration:
 - **Free tier**: `https://api.coingecko.com/api/v3/` (limited requests)
-- **Pro tier**: Requires `CG-PRO-API-KEY` environment variable
+- **Pro tier**: Requires `COINGECKO_API_KEY` environment variable
 
 Create a service class to encapsulate API calls:
 ```php
@@ -194,18 +194,84 @@ class CoinGeckoService {
 Store API endpoint in `config/services.php`:
 ```php
 'coingecko' => [
-    'endpoint' => env('CG-ENDPOINT'),
-    'api_key' => env('CG-PRO-API-KEY'),
+    'endpoint' => env('COINGECKO_ENDPOINT'),
+    'api_key' => env('COINGECKO_API_KEY'),
 ],
 ```
 
-## Git Workflow
+## Git Workflow (Gitflow)
 
-Currently on `feature/#1-setup-laravel-backend` branch. When ready to merge:
-1. Ensure all tests pass: `composer run test`
-2. Format code: `./vendor/bin/pint`
-3. Create a pull request to `main` branch
-4. Ensure CI checks pass
+This project follows Gitflow branching strategy:
+
+### Branch Naming
+- **Feature branches**: `feature/#<issue-number> <issue-title>`
+  - Example: `feature/#1-setup-laravel-backend`
+  - Use for new features and enhancements
+
+- **Bug fix branches**: `bug/#<issue-number> <issue-title>`
+  - Example: `bug/#15-fix-api-caching`
+  - Use for bug fixes
+
+- **Main branch**: `main`
+  - Production-ready code
+  - Merged via pull requests from feature/bug branches
+
+- **Develop branch**: `develop` (optional, for larger teams)
+  - Integration branch for features
+
+### Commit Message Format
+
+All commits must start with the **issue number** from the branch:
+
+```
+#<issue-number> Brief description of changes
+
+- Bullet point details
+- More details
+
+🤖 Generated with [Claude Code](https://claude.com/claude-code)
+
+Co-Authored-By: Claude <noreply@anthropic.com>
+```
+
+**Examples:**
+```
+#1 Setup Laravel backend with API routes
+
+#15 Fix API response caching
+
+#8 Add user authentication endpoints
+```
+
+### Workflow Steps
+
+1. Create a feature/bug branch from `main`:
+   ```bash
+   git checkout main
+   git pull origin main
+   git checkout -b feature/#<issue-number>-<title>
+   ```
+
+2. Make commits with issue number prefix:
+   ```bash
+   git commit -m "#<issue-number> Your commit message here"
+   ```
+
+3. Before merging, ensure quality:
+   ```bash
+   composer run test      # All tests pass
+   ./vendor/bin/pint      # Code is formatted
+   ```
+
+4. Push and create a pull request:
+   ```bash
+   git push -u origin feature/#<issue-number>-<title>
+   ```
+
+5. Merge to `main` only after:
+   - PR review is approved
+   - All CI checks pass
+   - Tests pass on the PR
 
 ## Linting and Formatting
 

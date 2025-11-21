@@ -48,6 +48,10 @@ jobs:
         working-directory: front-end
         run: npm install @oxc-parser/binding-linux-x64-gnu @oxc-transform/binding-linux-x64-gnu --no-save 2>&1 || true
 
+      - name: Clean build cache
+        working-directory: front-end
+        run: rm -rf .nuxt dist .output 2>/dev/null || true
+
       - name: Run linting
         working-directory: front-end
         run: npm run lint --if-present || true
@@ -93,6 +97,10 @@ jobs:
       - name: Ensure oxc bindings are installed
         working-directory: front-end
         run: npm install @oxc-parser/binding-linux-x64-gnu @oxc-transform/binding-linux-x64-gnu --no-save 2>&1 || true
+
+      - name: Clean build cache
+        working-directory: front-end
+        run: rm -rf .nuxt dist .output 2>/dev/null || true
 
       - name: Check for security vulnerabilities
         working-directory: front-end

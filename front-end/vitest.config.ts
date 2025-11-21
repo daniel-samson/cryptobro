@@ -28,4 +28,7 @@ export default defineConfig({
       '#app': resolve(__dirname, './'),
     },
   },
+  ssr: {
+    noExternal: ['vue'],
+  },
 })

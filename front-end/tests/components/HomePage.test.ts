@@ -72,8 +72,9 @@ describe('HomePage', () => {
       { id: '2', name: 'Ethereum', symbol: 'eth', price: 2300 },
     ]
 
-    await wrapper.vm.coins = coins
-    await wrapper.vm.loading = false
+    wrapper.vm.coins = coins
+    wrapper.vm.loading = false
+    await wrapper.vm.$nextTick()
 
     expect(wrapper.find('.coins-grid').exists()).toBe(true)
     expect(wrapper.findAll('.coin-card')).toHaveLength(2)
@@ -82,17 +83,19 @@ describe('HomePage', () => {
   it('should display error message when fetch fails', async () => {
     const errorMsg = 'Failed to fetch cryptocurrency data'
 
-    await wrapper.vm.error = errorMsg
-    await wrapper.vm.loading = false
+    wrapper.vm.error = errorMsg
+    wrapper.vm.loading = false
+    await wrapper.vm.$nextTick()
 
     expect(wrapper.find('.error').exists()).toBe(true)
     expect(wrapper.find('.error').text()).toBe(errorMsg)
   })
 
   it('should display empty state when no coins are available', async () => {
-    await wrapper.vm.coins = []
-    await wrapper.vm.loading = false
-    await wrapper.vm.error = null
+    wrapper.vm.coins = []
+    wrapper.vm.loading = false
+    wrapper.vm.error = null
+    await wrapper.vm.$nextTick()
 
     expect(wrapper.find('.empty').exists()).toBe(true)
     expect(wrapper.find('.empty').text()).toBe('No cryptocurrency data available')
@@ -106,8 +109,9 @@ describe('HomePage', () => {
   it('should display coin symbol in uppercase', async () => {
     const coins = [{ id: '1', name: 'Bitcoin', symbol: 'btc', price: 43000 }]
 
-    await wrapper.vm.coins = coins
-    await wrapper.vm.loading = false
+    wrapper.vm.coins = coins
+    wrapper.vm.loading = false
+    await wrapper.vm.$nextTick()
 
     expect(wrapper.find('.symbol').text()).toBe('BTC')
   })

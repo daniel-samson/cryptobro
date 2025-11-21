@@ -2,9 +2,10 @@
   <a href="https://github.com/daniel-samson/cryptobro">
     <img src="design/cryptobro-logo-v1.svg" alt="Logo" width="328" height="88">
   </a>
+  <p>
+    <strong>A web application that displays information about the latest cryptocurrency prices.</strong>
+  </p>
 </div>
-
-A web application that displays information about the latest cryptocurrency prices.
 
 ## Structure
 

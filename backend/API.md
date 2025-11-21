@@ -39,7 +39,7 @@ All API responses follow a consistent structure:
 
 Check if the API is running and responsive.
 
-**Endpoint:** `GET /v1/health`
+**Endpoint:** `GET /api/v1/health`
 
 **Response:**
 ```json
@@ -58,7 +58,7 @@ Check if the API is running and responsive.
 
 Retrieve the top 10 cryptocurrencies by market capitalization.
 
-**Endpoint:** `GET /v1/coins/markets`
+**Endpoint:** `GET /api/v1/coins/markets`
 
 **Caching:** 60 seconds
 
@@ -106,7 +106,7 @@ Retrieve the top 10 cryptocurrencies by market capitalization.
 
 Search for cryptocurrencies by name or symbol.
 
-**Endpoint:** `GET /v1/coins/search`
+**Endpoint:** `GET /api/v1/coins/search`
 
 **Query Parameters:**
 | Parameter | Type   | Required | Description                          |
@@ -115,7 +115,7 @@ Search for cryptocurrencies by name or symbol.
 
 **Example Request:**
 ```
-GET /v1/coins/search?q=bitcoin
+GET /api/v1/coins/search?q=bitcoin
 ```
 
 **Caching:** 300 seconds (5 minutes)
@@ -168,7 +168,7 @@ GET /v1/coins/search?q=bitcoin
 
 Get detailed information for a specific cryptocurrency by its symbol.
 
-**Endpoint:** `GET /v1/coins/{symbol}`
+**Endpoint:** `GET /api/v1/coins/{symbol}`
 
 **Path Parameters:**
 | Parameter | Type   | Description                              |
@@ -177,7 +177,7 @@ Get detailed information for a specific cryptocurrency by its symbol.
 
 **Example Request:**
 ```
-GET /v1/coins/btc
+GET /api/v1/coins/btc
 ```
 
 **Caching:** 60 seconds per coin

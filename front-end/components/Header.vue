@@ -1,14 +1,14 @@
 <template>
   <header class="border-b border-slate-800 bg-slate-900 sticky top-0 z-50">
-    <div class="mx-auto max-w-7xl px-4 py-4 sm:px-6 lg:px-8 flex items-center justify-between">
+    <div class="mx-auto max-w-7xl px-2 py-3 sm:px-4 sm:py-4 lg:px-8 flex items-center justify-between gap-2 sm:gap-4">
       <NuxtLink to="/" class="flex items-center gap-2 hover:opacity-80 transition-opacity">
         <img
           src="/images/cryptobro-logo-v1.svg"
           alt="Cryptobro Logo"
           width="328"
           height="88"
-          class="h-12 w-auto"
-          style="max-width: 200px;"
+          class="h-8 sm:h-10 md:h-12 w-auto"
+          style="max-width: 150px;"
         />
       </NuxtLink>
 
@@ -17,8 +17,8 @@
           <input
             v-model="searchQuery"
             type="text"
-            placeholder="Search cryptocurrencies..."
-            class="w-64 px-4 py-2 pr-10 bg-slate-800 border border-slate-700 rounded-lg text-white placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+            placeholder="Search..."
+            class="w-32 sm:w-48 md:w-64 px-3 sm:px-4 py-2 pr-10 bg-slate-800 border border-slate-700 rounded-lg text-white placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent text-sm sm:text-base"
           />
           <button
             type="submit"

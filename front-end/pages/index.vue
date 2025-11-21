@@ -1,19 +1,11 @@
 <template>
-  <div class="min-h-screen bg-gradient-to-br from-slate-950 via-slate-900 to-slate-950">
-    <!-- Header -->
-    <header class="border-b border-slate-800 bg-slate-900">
-      <div class="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8">
-        <div class="flex items-center justify-between">
-          <div>
-            <h1 class="text-4xl font-bold text-white">Cryptobro</h1>
-            <p class="mt-2 text-slate-400">Real-time cryptocurrency price tracker</p>
-          </div>
-          <div class="text-right">
-            <p class="text-sm text-slate-500">Powered by CoinGecko API</p>
-          </div>
-        </div>
+  <div>
+    <!-- Hero Section -->
+    <div class="mx-auto max-w-7xl px-4 py-12 sm:px-6 lg:px-8">
+      <div class="mb-8">
+        <p class="text-slate-400">Real-time cryptocurrency price tracker powered by CoinGecko API</p>
       </div>
-    </header>
+    </div>
 
     <!-- Main Content -->
     <main class="mx-auto max-w-7xl px-4 py-12 sm:px-6 lg:px-8">

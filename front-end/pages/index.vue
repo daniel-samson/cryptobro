@@ -1,14 +1,7 @@
 <template>
   <div>
-    <!-- Hero Section -->
-    <div class="mx-auto max-w-7xl px-4 py-6 sm:px-6 lg:px-8">
-      <div class="mb-4">
-        <p class="text-slate-400">Real-time cryptocurrency price tracker powered by CoinGecko API</p>
-      </div>
-    </div>
-
     <!-- Main Content -->
-    <main class="mx-auto max-w-7xl px-4 py-6 sm:px-6 lg:px-8">
+    <main class="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8">
       <section>
         <h2 class="mb-8 text-3xl font-bold text-white">Cryptocurrency Prices</h2>
 

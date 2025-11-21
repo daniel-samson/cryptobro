@@ -78,10 +78,10 @@ The API documentation includes:
 
 | Method | Endpoint               | Description                    |
 |--------|------------------------|--------------------------------|
-| GET    | `/v1/health`           | Health check                   |
-| GET    | `/v1/coins/markets`    | Top 10 cryptocurrencies        |
-| GET    | `/v1/coins/search?q=*` | Search cryptocurrencies        |
-| GET    | `/v1/coins/{symbol}`   | Get coin details by symbol     |
+| GET    | `/api/v1/health`           | Health check                   |
+| GET    | `/api/v1/coins/markets`    | Top 10 cryptocurrencies        |
+| GET    | `/api/v1/coins/search?q=*` | Search cryptocurrencies        |
+| GET    | `/api/v1/coins/{symbol}`   | Get coin details by symbol     |
 
 See [API.md](API.md) for detailed documentation with examples.
 

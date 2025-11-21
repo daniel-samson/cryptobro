@@ -60,7 +60,7 @@ Cryptobro is a monorepo cryptocurrency price tracking application with:
 
 4. **Open your browser:**
    - Frontend: http://localhost:3000
-   - Backend API: http://localhost:8000/api/v1
+   - Backend API: http://localhost:8000/api/v1/health
 
 ## Project Structure
 

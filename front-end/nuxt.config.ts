@@ -3,6 +3,11 @@ export default defineNuxtConfig({
   compatibilityDate: '2025-07-15',
   devtools: { enabled: true },
 
+  // Auto-import Nuxt composables
+  imports: {
+    autoImport: true
+  },
+
   modules: [
     '@nuxt/devtools',
   ],

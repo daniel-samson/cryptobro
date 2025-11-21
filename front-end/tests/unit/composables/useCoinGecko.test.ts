@@ -1,9 +1,16 @@
 import { describe, it, expect, beforeEach, vi } from 'vitest'
-import { useCoinGecko } from '~/app/composables/useCoinGecko'
+import { useCoinGecko } from '@/app/composables/useCoinGecko'
 
-// Mock $fetch
+// Mock Nuxt app and $fetch
 const mockFetch = vi.fn()
-global.$fetch = mockFetch as any
+
+vi.stubGlobal('useRuntimeConfig', () => ({
+  public: {
+    apiBaseUrl: 'http://localhost:8000/api'
+  }
+}))
+
+vi.stubGlobal('$fetch', mockFetch)
 
 describe('useCoinGecko', () => {
   beforeEach(() => {

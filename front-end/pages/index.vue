@@ -50,8 +50,7 @@
 
 <script setup lang="ts">
 import { ref, onMounted } from 'vue'
-
-const config = useRuntimeConfig()
+import { useCoinGecko } from '@/app/composables/useCoinGecko'
 
 interface Coin {
   id: string
@@ -60,6 +59,7 @@ interface Coin {
   price: number
 }
 
+const { getCoins } = useCoinGecko()
 const coins = ref<Coin[]>([])
 const loading = ref(true)
 const error = ref<string | null>(null)
@@ -68,8 +68,7 @@ const fetchCoins = async () => {
   try {
     loading.value = true
     error.value = null
-    const response = await $fetch(`${config.public.apiBaseUrl}/v1/coins`)
-    coins.value = response.data || []
+    coins.value = await getCoins()
   } catch (err) {
     error.value = 'Failed to fetch cryptocurrency data. Make sure the backend is running.'
     console.error('Error fetching coins:', err)

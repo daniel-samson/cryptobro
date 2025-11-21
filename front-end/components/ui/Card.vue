@@ -1,5 +1,5 @@
 <template>
-  <div :class="cn('rounded-lg border bg-card text-card-foreground shadow-sm', props.class)" v-bind="$attrs">
+  <div :class="cn('rounded-lg border bg-card text-card-foreground shadow-sm', $props.class)" v-bind="$attrs">
     <slot />
   </div>
 </template>

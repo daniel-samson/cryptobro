@@ -1,5 +1,5 @@
 <template>
-  <h2 :class="cn('text-2xl font-semibold leading-none tracking-tight', props.class)" v-bind="$attrs">
+  <h2 :class="cn('text-2xl font-semibold leading-none tracking-tight', $props.class)" v-bind="$attrs">
     <slot />
   </h2>
 </template>

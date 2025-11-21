@@ -19,12 +19,11 @@
     "paths": {
       "#app": ["."],
       "~": ["./"],
-      "~~": ["./"]
+      "~~": ["./"],
+      "@/*": ["./*"]
     },
     "types": ["vitest/globals", "node"]
   },
-  "include": ["app/**/*.ts", "app/**/*.vue", "tests/**/*.ts"],
-  "exclude": ["node_modules", "dist", ".nuxt"],
-  "files": [],
-  "references": []
+  "include": ["app/**/*.ts", "app/**/*.vue", "tests/**/*.ts", "pages/**/*.ts", "pages/**/*.vue", "components/**/*.ts", "components/**/*.vue"],
+  "exclude": ["node_modules", "dist", ".nuxt"]
 }

@@ -30,6 +30,8 @@ The front end application is a [Nuxt](https://nuxt.com) application. Which commu
 
 The backend application is a stock [Laravel](https://laravel.com) application. It provides a REST API to the front-end applition. It uses [coingecko](https://docs.coingecko.com/v3.0.1/reference/endpoint-overview) api to provide the latest cryptocurrency prices.
 
+📚 **[View API Documentation](backend/API.md)**
+
 ## Getting Started
 
 ### Prerequisites

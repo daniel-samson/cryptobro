@@ -2,11 +2,27 @@
   <div>
     <!-- Main Content -->
     <main class="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8">
-      <!-- Back Button -->
-      <NuxtLink to="/" class="mb-6 inline-flex items-center gap-2 text-blue-400 hover:text-blue-300">
-        <span>←</span>
-        <span>Back to Cryptocurrencies</span>
-      </NuxtLink>
+      <!-- Breadcrumbs -->
+      <Breadcrumb class="mb-6">
+        <BreadcrumbList>
+          <BreadcrumbItem>
+            <BreadcrumbLink to="/">Home</BreadcrumbLink>
+          </BreadcrumbItem>
+          <BreadcrumbSeparator />
+          <BreadcrumbItem v-if="route.query.from === 'search' && route.query.q">
+            <BreadcrumbLink :to="`/search?q=${route.query.q}`">Search Results</BreadcrumbLink>
+          </BreadcrumbItem>
+          <template v-if="route.query.from === 'search' && route.query.q">
+            <BreadcrumbSeparator />
+          </template>
+          <BreadcrumbItem v-if="coin">
+            <span class="text-white">{{ coin.name }}</span>
+          </BreadcrumbItem>
+          <BreadcrumbItem v-else>
+            <span class="text-slate-400">Loading...</span>
+          </BreadcrumbItem>
+        </BreadcrumbList>
+      </Breadcrumb>
 
       <!-- Loading State -->
       <div v-if="loading" class="flex items-center justify-center py-12">

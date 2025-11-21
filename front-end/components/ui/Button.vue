@@ -12,7 +12,7 @@ import { type VariantProps } from 'class-variance-authority'
 import { cn } from '@/app/utils/cn'
 import { buttonVariants } from '@/app/utils/buttonVariants'
 
-interface Props extends VariantProps<typeof buttonVariants> {
+interface Props extends /* @vue-ignore */ VariantProps<typeof buttonVariants> {
   class?: string
 }
 

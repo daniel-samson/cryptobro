@@ -1,9 +1,7 @@
 <template>
-  <div class="min-h-screen flex flex-col">
+  <div>
     <!-- Main content area -->
-    <div class="flex-1">
-      <slot />
-    </div>
+    <slot />
 
     <!-- Footer -->
     <footer class="border-t border-slate-800 bg-slate-900 mt-12">

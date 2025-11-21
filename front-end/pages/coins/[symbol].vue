@@ -28,7 +28,7 @@
       <div v-else-if="coin" class="space-y-8">
         <!-- Header -->
         <div class="flex items-center gap-6">
-          <img v-if="coin.image" :src="coin.image" :alt="coin.name" class="h-16 w-16 rounded-full" />
+          <img v-if="coin.image?.large || coin.image?.small" :src="coin.image.large || coin.image.small" :alt="coin.name" class="h-16 w-16 rounded-full" />
           <div>
             <h1 class="text-4xl font-bold">{{ coin.name }}</h1>
             <p class="text-xl text-slate-400">{{ coin.symbol?.toUpperCase() }}</p>
@@ -114,7 +114,11 @@ interface CoinDetails {
   id: string
   name: string
   symbol: string
-  image?: string
+  image?: {
+    thumb?: string
+    small?: string
+    large?: string
+  }
   price?: number
   description?: {
     en?: string

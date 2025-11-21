@@ -17,6 +17,11 @@ interface Coin {
 }
 
 interface CoinDetails extends Coin {
+  image?: {
+    thumb?: string
+    small?: string
+    large?: string
+  }
   description?: {
     en?: string
   }

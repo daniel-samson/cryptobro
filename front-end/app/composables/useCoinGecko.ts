@@ -10,6 +10,10 @@ interface Coin {
   name: string
   symbol: string
   price: number
+  current_price?: number
+  image?: string
+  market_cap?: number
+  market_cap_rank?: number
 }
 
 interface ApiResponse<T> {
@@ -30,7 +34,12 @@ export const useCoinGecko = () => {
       const response = await $fetch<ApiResponse<Coin[]>>(
         `${config.public.apiBaseUrl}/v1/coins/top`
       )
-      return response.data || []
+      const coins = response.data || []
+      // Map current_price to price for frontend compatibility
+      return coins.map(coin => ({
+        ...coin,
+        price: coin.current_price || coin.price || 0
+      }))
     } catch (error) {
       console.error('Failed to fetch coins:', error)
       throw error

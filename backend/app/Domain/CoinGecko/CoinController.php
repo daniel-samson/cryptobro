@@ -25,7 +25,7 @@ class CoinController extends Controller
     /**
      * Get the top 10 cryptocurrencies by market cap.
      */
-    public function top(): JsonResponse
+    public function markets(): JsonResponse
     {
         try {
             // Cache top 10 coins for 1 minute

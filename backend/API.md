@@ -58,7 +58,7 @@ Check if the API is running and responsive.
 
 Retrieve the top 10 cryptocurrencies by market capitalization.
 
-**Endpoint:** `GET /v1/coins/top`
+**Endpoint:** `GET /v1/coins/markets`
 
 **Caching:** 60 seconds
 
@@ -293,7 +293,7 @@ No explicit rate limiting is currently enforced on the API endpoints.
 
 **Get top cryptocurrencies:**
 ```bash
-curl http://localhost:8000/api/v1/coins/top
+curl http://localhost:8000/api/v1/coins/markets
 ```
 
 **Search for a cryptocurrency:**
@@ -310,7 +310,7 @@ curl http://localhost:8000/api/v1/coins/btc
 
 ```javascript
 // Get top cryptocurrencies
-fetch('http://localhost:8000/api/v1/coins/top')
+fetch('http://localhost:8000/api/v1/coins/markets')
   .then(response => response.json())
   .then(data => console.log(data))
   .catch(error => console.error('Error:', error));

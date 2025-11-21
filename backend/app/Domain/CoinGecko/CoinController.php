@@ -3,8 +3,8 @@
 namespace App\Domain\CoinGecko;
 
 use App\Http\Controllers\Controller;
-use Illuminate\Http\Request;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 
 class CoinController extends Controller
@@ -24,8 +24,6 @@ class CoinController extends Controller
 
     /**
      * Get the top 10 cryptocurrencies by market cap.
-     *
-     * @return JsonResponse
      */
     public function top(): JsonResponse
     {
@@ -57,9 +55,6 @@ class CoinController extends Controller
 
     /**
      * Search for cryptocurrencies by name or symbol.
-     *
-     * @param  Request  $request
-     * @return JsonResponse
      */
     public function search(Request $request): JsonResponse
     {
@@ -85,10 +80,9 @@ class CoinController extends Controller
             // Filter coins by name or symbol
             $keyword = strtolower($keyword);
             $filtered = array_filter($coins, function ($coin) use ($keyword) {
-                return (
+                return
                     strpos(strtolower($coin['name'] ?? ''), $keyword) !== false ||
-                    strpos(strtolower($coin['symbol'] ?? ''), $keyword) !== false
-                );
+                    strpos(strtolower($coin['symbol'] ?? ''), $keyword) !== false;
             });
 
             return response()->json([
@@ -113,16 +107,13 @@ class CoinController extends Controller
 
     /**
      * Get detailed information for a specific cryptocurrency by symbol.
-     *
-     * @param  string  $symbol
-     * @return JsonResponse
      */
     public function show(string $symbol): JsonResponse
     {
         try {
             $coinId = $this->resolveCoinId($symbol);
 
-            if (!$coinId) {
+            if (! $coinId) {
                 return response()->json([
                     'success' => false,
                     'message' => "Cryptocurrency with symbol '{$symbol}' not found",
@@ -157,9 +148,6 @@ class CoinController extends Controller
 
     /**
      * Resolve a cryptocurrency symbol to its CoinGecko ID.
-     *
-     * @param  string  $symbol
-     * @return string|null
      */
     protected function resolveCoinId(string $symbol): ?string
     {

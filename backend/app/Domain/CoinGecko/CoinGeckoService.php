@@ -37,7 +37,6 @@ class CoinGeckoService
      * Get a list of all supported coins with market data.
      *
      * @param  array  $options  Query parameters (pagination, order, etc.)
-     * @return array
      *
      * @throws \Illuminate\Http\Client\RequestException
      */
@@ -51,7 +50,6 @@ class CoinGeckoService
      *
      * @param  string  $id  The cryptocurrency ID
      * @param  array  $options  Query parameters
-     * @return array
      *
      * @throws \Illuminate\Http\Client\RequestException
      */
@@ -66,7 +64,6 @@ class CoinGeckoService
      * @param  array  $ids  Array of cryptocurrency IDs
      * @param  array  $vsCurrencies  Array of target currencies (e.g., ['usd', 'eur'])
      * @param  array  $options  Additional query parameters
-     * @return array
      *
      * @throws \Illuminate\Http\Client\RequestException
      */
@@ -85,7 +82,6 @@ class CoinGeckoService
      *
      * @param  string  $id  The cryptocurrency ID
      * @param  string  $vsCurrency  The target currency code (default: 'usd')
-     * @return array
      *
      * @throws \Illuminate\Http\Client\RequestException
      */
@@ -97,7 +93,6 @@ class CoinGeckoService
     /**
      * Get trending coins.
      *
-     * @return array
      *
      * @throws \Illuminate\Http\Client\RequestException
      */
@@ -109,7 +104,6 @@ class CoinGeckoService
     /**
      * Get global cryptocurrency market data.
      *
-     * @return array
      *
      * @throws \Illuminate\Http\Client\RequestException
      */
@@ -123,7 +117,6 @@ class CoinGeckoService
      *
      * @param  string  $endpoint  The API endpoint
      * @param  array  $params  Query parameters
-     * @return array
      *
      * @throws \Illuminate\Http\Client\RequestException
      */
@@ -139,7 +132,7 @@ class CoinGeckoService
                 ]);
             }
 
-            $response = $request->get($this->endpoint . ltrim($endpoint, '/'), $params);
+            $response = $request->get($this->endpoint.ltrim($endpoint, '/'), $params);
 
             return $this->handleResponse($response, $endpoint);
         } catch (\Exception $exception) {
@@ -156,9 +149,6 @@ class CoinGeckoService
     /**
      * Handle the API response.
      *
-     * @param  Response  $response
-     * @param  string  $endpoint
-     * @return array
      *
      * @throws \Illuminate\Http\Client\RequestException
      */

@@ -3,6 +3,7 @@
 namespace App\Domain\CoinGecko;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\SearchCoinsRequest;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
@@ -60,18 +61,11 @@ class CoinController extends Controller
     /**
      * Search for cryptocurrencies by name or symbol.
      */
-    public function search(Request $request): JsonResponse
+    public function search(SearchCoinsRequest $request): JsonResponse
     {
         try {
-            $keyword = $request->query('q');
-
-            if (empty($keyword)) {
-                return response()->json([
-                    'success' => false,
-                    'message' => 'Search query parameter "q" is required',
-                    'data' => [],
-                ], 422);
-            }
+            // Validated query parameter
+            $keyword = $request->validated('q');
 
             // Get all coins and filter by keyword (use same cache as resolveCoinId)
             $coins = \Illuminate\Support\Facades\Cache::remember('coingecko_coins_list', 300, function () {

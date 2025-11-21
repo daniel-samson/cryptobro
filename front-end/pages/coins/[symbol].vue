@@ -9,6 +9,12 @@
             <BreadcrumbLink to="/">Home</BreadcrumbLink>
           </BreadcrumbItem>
           <BreadcrumbSeparator />
+          <BreadcrumbItem v-if="route.query.from === 'search' && route.query.q">
+            <BreadcrumbLink :to="`/search?q=${route.query.q}`">Search Results</BreadcrumbLink>
+          </BreadcrumbItem>
+          <template v-if="route.query.from === 'search' && route.query.q">
+            <BreadcrumbSeparator />
+          </template>
           <BreadcrumbItem v-if="coin">
             <span class="text-white">{{ coin.name }}</span>
           </BreadcrumbItem>

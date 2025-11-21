@@ -128,7 +128,8 @@ const formatPrice = (price: number): string => {
 }
 
 const navigateToCoin = (symbol: string) => {
-  router.push(`/coins/${symbol.toLowerCase()}`)
+  const query = route.query.q as string
+  router.push(`/coins/${symbol.toLowerCase()}?from=search&q=${encodeURIComponent(query)}`)
 }
 
 // Watch for changes in the search query

@@ -31,8 +31,13 @@
           <NuxtLink v-for="coin in coins" :key="coin.id" :to="`/coins/${coin.symbol}`">
             <Card class="flex h-full flex-col overflow-hidden transition-all hover:shadow-lg hover:ring-2 hover:ring-blue-400 cursor-pointer">
               <CardHeader class="pb-3">
-                <CardTitle class="text-lg">{{ coin.name }}</CardTitle>
-                <CardDescription>{{ coin.symbol.toUpperCase() }}</CardDescription>
+                <div class="flex items-center gap-3">
+                  <img v-if="coin.image" :src="coin.image" :alt="coin.name" class="h-8 w-8 rounded-full" />
+                  <div class="flex-1 min-w-0">
+                    <CardTitle class="text-lg">{{ coin.name }}</CardTitle>
+                    <CardDescription>{{ coin.symbol.toUpperCase() }}</CardDescription>
+                  </div>
+                </div>
               </CardHeader>
               <CardContent class="flex-1">
                 <p class="text-3xl font-bold text-blue-400">{{ formatPrice(coin.price) }}</p>

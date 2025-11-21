@@ -1,15 +1,15 @@
 <template>
   <div>
     <!-- Header Section -->
-    <div class="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8">
-      <NuxtLink to="/" class="mb-6 inline-flex items-center gap-2 text-blue-400 hover:text-blue-300">
+    <div class="mx-auto max-w-7xl px-4 py-4 sm:px-6 lg:px-8">
+      <NuxtLink to="/" class="mb-4 inline-flex items-center gap-2 text-blue-400 hover:text-blue-300">
         <span>←</span>
         <span>Back to Cryptocurrencies</span>
       </NuxtLink>
     </div>
 
     <!-- Main Content -->
-    <main class="mx-auto max-w-7xl px-4 py-12 sm:px-6 lg:px-8">
+    <main class="mx-auto max-w-7xl px-4 py-6 sm:px-6 lg:px-8">
       <!-- Loading State -->
       <div v-if="loading" class="flex items-center justify-center py-12">
         <div class="flex flex-col items-center gap-4">

@@ -8,6 +8,7 @@ export default defineConfig({
     globals: true,
     environment: 'happy-dom',
     setupFiles: ['./vitest.setup.ts'],
+    include: ['tests/**/*.test.ts'],
     coverage: {
       provider: 'v8',
       reporter: ['text', 'json', 'html'],
@@ -23,7 +24,8 @@ export default defineConfig({
   },
   resolve: {
     alias: {
-      '#app': resolve(__dirname, './.nuxt'),
+      '~': resolve(__dirname, './'),
+      '#app': resolve(__dirname, './'),
     },
   },
 })

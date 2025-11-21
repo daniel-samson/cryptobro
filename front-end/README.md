@@ -18,6 +18,25 @@ front-end/
 └── tsconfig.json      # TypeScript configuration
 ```
 
+## Quick Start
+
+1. Install dependencies:
+```bash
+npm install
+```
+
+2. Create `.env` file (copy from `.env.example`):
+```bash
+cp .env.example .env
+```
+
+3. Start development server:
+```bash
+npm run dev
+```
+
+Visit `http://localhost:3000` in your browser.
+
 ## Setup
 
 Install dependencies:
@@ -73,6 +92,32 @@ Run ESLint:
 npm run lint
 ```
 
+## Testing
+
+Run tests with Vitest:
+
+```bash
+# Run all tests
+npm test
+
+# Run tests in watch mode
+npm test -- --watch
+
+# Run tests with UI
+npm run test:ui
+
+# Generate coverage report
+npm run test:coverage
+```
+
+**Test Structure:**
+- `tests/unit/` - Unit tests for composables and utilities
+- `tests/components/` - Component tests for Vue components
+
+**Test Coverage:**
+- `useCoinGecko` composable - API integration tests
+- `HomePage` component - UI rendering and interaction tests
+
 ## Features
 
 - **Responsive Design**: Mobile-first design that works on all devices
@@ -80,6 +125,24 @@ npm run lint
 - **Vue 3 Composition API**: Modern Vue.js development patterns
 - **TypeScript Support**: Full TypeScript support for type safety
 - **Nuxt 3**: Latest Nuxt framework with built-in features
+
+## Continuous Integration
+
+The project uses GitHub Actions for automated testing and quality checks.
+
+**Workflow:** `.github/workflows/frontend-ci.yml`
+- Runs on push to `main`, `develop`, and `feature/**` branches
+- Only triggers on changes to `front-end/` directory
+- Tests on Node.js 18.x and 20.x
+- Includes:
+  - Unit and component tests
+  - TypeScript type checking
+  - Code linting
+  - Security vulnerability audit
+  - Production build verification
+
+**Status Check:**
+All CI checks must pass before merging to main.
 
 ## Integration with Backend
 

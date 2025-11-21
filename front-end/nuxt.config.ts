@@ -54,7 +54,8 @@ export default defineNuxtConfig({
     }
   },
 
-  // Nitro configuration
-  // Note: Prerendering is disabled because the app makes API calls to the backend
-  // The page is rendered on-demand when accessed
+  // Nitro configuration for static file serving
+  nitro: {
+    static: true,
+  },
 })

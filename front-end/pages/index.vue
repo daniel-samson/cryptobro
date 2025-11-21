@@ -1,7 +1,7 @@
 <template>
   <div class="min-h-screen bg-gradient-to-br from-slate-950 via-slate-900 to-slate-950">
     <!-- Header -->
-    <header class="border-b border-slate-800 bg-slate-950/50 backdrop-blur-sm">
+    <header class="border-b border-slate-800 bg-slate-900">
       <div class="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8">
         <div class="flex items-center justify-between">
           <div>
@@ -29,14 +29,14 @@
         </div>
 
         <!-- Error State -->
-        <div v-else-if="error" class="rounded-lg border border-red-900 bg-red-950/20 p-6">
+        <div v-else-if="error" class="rounded-lg border border-red-700 bg-red-900 p-6">
           <h3 class="mb-2 font-semibold text-red-200">Error loading data</h3>
-          <p class="text-sm text-red-300">{{ error }}</p>
+          <p class="text-sm text-red-100">{{ error }}</p>
         </div>
 
         <!-- Coins Grid -->
         <div v-else-if="coins.length" class="grid gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
-          <Card v-for="coin in coins" :key="coin.id" class="flex flex-col overflow-hidden transition-all hover:shadow-lg hover:shadow-blue-500/20">
+          <Card v-for="coin in coins" :key="coin.id" class="flex flex-col overflow-hidden transition-all hover:shadow-lg">
             <CardHeader class="pb-3">
               <CardTitle class="text-lg text-white">{{ coin.name }}</CardTitle>
               <CardDescription>{{ coin.symbol.toUpperCase() }}</CardDescription>
@@ -48,7 +48,7 @@
         </div>
 
         <!-- Empty State -->
-        <div v-else class="rounded-lg border border-slate-800 bg-slate-900/50 py-12 text-center">
+        <div v-else class="rounded-lg border border-slate-800 bg-slate-800 py-12 text-center">
           <p class="text-lg text-slate-400">No cryptocurrency data available</p>
         </div>
       </section>

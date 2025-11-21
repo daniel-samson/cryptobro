@@ -1,0 +1,8 @@
+# Browserslist configuration for target browsers
+# Safari support: iOS 12+, macOS 10.14+
+
+> 0.25%
+last 2 versions
+not dead
+not IE 11
+not op_mini all

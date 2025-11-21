@@ -61,7 +61,7 @@ class CoinControllerTest extends TestCase
             }))
             ->willReturn($mockCoins);
 
-        $response = $this->get('/api/v1/coins/top');
+        $response = $this->get('/api/v1/coins/markets');
 
         $response->assertStatus(200);
         $response->assertJson([
@@ -306,7 +306,7 @@ class CoinControllerTest extends TestCase
             ->method('getCoins')
             ->willThrowException(new \Exception('API error'));
 
-        $response = $this->get('/api/v1/coins/top');
+        $response = $this->get('/api/v1/coins/markets');
 
         $response->assertStatus(500);
         $response->assertJson([

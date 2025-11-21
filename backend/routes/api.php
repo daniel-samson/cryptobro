@@ -14,7 +14,7 @@ Route::prefix('v1')->group(function () {
 
     // Coin endpoints
     Route::prefix('coins')->group(function () {
-        Route::get('/top', [CoinController::class, 'top']);
+        Route::get('/markets', [CoinController::class, 'markets']);
         Route::get('/search', [CoinController::class, 'search']);
         Route::get('/{symbol}', [CoinController::class, 'show']);
     });

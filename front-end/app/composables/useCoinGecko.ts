@@ -59,7 +59,7 @@ export const useCoinGecko = () => {
     try {
       // @ts-ignore - Nuxt auto-import $fetch
       const response = await $fetch<ApiResponse<Coin[]>>(
-        `${config.public.apiBaseUrl}/v1/coins/top`
+        `${config.public.apiBaseUrl}/v1/coins/markets`
       )
       const coins = response.data || []
       // Map current_price to price for frontend compatibility

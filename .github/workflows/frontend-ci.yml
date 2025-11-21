@@ -44,9 +44,9 @@ jobs:
         working-directory: front-end
         run: npm ci
 
-      - name: Ensure oxc-parser binding is installed
+      - name: Ensure oxc bindings are installed
         working-directory: front-end
-        run: npx --yes @oxc-parser/binding-linux-x64-gnu 2>&1 || npm install @oxc-parser/binding-linux-x64-gnu --no-save 2>&1 || true
+        run: npm install @oxc-parser/binding-linux-x64-gnu @oxc-transform/binding-linux-x64-gnu --no-save 2>&1 || true
 
       - name: Run linting
         working-directory: front-end
@@ -90,9 +90,9 @@ jobs:
         working-directory: front-end
         run: npm ci
 
-      - name: Ensure oxc-parser binding is installed
+      - name: Ensure oxc bindings are installed
         working-directory: front-end
-        run: npx --yes @oxc-parser/binding-linux-x64-gnu 2>&1 || npm install @oxc-parser/binding-linux-x64-gnu --no-save 2>&1 || true
+        run: npm install @oxc-parser/binding-linux-x64-gnu @oxc-transform/binding-linux-x64-gnu --no-save 2>&1 || true
 
       - name: Check for security vulnerabilities
         working-directory: front-end

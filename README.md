@@ -9,7 +9,7 @@
 
 ## Structure
 
-This is as mono repo, comprised of a front-end and backend applications.
+This is as mono repo comprised of a front-end and a backend application.
 
 ### Front-end Application
 

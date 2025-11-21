@@ -108,9 +108,7 @@
 
 <script setup lang="ts">
 import { ref, onMounted } from 'vue'
-import { useRoute } from 'vue-router'
 import { useCoinGecko } from '@/app/composables/useCoinGecko'
-import { Card, CardHeader, CardTitle, CardContent } from '@/components/ui/card'
 
 interface CoinDetails {
   id: string
@@ -143,7 +141,9 @@ const fetchCoinDetails = async () => {
     loading.value = true
     error.value = null
     const symbol = route.params.symbol as string
+    console.log('Fetching coin details for symbol:', symbol)
     coin.value = await getCoinBySymbol(symbol)
+    console.log('Coin data received:', coin.value)
     if (!coin.value) {
       error.value = `Cryptocurrency with symbol '${symbol}' not found`
     }

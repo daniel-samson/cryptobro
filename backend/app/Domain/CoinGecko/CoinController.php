@@ -28,13 +28,16 @@ class CoinController extends Controller
     public function top(): JsonResponse
     {
         try {
-            $coins = $this->coinGeckoService->getCoins([
-                'vs_currency' => 'usd',
-                'order' => 'market_cap_desc',
-                'per_page' => 10,
-                'page' => 1,
-                'sparkline' => false,
-            ]);
+            // Cache top 10 coins for 1 minute
+            $coins = \Illuminate\Support\Facades\Cache::remember('coingecko_top_10', 60, function () {
+                return $this->coinGeckoService->getCoins([
+                    'vs_currency' => 'usd',
+                    'order' => 'market_cap_desc',
+                    'per_page' => 10,
+                    'page' => 1,
+                    'sparkline' => false,
+                ]);
+            });
 
             return response()->json([
                 'success' => true,
@@ -70,14 +73,16 @@ class CoinController extends Controller
                 ], 422);
             }
 
-            // Get all coins and filter by keyword
-            $coins = $this->coinGeckoService->getCoins([
-                'vs_currency' => 'usd',
-                'per_page' => 250,
-                'page' => 1,
-                'sparkline' => false,
-                'order' => 'market_cap_desc',
-            ]);
+            // Get all coins and filter by keyword (use same cache as resolveCoinId)
+            $coins = \Illuminate\Support\Facades\Cache::remember('coingecko_coins_list', 300, function () {
+                return $this->coinGeckoService->getCoins([
+                    'vs_currency' => 'usd',
+                    'per_page' => 250,
+                    'page' => 1,
+                    'sparkline' => false,
+                    'order' => 'market_cap_desc',
+                ]);
+            });
 
             // Filter coins by name or symbol
             $keyword = strtolower($keyword);
@@ -122,13 +127,16 @@ class CoinController extends Controller
                 ], 404);
             }
 
-            $coin = $this->coinGeckoService->getCoinById($coinId, [
-                'localization' => false,
-                'tickers' => false,
-                'market_data' => true,
-                'community_data' => false,
-                'developer_data' => false,
-            ]);
+            // Cache individual coin data for 1 minute
+            $coin = \Illuminate\Support\Facades\Cache::remember("coingecko_coin_{$coinId}", 60, function () use ($coinId) {
+                return $this->coinGeckoService->getCoinById($coinId, [
+                    'localization' => false,
+                    'tickers' => false,
+                    'market_data' => true,
+                    'community_data' => false,
+                    'developer_data' => false,
+                ]);
+            });
 
             return response()->json([
                 'success' => true,
@@ -154,15 +162,18 @@ class CoinController extends Controller
     protected function resolveCoinId(string $symbol): ?string
     {
         try {
-            $coins = $this->coinGeckoService->getCoins([
-                'vs_currency' => 'usd',
-                'per_page' => 250,
-                'page' => 1,
-                'sparkline' => false,
-                'order' => 'market_cap_desc',
-            ]);
-
             $symbol = strtolower($symbol);
+
+            // Cache the coins list for 5 minutes to avoid rate limits
+            $coins = \Illuminate\Support\Facades\Cache::remember('coingecko_coins_list', 300, function () {
+                return $this->coinGeckoService->getCoins([
+                    'vs_currency' => 'usd',
+                    'per_page' => 250,
+                    'page' => 1,
+                    'sparkline' => false,
+                    'order' => 'market_cap_desc',
+                ]);
+            });
 
             foreach ($coins as $coin) {
                 if (strtolower($coin['symbol'] ?? '') === $symbol) {

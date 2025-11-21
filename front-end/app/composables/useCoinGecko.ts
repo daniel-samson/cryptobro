@@ -66,10 +66,12 @@ export const useCoinGecko = () => {
    */
   const getCoinBySymbol = async (symbol: string): Promise<CoinDetails | null> => {
     try {
+      console.log('Making API call to:', `${config.public.apiBaseUrl}/v1/coins/${symbol}`)
       // @ts-ignore - Nuxt auto-import $fetch
       const response = await $fetch<ApiResponse<CoinDetails>>(
         `${config.public.apiBaseUrl}/v1/coins/${symbol}`
       )
+      console.log('Raw API response:', response)
       const coin = response.data
       if (coin) {
         // Ensure price field is set from market_data if available
@@ -81,6 +83,11 @@ export const useCoinGecko = () => {
       return null
     } catch (error) {
       console.error(`Failed to fetch coin ${symbol}:`, error)
+      console.error('Error details:', {
+        message: error?.message,
+        response: error?.response,
+        data: error?.data
+      })
       throw error
     }
   }

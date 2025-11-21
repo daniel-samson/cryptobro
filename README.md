@@ -1,4 +1,3 @@
-design/cryptobro-logo-v1.svg
 <div align="center">
   <a href="https://github.com/daniel-samson/cryptobro">
     <img src="design/cryptobro-logo-v1.svg" alt="Logo" width="328" height="88">

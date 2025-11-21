@@ -101,22 +101,59 @@ const bitcoin = await getCoinById('bitcoin')
 
 ## Backend Architecture
 
+### Architecture Pattern: Domain-Driven Design (DDD)
+
+The backend follows Domain-Driven Design principles to organize code by business domains rather than technical layers.
+
+**Key Concepts:**
+- **Domains**: Organize code by business capability (e.g., `CoinGecko`, `User`, `Payment`)
+- **Domain Services**: Encapsulate business logic and external integrations
+- **Controllers**: Handle HTTP concerns and delegate to domain services
+- **Models**: Represent data entities (optional in DDD if not using database)
+
+**Current Domain Structure:**
+```
+app/Domain/
+└── CoinGecko/
+    ├── CoinController.php       # HTTP request handling
+    └── CoinGeckoService.php     # Business logic & API integration
+```
+
+**Benefits:**
+- Business logic is grouped by domain, not technical layer
+- Easier to understand what each domain does
+- Services are reusable across controllers
+- Clear separation between HTTP concerns and business logic
+- Scalable as new domains are added
+
+**When creating new features:**
+1. Identify the domain (e.g., `User`, `Payment`, `Analytics`)
+2. Create directory: `app/Domain/YourDomain/`
+3. Add service class: `YourDomainService.php` (business logic)
+4. Add controller: `YourDomainController.php` (HTTP handling)
+5. Register routes in `routes/api.php`
+
 ### Technology Stack
 - **Framework**: Laravel 12
+- **Architecture**: Domain-Driven Design (DDD)
 - **Database**: SQLite (default, configurable via `DB_CONNECTION` in `.env`)
 - **API Integration**: CoinGecko API (free tier at `https://api.coingecko.com/api/v3/`)
 - **Task Queue**: Database queue connection
 - **Session/Cache**: Database-backed for simplicity
 
 ### Directory Structure
-- `app/Http/Controllers/` - Request handlers for API endpoints
+- `app/Domain/` - **Domain-Driven Design structure** (organize by business domain)
+  - `CoinGecko/` - Cryptocurrency domain
+    - `CoinController.php` - HTTP request handlers
+    - `CoinGeckoService.php` - Business logic and external API integration
+- `app/Http/Controllers/` - Base controllers and non-domain controllers
 - `app/Models/` - Eloquent models for database entities
 - `app/Providers/` - Service provider bootstrapping
 - `database/migrations/` - Schema definitions (new migrations follow `YYYY_MM_DD_HHMMSS_description.php` format)
 - `database/seeders/` - Data seeding for development
 - `database/factories/` - Model factories for testing
-- `routes/api.php` - API route definitions (currently doesn't exist, needs to be created)
-- `routes/web.php` - Web routes (currently only has a welcome view)
+- `routes/api.php` - API route definitions
+- `routes/web.php` - Web routes
 - `config/` - Application configuration files
 - `tests/` - PHPUnit tests split into `Unit/` and `Feature/`
 
@@ -197,22 +234,75 @@ php artisan migrate:rollback                     # Rollback last migration batch
 php artisan tinker                               # Interactive shell
 ```
 
-## API Design Pattern
+## API Design Pattern (Domain-Driven)
 
-Since `routes/api.php` doesn't exist yet, follow this structure when implementing:
+Follow this structure when implementing new API endpoints:
 
 ```php
 // routes/api.php
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\CoinController;
+use App\Domain\CoinGecko\CoinController;
 
 Route::prefix('v1')->group(function () {
-    Route::get('/coins', [CoinController::class, 'index']);
-    Route::get('/coins/{id}', [CoinController::class, 'show']);
+    // Health check
+    Route::get('/health', function () {
+        return response()->json(['status' => 'ok', 'timestamp' => now()]);
+    });
+
+    // Coin endpoints (CoinGecko domain)
+    Route::prefix('coins')->group(function () {
+        Route::get('/top', [CoinController::class, 'top']);
+        Route::get('/search', [CoinController::class, 'search']);
+        Route::get('/{symbol}', [CoinController::class, 'show']);
+    });
 });
 ```
 
-Controllers should extend `App\Http\Controllers\Controller` and return JSON responses via `response()->json()` or Eloquent models (Laravel auto-converts to JSON).
+**Controller Pattern (DDD):**
+- Controllers live in `app/Domain/YourDomain/`
+- Controllers extend `App\Http\Controllers\Controller`
+- Controllers inject domain services via constructor
+- Controllers handle HTTP concerns (validation, responses)
+- Controllers delegate business logic to services
+
+```php
+// app/Domain/CoinGecko/CoinController.php
+class CoinController extends Controller
+{
+    public function __construct(
+        protected CoinGeckoService $coinGeckoService
+    ) {}
+
+    public function top(): JsonResponse
+    {
+        try {
+            $coins = $this->coinGeckoService->getCoins([...]);
+            return response()->json(['success' => true, 'data' => $coins]);
+        } catch (\Exception $e) {
+            return response()->json(['success' => false, 'message' => '...'], 500);
+        }
+    }
+}
+```
+
+**Service Pattern (DDD):**
+- Services encapsulate business logic and external integrations
+- Services are injected into controllers
+- Services can be reused across multiple controllers
+- Services handle caching, API calls, data transformation
+
+```php
+// app/Domain/CoinGecko/CoinGeckoService.php
+class CoinGeckoService
+{
+    public function getCoins(array $params): array
+    {
+        return Http::get(config('services.coingecko.endpoint') . '/coins/markets', $params)
+            ->throw()
+            ->json();
+    }
+}
+```
 
 ## Database Patterns
 

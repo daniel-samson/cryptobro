@@ -12,315 +12,157 @@
 [![Backend CI](https://github.com/daniel-samson/cryptobro/actions/workflows/backend-ci.yml/badge.svg?branch=main)](https://github.com/daniel-samson/cryptobro/actions/workflows/backend-ci.yml)
 [![Frontend CI](https://github.com/daniel-samson/cryptobro/actions/workflows/frontend-ci.yml/badge.svg)](https://github.com/daniel-samson/cryptobro/actions/workflows/frontend-ci.yml)
 
-## Structure
+## Overview
 
-This is as mono repo comprised of a front-end and a backend application.
+Cryptobro is a monorepo cryptocurrency price tracking application with:
 
-### Front-end Application
+- **Frontend**: Nuxt 3 application with Vue 3, Tailwind CSS, and shadcn/vue components
+  - 📚 **[Frontend Documentation](front-end/README.md)**
 
-The front end application is a [Nuxt](https://nuxt.com) application. Which communicates to the backend application via its REST API.
+- **Backend**: Laravel 12 REST API that integrates with the CoinGecko API
+  - 📚 **[Backend Documentation](backend/README.md)**
+  - 📚 **[API Documentation](backend/API.md)**
 
-#### Features
-
-- [Tailwind CSS](https://tailwindcss.com)
-- [Shadcn Vue](https://www.shadcn-vue.com)
-
-
-### Backend application
-
-The backend application is a stock [Laravel](https://laravel.com) application. It provides a REST API to the front-end applition. It uses [coingecko](https://docs.coingecko.com/v3.0.1/reference/endpoint-overview) api to provide the latest cryptocurrency prices.
-
-## Getting Started
+## Quick Start
 
 ### Prerequisites
 
-- PHP 8.2 or higher
-- Composer
-- Node.js 18+ (for Vite asset compilation)
-- SQLite (included with most PHP installations)
+- **Backend**: PHP 8.2+, Composer, SQLite
+- **Frontend**: Node.js 18+, npm
 
-### Running the Backend
+### Setup in 3 Steps
 
-1. **Install dependencies:**
+1. **Clone the repository:**
+   ```bash
+   git clone https://github.com/daniel-samson/cryptobro.git
+   cd cryptobro
+   ```
+
+2. **Start the backend:**
    ```bash
    cd backend
    composer install
-   ```
-
-2. **Set up environment configuration:**
-   ```bash
    cp .env.example .env
    php artisan key:generate
-   ```
-
-   **CoinGecko API Configuration:**
-
-   The backend uses the CoinGecko API to fetch cryptocurrency prices. By default, it uses the free tier:
-
-   ```env
-   COINGECKO_ENDPOINT=https://api.coingecko.com/api/v3/
-   COINGECKO_API_KEY=
-   ```
-
-   To use the CoinGecko Pro API with higher rate limits:
-
-   1. Sign up for a [CoinGecko Pro Account](https://www.coingecko.com/en/api)
-   2. Get your API key from the dashboard
-   3. Update your `.env` file:
-      ```env
-      COINGECKO_ENDPOINT=https://pro-api.coingecko.com/api/v3/
-      COINGECKO_API_KEY=your_actual_api_key_here
-      ```
-
-3. **Run database migrations:**
-   ```bash
    php artisan migrate
+   composer run dev  # Starts on http://localhost:8000
    ```
 
-4. **Start the development server:**
+3. **Start the frontend** (in a new terminal):
    ```bash
-   composer run dev
+   cd front-end
+   npm install
+   cp .env.example .env
+   npm run dev  # Starts on http://localhost:3000
    ```
 
-   This command runs concurrently:
-   - PHP development server on `http://localhost:8000`
-   - Laravel queue worker
-   - Application logs via Pail
-   - Vite asset compiler
+4. **Open your browser:**
+   - Frontend: http://localhost:3000
+   - Backend API: http://localhost:8000/api/v1
 
-   All processes run with color-coded output. Press `Ctrl+C` to stop.
+## Project Structure
 
-   Alternatively, run each service separately:
-   ```bash
-   # Terminal 1: PHP server
-   php artisan serve
+```
+cryptobro/
+├── frontend/          # Nuxt 3 Vue application
+│   ├── components/    # Vue components (including shadcn/vue)
+│   ├── pages/         # File-based routing
+│   ├── app/           # Composables, utils, layouts
+│   └── README.md      # Frontend documentation
+│
+├── backend/           # Laravel 12 API
+│   ├── app/           # Application code
+│   ├── routes/        # API routes
+│   ├── tests/         # PHPUnit tests
+│   ├── README.md      # Backend documentation
+│   └── API.md         # API endpoint documentation
+│
+└── design/            # Design assets and branding
+```
 
-   # Terminal 2: Queue listener (optional for development)
-   php artisan queue:listen --tries=1
+## Key Features
 
-   # Terminal 3: Logs (optional)
-   php artisan pail
+- Real-time cryptocurrency price tracking
+- Search functionality for 250+ cryptocurrencies
+- Detailed coin information with market data
+- Responsive design (mobile-first)
+- API caching to minimize external API calls
+- Comprehensive test coverage (frontend & backend)
 
-   # Terminal 4: Asset compilation
-   npm run dev
-   ```
+## Documentation
 
-5. **Access the application:**
-   - Backend API: `http://localhost:8000/api/v1/...`
-   - Welcome page: `http://localhost:8000/`
+- **[Frontend README](front-end/README.md)** - Nuxt setup, components, testing
+- **[Backend README](backend/README.md)** - Laravel setup, development, testing
+- **[API Documentation](backend/API.md)** - Complete REST API reference
+- **[Development Guide](CLAUDE.md)** - Git workflow and development standards
+
+## Technology Stack
+
+### Frontend
+- [Nuxt 3](https://nuxt.com) - Vue 3 framework
+- [Tailwind CSS](https://tailwindcss.com) - Utility-first CSS
+- [shadcn/vue](https://www.shadcn-vue.com) - Accessible component system
+- [Vitest](https://vitest.dev) - Unit testing
+
+### Backend
+- [Laravel 12](https://laravel.com) - PHP framework
+- [SQLite](https://www.sqlite.org) - Database
+- [CoinGecko API](https://www.coingecko.com/en/api) - Cryptocurrency data source
+- [PHPUnit](https://phpunit.de) - Unit testing
+
+## Development
 
 ### Running Tests
 
-Run all tests:
+**Backend:**
 ```bash
+cd backend
 composer run test
 ```
 
-Run specific test suite:
+**Frontend:**
 ```bash
-php artisan test tests/Unit      # Unit tests only
-php artisan test tests/Feature   # Feature tests only
-php artisan test --filter=TestName  # Specific test
+cd front-end
+npm test
 ```
 
 ### Code Quality
 
-Format code with Laravel Pint:
+**Backend** (Laravel Pint):
 ```bash
+cd backend
 ./vendor/bin/pint
 ```
 
-Check formatting without making changes:
+**Frontend** (ESLint):
 ```bash
-./vendor/bin/pint --test
+cd front-end
+npm run lint
 ```
 
-### Running the Frontend
+## API Endpoints
 
-The frontend is a Nuxt 3 application built with Vue 3, shadcn/vue components, and Tailwind CSS.
+| Method | Endpoint               | Description                    |
+|--------|------------------------|--------------------------------|
+| GET    | `/v1/health`           | Health check                   |
+| GET    | `/v1/coins/top`        | Top 10 cryptocurrencies        |
+| GET    | `/v1/coins/search?q=*` | Search cryptocurrencies        |
+| GET    | `/v1/coins/{symbol}`   | Get coin details by symbol     |
 
-#### Prerequisites
+See [API Documentation](backend/API.md) for detailed endpoint specifications.
 
-- Node.js 18+
-- npm or yarn
+## Contributing
 
-#### Setup
+Please see [CLAUDE.md](CLAUDE.md) for:
+- Git workflow (Gitflow)
+- Branch naming conventions
+- Commit message format
+- Code quality standards
 
-1. **Install dependencies:**
-   ```bash
-   cd front-end
-   npm install
-   ```
+## License
 
-2. **Set up environment configuration:**
-   ```bash
-   cp .env.example .env
-   ```
+This project is part of the Cryptobro monorepo.
 
-   The frontend expects the backend API at:
-   ```env
-   NUXT_PUBLIC_API_BASE_URL=http://localhost:8000/api
-   ```
+## Powered By
 
-   Update this if your backend is running on a different host/port.
-
-3. **Start the development server:**
-   ```bash
-   npm run dev
-   ```
-
-   The frontend will be available at `http://localhost:3000`
-
-#### Development Commands
-
-```bash
-# Development server with hot reload
-npm run dev
-
-# Build for production
-npm run build
-
-# Preview production build locally
-npm run preview
-
-# Run tests
-npm test
-
-# Run tests with UI
-npm run test:ui
-
-# Run tests with coverage report
-npm run test:coverage
-
-# Type checking
-npm run type-check
-```
-
-#### Building for Production
-
-```bash
-npm run build
-```
-
-This creates an optimized build in the `.output/` directory. To run the production build locally:
-
-```bash
-npm run preview
-```
-
-For production deployments, use the Node.js server directly:
-```bash
-node .output/server/index.mjs
-```
-
-#### Testing
-
-The frontend uses Vitest with Vue Test Utils for unit testing:
-
-```bash
-# Run all tests
-npm test
-
-# Run tests in watch mode
-npm test -- --watch
-
-# View test UI
-npm run test:ui
-
-# Generate coverage report
-npm run test:coverage
-```
-
-Test files are located in `tests/` directory with the following structure:
-- `tests/unit/` - Component and composable unit tests
-- `tests/unit/composables/` - API integration tests
-
-#### Project Structure
-
-```
-front-end/
-├── components/          # Vue components
-│   └── ui/             # shadcn/vue UI components
-├── pages/              # Nuxt pages (auto-routed)
-├── app/
-│   ├── composables/    # Reusable Vue composables
-│   ├── utils/          # Utility functions
-│   └── app.vue         # Root app component
-├── assets/
-│   └── css/            # Global styles and Tailwind directives
-├── tests/              # Test files (unit tests)
-├── nuxt.config.ts      # Nuxt configuration
-├── tailwind.config.ts  # Tailwind CSS configuration
-├── vitest.config.ts    # Vitest configuration
-├── tsconfig.json       # TypeScript configuration
-└── .env.example        # Environment variables template
-```
-
-#### API Integration
-
-The frontend communicates with the backend via composables. The `useCoinGecko` composable provides methods for fetching cryptocurrency data:
-
-```typescript
-import { useCoinGecko } from '@/app/composables/useCoinGecko'
-
-export default defineComponent({
-  setup() {
-    const { getCoins, getCoinById } = useCoinGecko()
-
-    const coins = ref([])
-
-    onMounted(async () => {
-      try {
-        coins.value = await getCoins()
-      } catch (error) {
-        console.error('Failed to fetch coins:', error)
-      }
-    })
-
-    return { coins }
-  }
-})
-```
-
-The API base URL is configured via the `NUXT_PUBLIC_API_BASE_URL` environment variable and can be changed without rebuilding.
-
-#### Component System
-
-The frontend uses [shadcn/vue](https://www.shadcn-vue.com) components built on [Radix Vue](https://www.radix-vue.com) primitives:
-
-- **UI Components**: Card, Button, Input, Select, Dialog, etc.
-- **Accessible**: Built on WCAG 2.1 Level AA standards
-- **Customizable**: Styled with Tailwind CSS and CSS variables
-- **Type-Safe**: Full TypeScript support with class-variance-authority (CVA)
-
-All components are auto-imported and available in pages and layouts without explicit imports.
-
-#### Styling
-
-The frontend uses [Tailwind CSS](https://tailwindcss.com) for styling with custom CSS variables for theming:
-
-- **Dark Mode**: Built-in with CSS variable system
-- **Responsive Design**: Mobile-first approach with Tailwind breakpoints
-- **Custom Theme**: Modify colors in `assets/css/globals.css`
-
-To customize the theme, edit the CSS variables in the `globals.css` file:
-
-```css
-@layer base {
-  :root {
-    --background: 0 0% 100%;
-    --foreground: 222.2 84% 4.9%;
-    --primary: 222.2 47.6% 11.2%;
-    /* ... more variables */
-  }
-}
-```
-
-#### Browser Support
-
-The frontend supports:
-- Safari 12.1+
-- iOS 12+
-- Modern Chrome, Firefox, Edge
-
-See `.browserslistrc` for detailed browser targeting configuration.
+Cryptocurrency data provided by [CoinGecko](https://www.coingecko.com/).

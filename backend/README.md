@@ -1,59 +1,204 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# Cryptobro Backend
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+Laravel REST API for cryptocurrency price tracking, powered by the CoinGecko API.
 
-## About Laravel
+## Features
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+- RESTful API for cryptocurrency data
+- CoinGecko API integration
+- Response caching to minimize external API calls
+- Health check endpoint
+- Comprehensive error handling
+- PSR-12 compliant code (Laravel Pint)
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+## API Documentation
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+📚 **[View Full API Documentation](API.md)**
 
-## Learning Laravel
+The API documentation includes:
+- Complete endpoint reference
+- Request/response examples
+- Error handling guidelines
+- cURL and JavaScript examples
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework. You can also check out [Laravel Learn](https://laravel.com/learn), where you will be guided through building a modern Laravel application.
+## Quick Start
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+### Prerequisites
 
-## Laravel Sponsors
+- PHP 8.2 or higher
+- Composer
+- Node.js 18+ (for Vite asset compilation)
+- SQLite (included with most PHP installations)
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
+### Installation
 
-### Premium Partners
+1. **Install dependencies:**
+   ```bash
+   composer install
+   npm install
+   ```
 
-- **[Vehikl](https://vehikl.com)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel)**
-- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
-- **[Redberry](https://redberry.international/laravel-development)**
-- **[Active Logic](https://activelogic.com)**
+2. **Set up environment:**
+   ```bash
+   cp .env.example .env
+   php artisan key:generate
+   ```
+
+3. **Configure CoinGecko API:**
+
+   Free tier (default):
+   ```env
+   COINGECKO_ENDPOINT=https://api.coingecko.com/api/v3/
+   COINGECKO_API_KEY=
+   ```
+
+   Pro tier (optional):
+   ```env
+   COINGECKO_ENDPOINT=https://pro-api.coingecko.com/api/v3/
+   COINGECKO_API_KEY=your_api_key_here
+   ```
+
+4. **Run migrations:**
+   ```bash
+   php artisan migrate
+   ```
+
+5. **Start development server:**
+   ```bash
+   composer run dev
+   ```
+
+   This runs concurrently:
+   - PHP server on `http://localhost:8000`
+   - Queue worker
+   - Application logs (Pail)
+   - Vite asset compiler
+
+## API Endpoints
+
+| Method | Endpoint               | Description                    |
+|--------|------------------------|--------------------------------|
+| GET    | `/v1/health`           | Health check                   |
+| GET    | `/v1/coins/top`        | Top 10 cryptocurrencies        |
+| GET    | `/v1/coins/search?q=*` | Search cryptocurrencies        |
+| GET    | `/v1/coins/{symbol}`   | Get coin details by symbol     |
+
+See [API.md](API.md) for detailed documentation with examples.
+
+## Testing
+
+```bash
+# Run all tests
+composer run test
+
+# Run specific test suite
+php artisan test tests/Unit
+php artisan test tests/Feature
+
+# Run specific test
+php artisan test --filter=TestName
+```
+
+## Code Quality
+
+Format code with Laravel Pint:
+```bash
+./vendor/bin/pint
+```
+
+Check formatting without changes:
+```bash
+./vendor/bin/pint --test
+```
+
+## Project Structure
+
+```
+backend/
+├── app/
+│   ├── Domain/
+│   │   └── CoinGecko/
+│   │       ├── CoinController.php      # API endpoints
+│   │       └── CoinGeckoService.php    # External API integration
+│   └── Http/
+│       └── Controllers/
+├── config/
+│   └── services.php                    # CoinGecko configuration
+├── routes/
+│   └── api.php                         # API route definitions
+├── tests/
+│   ├── Feature/                        # Integration tests
+│   └── Unit/                           # Unit tests
+├── API.md                              # API documentation
+└── composer.json
+```
+
+## Caching Strategy
+
+The API implements intelligent caching to minimize external API calls:
+
+- **Top coins**: 60 seconds
+- **Coin search**: 300 seconds (5 minutes)
+- **Individual coins**: 60 seconds per coin
+
+Cache is automatically managed by Laravel's cache system.
+
+## Environment Variables
+
+| Variable              | Description                    | Default                                      |
+|-----------------------|--------------------------------|----------------------------------------------|
+| `COINGECKO_ENDPOINT`  | CoinGecko API base URL         | `https://api.coingecko.com/api/v3/`          |
+| `COINGECKO_API_KEY`   | CoinGecko API key (optional)   | (empty for free tier)                        |
+| `DB_CONNECTION`       | Database connection            | `sqlite`                                     |
+
+## Development Commands
+
+```bash
+# Start development server
+composer run dev
+
+# Run tests
+composer run test
+
+# Format code
+./vendor/bin/pint
+
+# Clear cache
+php artisan cache:clear
+
+# View logs
+php artisan pail
+```
+
+## Troubleshooting
+
+### Rate Limiting Issues
+
+If you encounter rate limiting from CoinGecko:
+1. Increase cache duration in `CoinController.php`
+2. Consider upgrading to CoinGecko Pro
+3. Check logs with `php artisan pail`
+
+### Database Issues
+
+Reset the database:
+```bash
+php artisan migrate:fresh
+```
+
+### Cache Issues
+
+Clear all caches:
+```bash
+php artisan cache:clear
+php artisan config:clear
+php artisan route:clear
+```
 
 ## Contributing
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
-
-## Code of Conduct
-
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
-
-## Security Vulnerabilities
-
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+Please see [CLAUDE.md](../CLAUDE.md) for development guidelines and git workflow.
 
 ## License
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+This project is part of the Cryptobro monorepo.

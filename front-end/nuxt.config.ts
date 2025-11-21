@@ -7,6 +7,14 @@ export default defineNuxtConfig({
     '@nuxt/devtools',
   ],
 
+  // Component auto-import configuration
+  components: {
+    dirs: [
+      '~/components',
+      '~/app/components',
+    ],
+  },
+
   // API configuration for backend
   runtimeConfig: {
     public: {
@@ -54,8 +62,4 @@ export default defineNuxtConfig({
     }
   },
 
-  // Nitro configuration for static file serving
-  nitro: {
-    static: true,
-  },
 })

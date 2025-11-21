@@ -22,13 +22,13 @@ export const useCoinGecko = () => {
   const config = useRuntimeConfig()
 
   /**
-   * Fetch all cryptocurrencies
+   * Fetch top 10 cryptocurrencies by market cap
    */
   const getCoins = async (): Promise<Coin[]> => {
     try {
       // @ts-ignore - Nuxt auto-import $fetch
       const response = await $fetch<ApiResponse<Coin[]>>(
-        `${config.public.apiBaseUrl}/v1/coins`
+        `${config.public.apiBaseUrl}/v1/coins/top`
       )
       return response.data || []
     } catch (error) {

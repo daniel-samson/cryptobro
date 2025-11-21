@@ -44,9 +44,9 @@ jobs:
         working-directory: front-end
         run: npm ci
 
-      - name: Ensure all oxc bindings are installed
+      - name: Ensure all native bindings are installed
         working-directory: front-end
-        run: npm install @oxc-parser/binding-linux-x64-gnu @oxc-transform/binding-linux-x64-gnu @oxc-minify/binding-linux-x64-gnu --no-save 2>&1 || true
+        run: npm install @oxc-parser/binding-linux-x64-gnu @oxc-transform/binding-linux-x64-gnu @oxc-minify/binding-linux-x64-gnu @rollup/rollup-linux-x64-gnu --no-save 2>&1 || true
 
       - name: Clean build cache
         working-directory: front-end
@@ -94,9 +94,9 @@ jobs:
         working-directory: front-end
         run: npm ci
 
-      - name: Ensure all oxc bindings are installed
+      - name: Ensure all native bindings are installed
         working-directory: front-end
-        run: npm install @oxc-parser/binding-linux-x64-gnu @oxc-transform/binding-linux-x64-gnu @oxc-minify/binding-linux-x64-gnu --no-save 2>&1 || true
+        run: npm install @oxc-parser/binding-linux-x64-gnu @oxc-transform/binding-linux-x64-gnu @oxc-minify/binding-linux-x64-gnu @rollup/rollup-linux-x64-gnu --no-save 2>&1 || true
 
       - name: Clean build cache
         working-directory: front-end

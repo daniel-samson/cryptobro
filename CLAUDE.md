@@ -8,7 +8,96 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 - **Backend**: Laravel 12 REST API that fetches cryptocurrency prices from the CoinGecko API
 - **Frontend**: Nuxt application (not yet implemented) that will communicate with the backend
 
-Current branch: `feature/#1-setup-laravel-backend` - setting up the Laravel backend structure.
+Current branch: `feature/#5-setup-frontend` - setting up the Nuxt frontend.
+
+## Frontend Architecture
+
+### Technology Stack
+- **Framework**: Nuxt 3 (Vue.js 3)
+- **UI Components**: shadcn/vue with Radix Vue primitives
+- **Styling**: Tailwind CSS with CSS variables for theming
+- **Testing**: Vitest + Vue Test Utils
+- **Build Tool**: Vite
+- **Type Safety**: TypeScript
+
+### Directory Structure
+- `pages/` - Page components (auto-routed)
+- `components/ui/` - shadcn/vue components (Button, Card, etc.)
+- `app/composables/` - Vue 3 composables for API and logic reuse
+- `app/utils/` - Utility functions (cn, buttonVariants, etc.)
+- `assets/css/` - Global styles and Tailwind configuration
+- `public/` - Static assets including favicons
+- `tests/` - Unit and component tests
+
+### Key Features
+- **Responsive Design**: Mobile-first approach with Tailwind breakpoints
+- **Component Library**: shadcn/vue provides accessible, themeable components
+- **API Integration**: `useCoinGecko` composable handles backend communication
+- **Tailwind CSS**: Utility-first CSS with custom color system via CSS variables
+- **Dark Mode Ready**: CSS variables support light/dark theme switching
+- **TypeScript**: Full type safety throughout the application
+- **Tests**: Unit tests for composables, component tests for pages
+- **CI/CD**: GitHub Actions workflow runs on frontend file changes
+
+### Environment Variables
+```
+# Backend API configuration
+NUXT_PUBLIC_API_BASE_URL=http://localhost:8000/api
+```
+
+### Common Development Commands
+```bash
+cd front-end
+npm install              # Install dependencies
+npm run dev             # Start dev server (http://localhost:3000)
+npm run build           # Build for production
+npm run preview         # Preview production build
+npm test               # Run tests
+npm test -- --watch    # Run tests in watch mode
+npm run type-check     # Check TypeScript types
+npm run lint           # Run ESLint
+```
+
+### Component System (shadcn/vue)
+
+shadcn/vue components are built on:
+- **Radix Vue**: Unstyled, accessible component primitives
+- **Class Variance Authority (CVA)**: Type-safe component variants
+- **Tailwind Merge**: Intelligently merge conflicting Tailwind classes
+
+Example usage:
+```vue
+<template>
+  <Card>
+    <CardHeader>
+      <CardTitle>Cryptocurrency Prices</CardTitle>
+      <CardDescription>Real-time prices from CoinGecko API</CardDescription>
+    </CardHeader>
+    <CardContent>
+      <!-- Content here -->
+    </CardContent>
+  </Card>
+</template>
+```
+
+### Composables Pattern
+
+The `useCoinGecko` composable encapsulates API calls:
+```typescript
+const { getCoins, getCoinById } = useCoinGecko()
+
+// Fetch all cryptocurrencies
+const coins = await getCoins()
+
+// Fetch specific cryptocurrency
+const bitcoin = await getCoinById('bitcoin')
+```
+
+### Testing Strategy
+- **Unit Tests**: Test composables and utility functions
+- **Component Tests**: Test Vue components in isolation
+- **Framework**: Vitest for fast, ESM-native testing
+- **Environment**: happy-dom for lightweight DOM simulation
 
 ## Backend Architecture
 

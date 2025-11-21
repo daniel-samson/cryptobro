@@ -30,7 +30,7 @@
         <div v-else-if="coins.length" class="grid gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
           <Card v-for="coin in coins" :key="coin.id" class="flex flex-col overflow-hidden transition-all hover:shadow-lg">
             <CardHeader class="pb-3">
-              <CardTitle class="text-lg text-white">{{ coin.name }}</CardTitle>
+              <CardTitle class="text-lg">{{ coin.name }}</CardTitle>
               <CardDescription>{{ coin.symbol.toUpperCase() }}</CardDescription>
             </CardHeader>
             <CardContent class="flex-1">

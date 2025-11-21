@@ -40,7 +40,7 @@
                 </div>
               </CardHeader>
               <CardContent class="flex-1">
-                <p class="text-3xl font-bold text-blue-400">{{ formatPrice(coin.price) }}</p>
+                <p class="text-3xl font-bold text-blue-400 text-right">{{ formatPrice(coin.price) }}</p>
               </CardContent>
             </Card>
           </NuxtLink>

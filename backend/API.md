@@ -1,7 +1,7 @@
 # Cryptobro API Documentation
 
 Version: 1.0
-Base URL: `http://localhost:8000/api/v1` (development)
+Base URL: `http://localhost:8000/v1` (development)
 
 ## Overview
 
@@ -39,7 +39,7 @@ All API responses follow a consistent structure:
 
 Check if the API is running and responsive.
 
-**Endpoint:** `GET /api/v1/health`
+**Endpoint:** `GET /v1/health`
 
 **Response:**
 ```json
@@ -58,7 +58,7 @@ Check if the API is running and responsive.
 
 Retrieve the top 10 cryptocurrencies by market capitalization.
 
-**Endpoint:** `GET /api/v1/coins/markets`
+**Endpoint:** `GET /v1/coins/markets`
 
 **Caching:** 60 seconds
 
@@ -106,7 +106,7 @@ Retrieve the top 10 cryptocurrencies by market capitalization.
 
 Search for cryptocurrencies by name or symbol.
 
-**Endpoint:** `GET /api/v1/coins/search`
+**Endpoint:** `GET /v1/coins/search`
 
 **Query Parameters:**
 | Parameter | Type   | Required | Description                          |
@@ -115,7 +115,7 @@ Search for cryptocurrencies by name or symbol.
 
 **Example Request:**
 ```
-GET /api/v1/coins/search?q=bitcoin
+GET /v1/coins/search?q=bitcoin
 ```
 
 **Caching:** 300 seconds (5 minutes)
@@ -168,7 +168,7 @@ GET /api/v1/coins/search?q=bitcoin
 
 Get detailed information for a specific cryptocurrency by its symbol.
 
-**Endpoint:** `GET /api/v1/coins/{symbol}`
+**Endpoint:** `GET /v1/coins/{symbol}`
 
 **Path Parameters:**
 | Parameter | Type   | Description                              |
@@ -177,7 +177,7 @@ Get detailed information for a specific cryptocurrency by its symbol.
 
 **Example Request:**
 ```
-GET /api/v1/coins/btc
+GET /v1/coins/btc
 ```
 
 **Caching:** 60 seconds per coin
@@ -293,36 +293,36 @@ No explicit rate limiting is currently enforced on the API endpoints.
 
 **Get top cryptocurrencies:**
 ```bash
-curl http://localhost:8000/api/v1/coins/markets
+curl http://localhost:8000/v1/coins/markets
 ```
 
 **Search for a cryptocurrency:**
 ```bash
-curl "http://localhost:8000/api/v1/coins/search?q=ethereum"
+curl "http://localhost:8000/v1/coins/search?q=ethereum"
 ```
 
 **Get Bitcoin details:**
 ```bash
-curl http://localhost:8000/api/v1/coins/btc
+curl http://localhost:8000/v1/coins/btc
 ```
 
 ### Using JavaScript (Fetch API)
 
 ```javascript
 // Get top cryptocurrencies
-fetch('http://localhost:8000/api/v1/coins/markets')
+fetch('http://localhost:8000/v1/coins/markets')
   .then(response => response.json())
   .then(data => console.log(data))
   .catch(error => console.error('Error:', error));
 
 // Search for cryptocurrencies
-fetch('http://localhost:8000/api/v1/coins/search?q=doge')
+fetch('http://localhost:8000/v1/coins/search?q=doge')
   .then(response => response.json())
   .then(data => console.log(data))
   .catch(error => console.error('Error:', error));
 
 // Get coin details
-fetch('http://localhost:8000/api/v1/coins/eth')
+fetch('http://localhost:8000/v1/coins/eth')
   .then(response => response.json())
   .then(data => console.log(data))
   .catch(error => console.error('Error:', error));

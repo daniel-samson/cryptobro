@@ -42,7 +42,7 @@ Current branch: `feature/#5-setup-frontend` - setting up the Nuxt frontend.
 ### Environment Variables
 ```
 # Backend API configuration
-NUXT_PUBLIC_API_BASE_URL=http://localhost:8000/api
+NUXT_PUBLIC_API_BASE_URL=http://localhost:8000
 ```
 
 ### Common Development Commands
@@ -349,7 +349,7 @@ Feature tests inherit from `Tests\TestCase` which provides:
 Example feature test:
 ```php
 public function test_can_fetch_coins() {
-    $response = $this->get('/api/v1/coins');
+    $response = $this->get('/v1/coins');
     $response->assertStatus(200);
     $response->assertJsonStructure(['data' => ['*' => ['id', 'name', 'symbol']]]);
 }

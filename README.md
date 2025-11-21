@@ -13,7 +13,7 @@ This is as mono repo comprised of a front-end and a backend application.
 
 ### Front-end Application
 
-The front end application is a Nuxt application. Which communicates to the backend application via its REST API.
+The front end application is a [Nuxt](https://nuxt.com) application. Which communicates to the backend application via its REST API.
 
 #### Features
 
@@ -23,4 +23,4 @@ The front end application is a Nuxt application. Which communicates to the backe
 
 ### Backend application
 
-The backend application is stock laravel application. It provides a REST API to the front-end applition. It uses [coingecko](https://docs.coingecko.com/v3.0.1/reference/endpoint-overview) api to provide the latest cryptocurrency prices.
+The backend application is stock [Laravel](https://laravel.com) application. It provides a REST API to the front-end applition. It uses [coingecko](https://docs.coingecko.com/v3.0.1/reference/endpoint-overview) api to provide the latest cryptocurrency prices.

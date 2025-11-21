@@ -7,6 +7,8 @@
   </p>
 </div>
 
+![Screenshot](resources/screenshot.png)
+
 ## Project Status
 
 [![Backend CI](https://github.com/daniel-samson/cryptobro/actions/workflows/backend-ci.yml/badge.svg?branch=main)](https://github.com/daniel-samson/cryptobro/actions/workflows/backend-ci.yml)

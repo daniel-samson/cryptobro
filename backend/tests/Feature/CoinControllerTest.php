@@ -61,7 +61,7 @@ class CoinControllerTest extends TestCase
             }))
             ->willReturn($mockCoins);
 
-        $response = $this->get('/api/v1/coins/markets');
+        $response = $this->get('/v1/coins/markets');
 
         $response->assertStatus(200);
         $response->assertJson([
@@ -103,7 +103,7 @@ class CoinControllerTest extends TestCase
             ->method('getCoins')
             ->willReturn($mockCoins);
 
-        $response = $this->get('/api/v1/coins/search?q=bitcoin');
+        $response = $this->get('/v1/coins/search?q=bitcoin');
 
         $response->assertStatus(200);
         $response->assertJson([
@@ -120,7 +120,7 @@ class CoinControllerTest extends TestCase
      */
     public function test_search_endpoint_without_query_parameter_returns_422(): void
     {
-        $response = $this->get('/api/v1/coins/search');
+        $response = $this->get('/v1/coins/search');
 
         $response->assertStatus(422);
         $response->assertJson([
@@ -134,7 +134,7 @@ class CoinControllerTest extends TestCase
      */
     public function test_search_endpoint_with_empty_query_returns_422(): void
     {
-        $response = $this->get('/api/v1/coins/search?q=');
+        $response = $this->get('/v1/coins/search?q=');
 
         $response->assertStatus(422);
         $response->assertJson([
@@ -166,7 +166,7 @@ class CoinControllerTest extends TestCase
             ->method('getCoins')
             ->willReturn($mockCoins);
 
-        $response = $this->get('/api/v1/coins/search?q=BITCOIN');
+        $response = $this->get('/v1/coins/search?q=BITCOIN');
 
         $response->assertStatus(200);
         $response->assertJsonCount(1, 'data');
@@ -217,7 +217,7 @@ class CoinControllerTest extends TestCase
             }))
             ->willReturn($mockCoinDetails);
 
-        $response = $this->get('/api/v1/coins/btc');
+        $response = $this->get('/v1/coins/btc');
 
         $response->assertStatus(200);
         $response->assertJson([
@@ -249,7 +249,7 @@ class CoinControllerTest extends TestCase
             ->method('getCoins')
             ->willReturn($mockCoins);
 
-        $response = $this->get('/api/v1/coins/xyz');
+        $response = $this->get('/v1/coins/xyz');
 
         $response->assertStatus(404);
         $response->assertJson([
@@ -290,7 +290,7 @@ class CoinControllerTest extends TestCase
             ->method('getCoinById')
             ->willReturn($mockCoinDetails);
 
-        $response = $this->get('/api/v1/coins/BTC');
+        $response = $this->get('/v1/coins/BTC');
 
         $response->assertStatus(200);
         $response->assertJsonPath('data.symbol', 'btc');
@@ -306,7 +306,7 @@ class CoinControllerTest extends TestCase
             ->method('getCoins')
             ->willThrowException(new \Exception('API error'));
 
-        $response = $this->get('/api/v1/coins/markets');
+        $response = $this->get('/v1/coins/markets');
 
         $response->assertStatus(500);
         $response->assertJson([
@@ -325,7 +325,7 @@ class CoinControllerTest extends TestCase
             ->method('getCoins')
             ->willThrowException(new \Exception('API error'));
 
-        $response = $this->get('/api/v1/coins/search?q=bitcoin');
+        $response = $this->get('/v1/coins/search?q=bitcoin');
 
         $response->assertStatus(500);
         $response->assertJson([
@@ -357,7 +357,7 @@ class CoinControllerTest extends TestCase
             ->method('getCoinById')
             ->willThrowException(new \Exception('API error'));
 
-        $response = $this->get('/api/v1/coins/btc');
+        $response = $this->get('/v1/coins/btc');
 
         $response->assertStatus(500);
         $response->assertJson([
@@ -394,7 +394,7 @@ class CoinControllerTest extends TestCase
             ->method('getCoins')
             ->willReturn($mockCoins);
 
-        $response = $this->get('/api/v1/coins/search?q=eth');
+        $response = $this->get('/v1/coins/search?q=eth');
 
         $response->assertStatus(200);
         $response->assertJsonCount(3, 'data'); // All match "eth" in name or symbol
@@ -405,7 +405,7 @@ class CoinControllerTest extends TestCase
      */
     public function test_api_responses_include_security_headers(): void
     {
-        $response = $this->get('/api/v1/health');
+        $response = $this->get('/v1/health');
 
         $response->assertStatus(200);
         $response->assertHeader('X-Content-Type-Options', 'nosniff');
@@ -421,7 +421,7 @@ class CoinControllerTest extends TestCase
     {
         $longQuery = str_repeat('a', 101); // 101 characters exceeds max of 100
 
-        $response = $this->get("/api/v1/coins/search?q={$longQuery}");
+        $response = $this->get("/v1/coins/search?q={$longQuery}");
 
         $response->assertStatus(422);
         $response->assertJson([
@@ -434,7 +434,7 @@ class CoinControllerTest extends TestCase
      */
     public function test_search_endpoint_rejects_invalid_characters(): void
     {
-        $response = $this->get('/api/v1/coins/search?q=<script>alert(1)</script>');
+        $response = $this->get('/v1/coins/search?q=<script>alert(1)</script>');
 
         $response->assertStatus(422);
         $response->assertJson([
@@ -452,7 +452,7 @@ class CoinControllerTest extends TestCase
             ->method('getCoins')
             ->willReturn([]);
 
-        $response = $this->get('/api/v1/coins/markets');
+        $response = $this->get('/v1/coins/markets');
 
         $response->assertStatus(200);
         $response->assertHeader('X-RateLimit-Limit');

@@ -60,7 +60,7 @@ Cryptobro is a monorepo cryptocurrency price tracking application with:
 
 4. **Open your browser:**
    - Frontend: http://localhost:3000
-   - Backend API: http://localhost:8000/api/v1/health
+   - Backend API: http://localhost:8000/v1/health
 
 ## Project Structure
 
@@ -146,10 +146,10 @@ npm run lint
 
 | Method | Endpoint               | Description                    |
 |--------|------------------------|--------------------------------|
-| GET    | `/api/v1/health`           | Health check                   |
-| GET    | `/api/v1/coins/markets`    | Top 10 cryptocurrencies        |
-| GET    | `/api/v1/coins/search?q=*` | Search cryptocurrencies        |
-| GET    | `/api/v1/coins/{symbol}`   | Get coin details by symbol     |
+| GET    | `/v1/health`           | Health check                   |
+| GET    | `/v1/coins/markets`    | Top 10 cryptocurrencies        |
+| GET    | `/v1/coins/search?q=*` | Search cryptocurrencies        |
+| GET    | `/v1/coins/{symbol}`   | Get coin details by symbol     |
 
 See [API Documentation](backend/API.md) for detailed endpoint specifications.
 

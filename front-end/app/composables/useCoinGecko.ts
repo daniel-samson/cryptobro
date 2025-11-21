@@ -120,9 +120,34 @@ export const useCoinGecko = () => {
     }
   }
 
+  /**
+   * Search for cryptocurrencies by name or symbol
+   */
+  const searchCoins = async (query: string): Promise<Coin[]> => {
+    try {
+      if (!query || query.trim().length === 0) {
+        return []
+      }
+      // @ts-ignore - Nuxt auto-import $fetch
+      const response = await $fetch<ApiResponse<Coin[]>>(
+        `${config.public.apiBaseUrl}/v1/coins/search?q=${encodeURIComponent(query)}`
+      )
+      const coins = response.data || []
+      // Map current_price to price for frontend compatibility
+      return coins.map(coin => ({
+        ...coin,
+        price: coin.current_price || coin.price || 0
+      }))
+    } catch (error: any) {
+      console.error('Failed to search coins:', error)
+      throw error
+    }
+  }
+
   return {
     getCoins,
     getCoinById,
-    getCoinBySymbol
+    getCoinBySymbol,
+    searchCoins
   }
 }

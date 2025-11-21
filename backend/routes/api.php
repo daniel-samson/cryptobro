@@ -1,17 +1,21 @@
 <?php
 
+use App\Domain\CoinGecko\CoinController;
 use Illuminate\Support\Facades\Route;
 
 Route::prefix('v1')->group(function () {
-    // Placeholder for future API endpoints
-    // Example route structure for cryptocurrency data:
-    // Route::get('/coins', [CoinController::class, 'index']);
-    // Route::get('/coins/{id}', [CoinController::class, 'show']);
-
+    // Health check endpoint
     Route::get('/health', function () {
         return response()->json([
             'status' => 'ok',
             'timestamp' => now(),
         ]);
+    });
+
+    // Coin endpoints
+    Route::prefix('coins')->group(function () {
+        Route::get('/top', [CoinController::class, 'top']);
+        Route::get('/search', [CoinController::class, 'search']);
+        Route::get('/{symbol}', [CoinController::class, 'show']);
     });
 });

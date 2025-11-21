@@ -8,12 +8,16 @@ export default defineNuxtConfig({
   ],
 
   // Component auto-import configuration
-  components: {
-    dirs: [
-      '~/components',
-      '~/app/components',
-    ],
-  },
+  components: [
+    {
+      path: '~/components',
+      pathPrefix: false,
+    },
+    {
+      path: '~/app/components',
+      pathPrefix: false,
+    },
+  ],
 
   // API configuration for backend
   runtimeConfig: {

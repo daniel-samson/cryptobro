@@ -399,4 +399,63 @@ class CoinControllerTest extends TestCase
         $response->assertStatus(200);
         $response->assertJsonCount(3, 'data'); // All match "eth" in name or symbol
     }
+
+    /**
+     * Test that security headers are present in API responses.
+     */
+    public function test_api_responses_include_security_headers(): void
+    {
+        $response = $this->get('/api/v1/health');
+
+        $response->assertStatus(200);
+        $response->assertHeader('X-Content-Type-Options', 'nosniff');
+        $response->assertHeader('X-Frame-Options', 'DENY');
+        $response->assertHeader('X-XSS-Protection', '1; mode=block');
+        $response->assertHeader('Referrer-Policy', 'strict-origin-when-cross-origin');
+    }
+
+    /**
+     * Test that search endpoint validates query length.
+     */
+    public function test_search_endpoint_rejects_query_exceeding_max_length(): void
+    {
+        $longQuery = str_repeat('a', 101); // 101 characters exceeds max of 100
+
+        $response = $this->get("/api/v1/coins/search?q={$longQuery}");
+
+        $response->assertStatus(422);
+        $response->assertJson([
+            'success' => false,
+        ]);
+    }
+
+    /**
+     * Test that search endpoint validates query characters.
+     */
+    public function test_search_endpoint_rejects_invalid_characters(): void
+    {
+        $response = $this->get('/api/v1/coins/search?q=<script>alert(1)</script>');
+
+        $response->assertStatus(422);
+        $response->assertJson([
+            'success' => false,
+            'message' => 'Search query contains invalid characters',
+        ]);
+    }
+
+    /**
+     * Test that rate limit headers are present in API responses.
+     */
+    public function test_api_responses_include_rate_limit_headers(): void
+    {
+        $this->coinGeckoServiceMock
+            ->method('getCoins')
+            ->willReturn([]);
+
+        $response = $this->get('/api/v1/coins/markets');
+
+        $response->assertStatus(200);
+        $response->assertHeader('X-RateLimit-Limit');
+        $response->assertHeader('X-RateLimit-Remaining');
+    }
 }

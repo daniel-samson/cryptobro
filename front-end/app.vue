@@ -2,7 +2,9 @@
   <div class="flex flex-col min-h-screen bg-gradient-to-br from-slate-950 via-slate-900 to-slate-950 text-foreground">
     <Header />
     <main class="flex-1">
-      <NuxtPage />
+      <NuxtLayout>
+        <NuxtPage />
+      </NuxtLayout>
     </main>
   </div>
 </template>
@@ -39,4 +41,3 @@ useHead({
   ],
 })
 </script>
-

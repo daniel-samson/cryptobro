@@ -16,6 +16,33 @@ interface Coin {
   market_cap_rank?: number
 }
 
+interface CoinDetails {
+  id: string
+  name: string
+  symbol: string
+  price?: number
+  current_price?: number
+  market_cap?: number
+  market_cap_rank?: number
+  image?: {
+    thumb?: string
+    small?: string
+    large?: string
+  }
+  description?: {
+    en?: string
+  }
+  market_data?: {
+    current_price?: { usd?: number }
+    market_cap?: { usd?: number }
+    total_volume?: { usd?: number }
+    high_24h?: { usd?: number }
+    low_24h?: { usd?: number }
+    price_change_24h?: number
+    price_change_percentage_24h?: number
+  }
+}
+
 interface ApiResponse<T> {
   data: T
   status: number
@@ -40,8 +67,39 @@ export const useCoinGecko = () => {
         ...coin,
         price: coin.current_price || coin.price || 0
       }))
-    } catch (error) {
+    } catch (error: any) {
       console.error('Failed to fetch coins:', error)
+      throw error
+    }
+  }
+
+  /**
+   * Fetch a specific cryptocurrency by symbol
+   */
+  const getCoinBySymbol = async (symbol: string): Promise<CoinDetails | null> => {
+    try {
+      console.log('Making API call to:', `${config.public.apiBaseUrl}/v1/coins/${symbol}`)
+      // @ts-ignore - Nuxt auto-import $fetch
+      const response = await $fetch<ApiResponse<CoinDetails>>(
+        `${config.public.apiBaseUrl}/v1/coins/${symbol}`
+      )
+      console.log('Raw API response:', response)
+      const coin = response.data
+      if (coin) {
+        // Ensure price field is set from market_data if available
+        return {
+          ...coin,
+          price: coin.market_data?.current_price?.usd || coin.current_price || coin.price || 0
+        }
+      }
+      return null
+    } catch (error: any) {
+      console.error(`Failed to fetch coin ${symbol}:`, error)
+      console.error('Error details:', {
+        message: error?.message,
+        response: error?.response,
+        data: error?.data
+      })
       throw error
     }
   }
@@ -56,7 +114,7 @@ export const useCoinGecko = () => {
         `${config.public.apiBaseUrl}/v1/coins/${id}`
       )
       return response.data || null
-    } catch (error) {
+    } catch (error: any) {
       console.error(`Failed to fetch coin ${id}:`, error)
       throw error
     }
@@ -64,6 +122,7 @@ export const useCoinGecko = () => {
 
   return {
     getCoins,
-    getCoinById
+    getCoinById,
+    getCoinBySymbol
   }
 }

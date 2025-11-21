@@ -41,6 +41,10 @@ jobs:
         working-directory: front-end
         run: npm ci
 
+      - name: Rebuild native bindings
+        working-directory: front-end
+        run: npm rebuild
+
       - name: Run linting
         working-directory: front-end
         run: npm run lint --if-present || true
@@ -79,6 +83,10 @@ jobs:
       - name: Install dependencies
         working-directory: front-end
         run: npm ci
+
+      - name: Rebuild native bindings
+        working-directory: front-end
+        run: npm rebuild
 
       - name: Check for security vulnerabilities
         working-directory: front-end

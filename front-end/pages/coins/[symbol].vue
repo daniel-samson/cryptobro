@@ -30,7 +30,7 @@
         <div class="flex items-center gap-6">
           <img v-if="coin.image?.large || coin.image?.small" :src="coin.image.large || coin.image.small" :alt="coin.name" class="h-16 w-16 rounded-full" />
           <div>
-            <h1 class="text-4xl font-bold">{{ coin.name }}</h1>
+            <h1 class="text-4xl font-bold text-white">{{ coin.name }}</h1>
             <p class="text-xl text-slate-400">{{ coin.symbol?.toUpperCase() }}</p>
           </div>
         </div>

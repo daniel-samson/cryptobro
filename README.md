@@ -53,8 +53,8 @@ The backend application is stock laravel application. It provides a REST API to 
    The backend uses the CoinGecko API to fetch cryptocurrency prices. By default, it uses the free tier:
 
    ```env
-   CG-ENDPOINT=https://api.coingecko.com/api/v3/
-   # CG-PRO-API-KEY=  (leave empty for free tier)
+   COINGECKO_ENDPOINT=https://api.coingecko.com/api/v3/
+   COINGECKO_API_KEY=
    ```
 
    To use the CoinGecko Pro API with higher rate limits:
@@ -63,8 +63,8 @@ The backend application is stock laravel application. It provides a REST API to 
    2. Get your API key from the dashboard
    3. Update your `.env` file:
       ```env
-      CG-ENDPOINT=https://pro-api.coingecko.com/api/v3/
-      CG-PRO-API-KEY=your_actual_api_key_here
+      COINGECKO_ENDPOINT=https://pro-api.coingecko.com/api/v3/
+      COINGECKO_API_KEY=your_actual_api_key_here
       ```
 
 3. **Run database migrations:**

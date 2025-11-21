@@ -43,8 +43,8 @@ DB_CONNECTION=sqlite (or mysql, postgres, etc.)
 DB_DATABASE=database.sqlite
 
 # CoinGecko API
-CG-ENDPOINT=https://api.coingecko.com/api/v3/  (free tier)
-CG-PRO-API-KEY=                                 (only for pro accounts)
+COINGECKO_ENDPOINT=https://api.coingecko.com/api/v3/  (free tier)
+COINGECKO_API_KEY=                                     (only for pro accounts)
 ```
 
 ## Common Development Commands

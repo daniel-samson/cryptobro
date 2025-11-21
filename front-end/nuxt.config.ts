@@ -14,8 +14,8 @@ export default defineNuxtConfig({
     }
   },
 
-  // CSS and styling
-  css: [],
+  // CSS and styling with Tailwind
+  css: ['~/assets/css/globals.css'],
 
   // Vue configuration
   vue: {

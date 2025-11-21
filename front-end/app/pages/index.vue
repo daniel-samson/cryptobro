@@ -1,23 +1,56 @@
 <template>
-  <div class="home">
-    <header>
-      <h1>Cryptobro</h1>
-      <p>Cryptocurrency Price Tracker</p>
-    </header>
-
-    <main>
-      <section class="coins-section">
-        <h2>Cryptocurrency Prices</h2>
-        <div class="loading" v-if="loading">Loading cryptocurrency data...</div>
-        <div class="error" v-else-if="error">{{ error }}</div>
-        <div class="coins-grid" v-else-if="coins.length">
-          <div class="coin-card" v-for="coin in coins" :key="coin.id">
-            <h3>{{ coin.name }}</h3>
-            <p class="symbol">{{ coin.symbol.toUpperCase() }}</p>
-            <p class="price">{{ formatPrice(coin.price) }}</p>
+  <div class="min-h-screen bg-gradient-to-br from-slate-950 via-slate-900 to-slate-950">
+    <!-- Header -->
+    <header class="border-b border-slate-800 bg-slate-950/50 backdrop-blur-sm">
+      <div class="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8">
+        <div class="flex items-center justify-between">
+          <div>
+            <h1 class="text-4xl font-bold text-white">Cryptobro</h1>
+            <p class="mt-2 text-slate-400">Real-time cryptocurrency price tracker</p>
+          </div>
+          <div class="text-right">
+            <p class="text-sm text-slate-500">Powered by CoinGecko API</p>
           </div>
         </div>
-        <div class="empty" v-else>No cryptocurrency data available</div>
+      </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="mx-auto max-w-7xl px-4 py-12 sm:px-6 lg:px-8">
+      <section>
+        <h2 class="mb-8 text-3xl font-bold text-white">Cryptocurrency Prices</h2>
+
+        <!-- Loading State -->
+        <div v-if="loading" class="flex items-center justify-center py-12">
+          <div class="flex flex-col items-center gap-4">
+            <div class="h-12 w-12 animate-spin rounded-full border-4 border-slate-700 border-t-blue-500"></div>
+            <p class="text-lg text-slate-400">Loading cryptocurrency data...</p>
+          </div>
+        </div>
+
+        <!-- Error State -->
+        <div v-else-if="error" class="rounded-lg border border-red-900 bg-red-950/20 p-6">
+          <h3 class="mb-2 font-semibold text-red-200">Error loading data</h3>
+          <p class="text-sm text-red-300">{{ error }}</p>
+        </div>
+
+        <!-- Coins Grid -->
+        <div v-else-if="coins.length" class="grid gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+          <Card v-for="coin in coins" :key="coin.id" class="flex flex-col overflow-hidden transition-all hover:shadow-lg hover:shadow-blue-500/20">
+            <CardHeader class="pb-3">
+              <CardTitle class="text-lg text-white">{{ coin.name }}</CardTitle>
+              <CardDescription>{{ coin.symbol.toUpperCase() }}</CardDescription>
+            </CardHeader>
+            <CardContent class="flex-1">
+              <p class="text-3xl font-bold text-blue-400">{{ formatPrice(coin.price) }}</p>
+            </CardContent>
+          </Card>
+        </div>
+
+        <!-- Empty State -->
+        <div v-else class="rounded-lg border border-slate-800 bg-slate-900/50 py-12 text-center">
+          <p class="text-lg text-slate-400">No cryptocurrency data available</p>
+        </div>
       </section>
     </main>
   </div>
@@ -65,93 +98,3 @@ onMounted(() => {
 })
 </script>
 
-<style scoped>
-.home {
-  min-height: 100vh;
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-}
-
-header {
-  padding: 2rem;
-  color: white;
-  text-align: center;
-}
-
-header h1 {
-  font-size: 3rem;
-  margin-bottom: 0.5rem;
-}
-
-header p {
-  font-size: 1.25rem;
-  opacity: 0.9;
-}
-
-main {
-  max-width: 1200px;
-  margin: 0 auto;
-  padding: 2rem;
-}
-
-.coins-section h2 {
-  color: white;
-  margin-bottom: 2rem;
-  font-size: 2rem;
-}
-
-.coins-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-  gap: 1.5rem;
-}
-
-.coin-card {
-  background: white;
-  border-radius: 12px;
-  padding: 1.5rem;
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
-}
-
-.coin-card:hover {
-  transform: translateY(-5px);
-  box-shadow: 0 15px 40px rgba(0, 0, 0, 0.3);
-}
-
-.coin-card h3 {
-  margin: 0 0 0.5rem;
-  color: #333;
-  font-size: 1.5rem;
-}
-
-.symbol {
-  color: #666;
-  font-size: 0.875rem;
-  text-transform: uppercase;
-  font-weight: 600;
-  margin: 0.5rem 0 1rem;
-}
-
-.price {
-  font-size: 1.75rem;
-  font-weight: 700;
-  color: #667eea;
-  margin: 0;
-}
-
-.loading,
-.error,
-.empty {
-  background: white;
-  border-radius: 12px;
-  padding: 2rem;
-  text-align: center;
-  color: #666;
-  font-size: 1.1rem;
-}
-
-.error {
-  color: #e74c3c;
-  background: #fadbd8;
-}
-</style>

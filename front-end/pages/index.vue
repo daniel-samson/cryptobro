@@ -57,6 +57,7 @@ interface Coin {
   name: string
   symbol: string
   price: number
+  image?: string
 }
 
 const { getCoins } = useCoinGecko()

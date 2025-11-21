@@ -16,7 +16,14 @@ interface Coin {
   market_cap_rank?: number
 }
 
-interface CoinDetails extends Coin {
+interface CoinDetails {
+  id: string
+  name: string
+  symbol: string
+  price?: number
+  current_price?: number
+  market_cap?: number
+  market_cap_rank?: number
   image?: {
     thumb?: string
     small?: string
@@ -60,7 +67,7 @@ export const useCoinGecko = () => {
         ...coin,
         price: coin.current_price || coin.price || 0
       }))
-    } catch (error) {
+    } catch (error: any) {
       console.error('Failed to fetch coins:', error)
       throw error
     }
@@ -86,7 +93,7 @@ export const useCoinGecko = () => {
         }
       }
       return null
-    } catch (error) {
+    } catch (error: any) {
       console.error(`Failed to fetch coin ${symbol}:`, error)
       console.error('Error details:', {
         message: error?.message,
@@ -107,7 +114,7 @@ export const useCoinGecko = () => {
         `${config.public.apiBaseUrl}/v1/coins/${id}`
       )
       return response.data || null
-    } catch (error) {
+    } catch (error: any) {
       console.error(`Failed to fetch coin ${id}:`, error)
       throw error
     }

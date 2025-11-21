@@ -132,6 +132,7 @@ interface CoinDetails {
   }
 }
 
+// @ts-ignore - useRoute is auto-imported by Nuxt
 const route = useRoute()
 const { getCoinBySymbol } = useCoinGecko()
 const coin = ref<CoinDetails | null>(null)
@@ -157,7 +158,8 @@ const fetchCoinDetails = async () => {
   }
 }
 
-const formatPrice = (price: number): string => {
+const formatPrice = (price: number | undefined): string => {
+  if (price === undefined) return 'N/A'
   return new Intl.NumberFormat('en-US', {
     style: 'currency',
     currency: 'USD'

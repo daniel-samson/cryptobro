@@ -1,0 +1,23 @@
+{
+  "name": "cryptobro-frontend",
+  "version": "1.0.0",
+  "description": "Frontend application for Cryptobro cryptocurrency price tracker",
+  "type": "module",
+  "private": true,
+  "scripts": {
+    "dev": "nuxi dev",
+    "build": "nuxi build",
+    "preview": "nuxi preview",
+    "generate": "nuxi generate",
+    "lint": "eslint . --fix",
+    "type-check": "nuxi typecheck"
+  },
+  "dependencies": {
+    "vue": "^3.4.0",
+    "nuxt": "^3.14.0"
+  },
+  "devDependencies": {
+    "@nuxt/devtools": "^1.0.8",
+    "typescript": "^5.3.0"
+  }
+}

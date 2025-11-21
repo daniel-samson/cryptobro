@@ -16,6 +16,21 @@ interface Coin {
   market_cap_rank?: number
 }
 
+interface CoinDetails extends Coin {
+  description?: {
+    en?: string
+  }
+  market_data?: {
+    current_price?: { usd?: number }
+    market_cap?: { usd?: number }
+    total_volume?: { usd?: number }
+    high_24h?: { usd?: number }
+    low_24h?: { usd?: number }
+    price_change_24h?: number
+    price_change_percentage_24h?: number
+  }
+}
+
 interface ApiResponse<T> {
   data: T
   status: number
@@ -47,6 +62,30 @@ export const useCoinGecko = () => {
   }
 
   /**
+   * Fetch a specific cryptocurrency by symbol
+   */
+  const getCoinBySymbol = async (symbol: string): Promise<CoinDetails | null> => {
+    try {
+      // @ts-ignore - Nuxt auto-import $fetch
+      const response = await $fetch<ApiResponse<CoinDetails>>(
+        `${config.public.apiBaseUrl}/v1/coins/${symbol}`
+      )
+      const coin = response.data
+      if (coin) {
+        // Ensure price field is set from market_data if available
+        return {
+          ...coin,
+          price: coin.market_data?.current_price?.usd || coin.current_price || coin.price || 0
+        }
+      }
+      return null
+    } catch (error) {
+      console.error(`Failed to fetch coin ${symbol}:`, error)
+      throw error
+    }
+  }
+
+  /**
    * Fetch a specific cryptocurrency by ID
    */
   const getCoinById = async (id: string): Promise<Coin | null> => {
@@ -64,6 +103,7 @@ export const useCoinGecko = () => {
 
   return {
     getCoins,
-    getCoinById
+    getCoinById,
+    getCoinBySymbol
   }
 }

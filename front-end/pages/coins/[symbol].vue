@@ -93,7 +93,7 @@
             <CardTitle>About {{ coin.name }}</CardTitle>
           </CardHeader>
           <CardContent>
-            <p class="text-slate-300" v-html="coin.description.en"></p>
+            <div class="prose prose-invert max-w-none" v-html="coin.description.en"></div>
           </CardContent>
         </Card>
       </div>

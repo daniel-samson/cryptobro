@@ -42,7 +42,7 @@ Nuxt 3 application for cryptocurrency price tracking with shadcn/vue components 
 
    The frontend expects the backend API at:
    ```env
-   NUXT_PUBLIC_API_BASE_URL=http://localhost:8000/api
+   NUXT_PUBLIC_API_BASE_URL=http://localhost:8000/
    ```
 
    Update this if your backend is running on a different host/port.

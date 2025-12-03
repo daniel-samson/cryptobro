@@ -16,10 +16,10 @@
             <BreadcrumbSeparator />
           </template>
           <BreadcrumbItem v-if="coin">
-            <span class="text-white">{{ coin.name }}</span>
+            <span class="text-foreground">{{ coin.name }}</span>
           </BreadcrumbItem>
           <BreadcrumbItem v-else>
-            <span class="text-slate-400">Loading...</span>
+            <span class="text-muted-foreground">Loading...</span>
           </BreadcrumbItem>
         </BreadcrumbList>
       </Breadcrumb>
@@ -27,15 +27,15 @@
       <!-- Loading State -->
       <div v-if="loading" class="flex items-center justify-center py-12">
         <div class="flex flex-col items-center gap-4">
-          <div class="h-12 w-12 animate-spin rounded-full border-4 border-slate-700 border-t-blue-500"></div>
-          <p class="text-lg text-slate-400">Loading cryptocurrency details...</p>
+          <div class="h-12 w-12 animate-spin rounded-full border-4 border-muted border-t-primary"></div>
+          <p class="text-lg text-muted-foreground">Loading cryptocurrency details...</p>
         </div>
       </div>
 
       <!-- Error State -->
-      <div v-else-if="error" class="rounded-lg border border-red-700 bg-red-900 p-6">
-        <h3 class="mb-2 font-semibold text-red-200">Error loading data</h3>
-        <p class="text-sm text-red-100">{{ error }}</p>
+      <div v-else-if="error" class="rounded-lg border border-destructive bg-destructive/10 p-6">
+        <h3 class="mb-2 font-semibold text-destructive-foreground">Error loading data</h3>
+        <p class="text-sm text-destructive-foreground">{{ error }}</p>
       </div>
 
       <!-- Coin Details -->
@@ -44,8 +44,8 @@
         <div class="flex items-center gap-6">
           <img v-if="coin.image?.large || coin.image?.small" :src="coin.image.large || coin.image.small" :alt="coin.name" class="h-16 w-16 rounded-full" />
           <div>
-            <h1 class="text-4xl font-bold text-white">{{ coin.name }}</h1>
-            <p class="text-xl text-slate-400">{{ coin.symbol?.toUpperCase() }}</p>
+            <h1 class="text-4xl font-bold text-foreground">{{ coin.name }}</h1>
+            <p class="text-xl text-muted-foreground">{{ coin.symbol?.toUpperCase() }}</p>
           </div>
         </div>
 
@@ -57,23 +57,23 @@
           <CardContent class="space-y-4">
             <div class="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
               <div>
-                <p class="text-sm text-slate-400">Current Price</p>
-                <p class="text-2xl font-bold text-blue-400">{{ formatPrice(coin.price) }}</p>
+                <p class="text-sm text-muted-foreground">Current Price</p>
+                <p class="text-2xl font-bold text-primary">{{ formatPrice(coin.price) }}</p>
               </div>
               <div>
-                <p class="text-sm text-slate-400">Market Cap</p>
-                <p class="text-2xl font-bold" :class="coin.market_data?.market_cap?.usd ? 'text-green-400' : 'text-slate-500'">
+                <p class="text-sm text-muted-foreground">Market Cap</p>
+                <p class="text-2xl font-bold" :class="coin.market_data?.market_cap?.usd ? 'text-green-500 dark:text-green-400' : 'text-muted-foreground'">
                   {{ coin.market_data?.market_cap?.usd ? formatPrice(coin.market_data.market_cap.usd) : 'N/A' }}
                 </p>
               </div>
               <div>
-                <p class="text-sm text-slate-400">24h Volume</p>
-                <p class="text-2xl font-bold" :class="coin.market_data?.total_volume?.usd ? 'text-green-400' : 'text-slate-500'">
+                <p class="text-sm text-muted-foreground">24h Volume</p>
+                <p class="text-2xl font-bold" :class="coin.market_data?.total_volume?.usd ? 'text-green-500 dark:text-green-400' : 'text-muted-foreground'">
                   {{ coin.market_data?.total_volume?.usd ? formatPrice(coin.market_data.total_volume.usd) : 'N/A' }}
                 </p>
               </div>
               <div>
-                <p class="text-sm text-slate-400">24h Change</p>
+                <p class="text-sm text-muted-foreground">24h Change</p>
                 <p class="text-2xl font-bold" :class="getPriceChangeColor(coin.market_data?.price_change_percentage_24h)">
                   {{ coin.market_data?.price_change_percentage_24h ? formatPercentage(coin.market_data.price_change_percentage_24h) : 'N/A' }}
                 </p>
@@ -90,12 +90,12 @@
           <CardContent class="space-y-4">
             <div class="grid gap-4 sm:grid-cols-2">
               <div>
-                <p class="text-sm text-slate-400">24h Low</p>
-                <p class="text-2xl font-bold text-red-400">{{ coin.market_data?.low_24h?.usd ? formatPrice(coin.market_data.low_24h.usd) : 'N/A' }}</p>
+                <p class="text-sm text-muted-foreground">24h Low</p>
+                <p class="text-2xl font-bold text-red-500 dark:text-red-400">{{ coin.market_data?.low_24h?.usd ? formatPrice(coin.market_data.low_24h.usd) : 'N/A' }}</p>
               </div>
               <div>
-                <p class="text-sm text-slate-400">24h High</p>
-                <p class="text-2xl font-bold text-green-400">{{ coin.market_data?.high_24h?.usd ? formatPrice(coin.market_data.high_24h.usd) : 'N/A' }}</p>
+                <p class="text-sm text-muted-foreground">24h High</p>
+                <p class="text-2xl font-bold text-green-500 dark:text-green-400">{{ coin.market_data?.high_24h?.usd ? formatPrice(coin.market_data.high_24h.usd) : 'N/A' }}</p>
               </div>
             </div>
           </CardContent>
@@ -113,8 +113,8 @@
       </div>
 
       <!-- Empty State -->
-      <div v-else class="rounded-lg border border-slate-800 bg-slate-800 py-12 text-center">
-        <p class="text-lg text-slate-400">Cryptocurrency not found</p>
+      <div v-else class="rounded-lg border border-border bg-muted py-12 text-center">
+        <p class="text-lg text-muted-foreground">Cryptocurrency not found</p>
       </div>
     </main>
   </div>
@@ -188,8 +188,8 @@ const formatPercentage = (percentage: number): string => {
 }
 
 const getPriceChangeColor = (change?: number): string => {
-  if (!change) return 'text-slate-500'
-  return change >= 0 ? 'text-green-400' : 'text-red-400'
+  if (!change) return 'text-muted-foreground'
+  return change >= 0 ? 'text-green-500 dark:text-green-400' : 'text-red-500 dark:text-red-400'
 }
 
 onMounted(() => {

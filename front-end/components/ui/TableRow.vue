@@ -1,5 +1,5 @@
 <template>
-  <tr class="border-b border-slate-700 transition-colors hover:bg-slate-800/50 data-[state=selected]:bg-slate-800">
+  <tr class="border-b border-border transition-colors data-[state=selected]:bg-accent [tbody_&]:hover:bg-accent">
     <slot />
   </tr>
 </template>

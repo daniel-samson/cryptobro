@@ -1,7 +1,7 @@
 <template>
   <NuxtLink
     :to="to"
-    class="transition-colors hover:text-white"
+    class="transition-colors hover:text-foreground"
   >
     <slot />
   </NuxtLink>

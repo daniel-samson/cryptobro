@@ -18,8 +18,8 @@
 
       <!-- Error State -->
       <div v-else-if="error" class="rounded-lg border border-destructive bg-destructive/10 p-6">
-        <h3 class="mb-2 font-semibold text-destructive dark:text-destructive-foreground">Error searching</h3>
-        <p class="text-sm text-destructive dark:text-destructive-foreground">{{ error }}</p>
+        <h3 class="mb-2 font-semibold text-destructive">Error searching</h3>
+        <p class="text-sm text-destructive">{{ error }}</p>
       </div>
 
       <!-- Results Table -->

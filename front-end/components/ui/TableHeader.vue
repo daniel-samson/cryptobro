@@ -1,5 +1,5 @@
 <template>
-  <thead class="[&_tr]:border-b border-slate-700">
+  <thead class="[&_tr]:border-b border-border">
     <slot />
   </thead>
 </template>

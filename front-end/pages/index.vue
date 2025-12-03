@@ -20,7 +20,7 @@
         </div>
 
         <!-- Coins Grid -->
-        <div v-else-if="coins.length" class="grid gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+        <div v-else-if="coins.length" class="grid gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5">
           <NuxtLink v-for="coin in coins" :key="coin.id" :to="`/coins/${coin.symbol}`">
             <Card class="flex h-full flex-col overflow-hidden transition-all hover:shadow-lg hover:ring-2 hover:ring-primary cursor-pointer bg-card text-card-foreground">
               <CardHeader class="pb-3">

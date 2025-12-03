@@ -1,5 +1,5 @@
 <template>
-  <div class="flex flex-col min-h-screen bg-gradient-to-br from-slate-950 via-slate-900 to-slate-950 text-foreground">
+  <div class="flex flex-col min-h-screen bg-background text-foreground">
     <Header />
     <main class="flex-1">
       <NuxtLayout>

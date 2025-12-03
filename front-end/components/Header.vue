@@ -29,7 +29,7 @@
             </svg>
           </button>
         </form>
-        <ThemeSwitcher />
+        <ModeToggle />
       </div>
     </div>
   </header>

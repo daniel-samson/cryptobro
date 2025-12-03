@@ -6,6 +6,7 @@ import DropdownMenuContent from '@/components/ui/DropdownMenuContent.vue'
 import DropdownMenuItem from '@/components/ui/DropdownMenuItem.vue'
 import DropdownMenuTrigger from '@/components/ui/DropdownMenuTrigger.vue'
 
+// @ts-ignore - useColorMode is auto-imported by Nuxt
 const colorMode = useColorMode()
 </script>
 

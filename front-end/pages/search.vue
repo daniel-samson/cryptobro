@@ -112,8 +112,8 @@ const performSearch = async () => {
     loading.value = true
     error.value = null
     results.value = await searchCoins(query)
-  } catch (err) {
-    error.value = 'Failed to search cryptocurrencies. Please try again.'
+  } catch (err: any) {
+    error.value = err?.message || 'Failed to search cryptocurrencies. Please try again.'
     console.error('Error searching coins:', err)
   } finally {
     loading.value = false

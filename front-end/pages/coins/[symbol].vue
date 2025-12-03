@@ -166,8 +166,8 @@ const fetchCoinDetails = async () => {
     if (!coin.value) {
       error.value = `Cryptocurrency with symbol '${symbol}' not found`
     }
-  } catch (err) {
-    error.value = 'Failed to fetch cryptocurrency details. Make sure the backend is running.'
+  } catch (err: any) {
+    error.value = err?.message || 'Failed to fetch cryptocurrency details. Make sure the backend is running.'
     console.error('Error fetching coin:', err)
   } finally {
     loading.value = false

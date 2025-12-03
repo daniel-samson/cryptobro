@@ -69,7 +69,9 @@ export const useCoinGecko = () => {
       }))
     } catch (error: any) {
       console.error('Failed to fetch coins:', error)
-      throw error
+      // Extract error message from API response
+      const errorMessage = error?.data?.message || error?.message || 'Failed to fetch cryptocurrency data'
+      throw new Error(errorMessage)
     }
   }
 
@@ -100,7 +102,9 @@ export const useCoinGecko = () => {
         response: error?.response,
         data: error?.data
       })
-      throw error
+      // Extract error message from API response
+      const errorMessage = error?.data?.message || error?.message || 'Failed to fetch cryptocurrency details'
+      throw new Error(errorMessage)
     }
   }
 
@@ -116,7 +120,9 @@ export const useCoinGecko = () => {
       return response.data || null
     } catch (error: any) {
       console.error(`Failed to fetch coin ${id}:`, error)
-      throw error
+      // Extract error message from API response
+      const errorMessage = error?.data?.message || error?.message || 'Failed to fetch cryptocurrency'
+      throw new Error(errorMessage)
     }
   }
 
@@ -140,7 +146,9 @@ export const useCoinGecko = () => {
       }))
     } catch (error: any) {
       console.error('Failed to search coins:', error)
-      throw error
+      // Extract error message from API response
+      const errorMessage = error?.data?.message || error?.message || 'Failed to search cryptocurrencies'
+      throw new Error(errorMessage)
     }
   }
 

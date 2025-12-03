@@ -70,8 +70,8 @@ const fetchCoins = async () => {
     loading.value = true
     error.value = null
     coins.value = await getCoins()
-  } catch (err) {
-    error.value = 'Failed to fetch cryptocurrency data. Make sure the backend is running.'
+  } catch (err: any) {
+    error.value = err?.message || 'Failed to fetch cryptocurrency data. Make sure the backend is running.'
     console.error('Error fetching coins:', err)
   } finally {
     loading.value = false

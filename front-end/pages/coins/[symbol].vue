@@ -33,9 +33,9 @@
       </div>
 
       <!-- Error State -->
-      <div v-else-if="error" class="rounded-lg border border-destructive bg-destructive/10 p-6">
-        <h3 class="mb-2 font-semibold text-destructive-foreground">Error loading data</h3>
-        <p class="text-sm text-destructive-foreground">{{ error }}</p>
+      <div v-else-if="error" class="rounded-lg border border-destructive bg-destructive/10 dark:bg-destructive/20 p-6">
+        <h3 class="mb-2 font-semibold text-destructive">Error loading data</h3>
+        <p class="text-sm text-destructive">{{ error }}</p>
       </div>
 
       <!-- Coin Details -->
@@ -166,8 +166,8 @@ const fetchCoinDetails = async () => {
     if (!coin.value) {
       error.value = `Cryptocurrency with symbol '${symbol}' not found`
     }
-  } catch (err) {
-    error.value = 'Failed to fetch cryptocurrency details. Make sure the backend is running.'
+  } catch (err: any) {
+    error.value = err?.message || 'Failed to fetch cryptocurrency details. Make sure the backend is running.'
     console.error('Error fetching coin:', err)
   } finally {
     loading.value = false

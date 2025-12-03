@@ -17,9 +17,9 @@
       </div>
 
       <!-- Error State -->
-      <div v-else-if="error" class="rounded-lg border border-destructive bg-destructive/10 p-6">
-        <h3 class="mb-2 font-semibold text-destructive-foreground">Error searching</h3>
-        <p class="text-sm text-destructive-foreground">{{ error }}</p>
+      <div v-else-if="error" class="rounded-lg border border-destructive bg-destructive/10 dark:bg-destructive/20 p-6">
+        <h3 class="mb-2 font-semibold text-destructive">Error searching</h3>
+        <p class="text-sm text-destructive">{{ error }}</p>
       </div>
 
       <!-- Results Table -->
@@ -112,8 +112,8 @@ const performSearch = async () => {
     loading.value = true
     error.value = null
     results.value = await searchCoins(query)
-  } catch (err) {
-    error.value = 'Failed to search cryptocurrencies. Please try again.'
+  } catch (err: any) {
+    error.value = err?.message || 'Failed to search cryptocurrencies. Please try again.'
     console.error('Error searching coins:', err)
   } finally {
     loading.value = false

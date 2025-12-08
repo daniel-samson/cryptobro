@@ -5,11 +5,12 @@ import { CoinGeckoService } from '../services/coin-gecko.service';
 import { CoinDetails } from '../models/coin.model';
 import { ZardCardComponent } from '@shared/components/card/card.component';
 import { BreadcrumbComponent, BreadcrumbItem } from '@shared/components/breadcrumb/breadcrumb.component';
+import { LoadingSpinnerComponent } from '@shared/components/loading-spinner/loading-spinner.component';
 
 @Component({
   selector: 'app-coin-detail',
   standalone: true,
-  imports: [CommonModule, RouterModule, ZardCardComponent, BreadcrumbComponent],
+  imports: [CommonModule, RouterModule, ZardCardComponent, BreadcrumbComponent, LoadingSpinnerComponent],
   template: `
     <!-- Main Content -->
     <main class="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8">
@@ -17,12 +18,9 @@ import { BreadcrumbComponent, BreadcrumbItem } from '@shared/components/breadcru
       <app-breadcrumb [items]="breadcrumbItems"></app-breadcrumb>
 
       <!-- Loading State -->
-      <div *ngIf="isLoading" class="flex items-center justify-center py-12">
-        <div class="flex flex-col items-center gap-4">
-          <div class="h-12 w-12 animate-spin rounded-full border-4 border-muted border-t-primary"></div>
-          <p class="text-lg text-muted-foreground">Loading coin details...</p>
-        </div>
-      </div>
+      @if (isLoading) {
+        <app-loading-spinner message="Loading coin details..." />
+      }
 
       <!-- Error State -->
       <div

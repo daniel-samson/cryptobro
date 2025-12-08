@@ -4,11 +4,12 @@ import { RouterModule } from '@angular/router';
 import { CoinGeckoService } from '../services/coin-gecko.service';
 import { Coin } from '../models/coin.model';
 import { ZardCardComponent } from '@shared/components/card/card.component';
+import { LoadingSpinnerComponent } from '@shared/components/loading-spinner/loading-spinner.component';
 
 @Component({
   selector: 'app-home',
   standalone: true,
-  imports: [CommonModule, RouterModule, ZardCardComponent],
+  imports: [CommonModule, RouterModule, ZardCardComponent, LoadingSpinnerComponent],
   template: `
     <!-- Main Content -->
     <main class="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8">
@@ -16,12 +17,7 @@ import { ZardCardComponent } from '@shared/components/card/card.component';
         <h2 class="mb-8 text-3xl font-bold text-foreground">Cryptocurrency Prices</h2>
 
         <!-- Loading State -->
-        <div *ngIf="isLoading" class="flex items-center justify-center py-12">
-          <div class="flex flex-col items-center gap-4">
-            <div class="h-12 w-12 animate-spin rounded-full border-4 border-muted loading-spinner"></div>
-            <p class="text-lg text-muted-foreground">Loading cryptocurrency data...</p>
-          </div>
-        </div>
+        <app-loading-spinner *ngIf="isLoading" message="Loading cryptocurrency data..." />
 
         <!-- Error State -->
         <div

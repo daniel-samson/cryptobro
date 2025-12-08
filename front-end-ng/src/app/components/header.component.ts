@@ -1,7 +1,7 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { RouterModule, Router } from '@angular/router';
+import { RouterModule, Router, ActivatedRoute } from '@angular/router';
 import { ModeToggleComponent } from './mode-toggle.component';
 
 @Component({
@@ -63,10 +63,22 @@ import { ModeToggleComponent } from './mode-toggle.component';
   `,
   styles: []
 })
-export class HeaderComponent {
+export class HeaderComponent implements OnInit {
   searchQuery = '';
 
-  constructor(private router: Router) {}
+  constructor(
+    private router: Router,
+    private activatedRoute: ActivatedRoute
+  ) {}
+
+  ngOnInit(): void {
+    // Set initial value from query params when page loads/refreshes
+    this.activatedRoute.queryParams.subscribe(params => {
+      if (params['q']) {
+        this.searchQuery = params['q'];
+      }
+    });
+  }
 
   handleSearch(): void {
     if (this.searchQuery.trim()) {

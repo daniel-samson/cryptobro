@@ -13,7 +13,7 @@
   --popover-foreground: hsl(222.2 84% 4.9%);
   --muted: hsl(210 40% 96.1%);
   --muted-foreground: hsl(215.4 16.3% 46.9%);
-  --accent: hsl(210 40% 96.1%);
+  --accent: hsl(210 40% 90%);
   --accent-foreground: hsl(222.2 47.6% 11.2%);
   --destructive: hsl(0 84.2% 60.2%);
   --destructive-foreground: hsl(210 40% 98%);
@@ -193,5 +193,15 @@
 
   .loading-spinner {
     border-top-color: var(--primary);
+  }
+}
+
+@layer components {
+  tbody tr {
+    @apply transition-colors;
+  }
+
+  tbody tr:hover {
+    background-color: var(--accent);
   }
 }

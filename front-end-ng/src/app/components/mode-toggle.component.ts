@@ -19,16 +19,18 @@ type ColorMode = 'light' | 'dark' | 'system';
         <lucide-angular
           *ngIf="!isDark"
           name="moon"
-          class="h-5 w-5 transition-all text-primary"
-          stroke-width="2"
+          [size]="20"
+          color="currentColor"
+          [strokeWidth]="2"
         ></lucide-angular>
 
         <!-- Sun Icon (Dark Mode) -->
         <lucide-angular
           *ngIf="isDark"
           name="sun"
-          class="h-5 w-5 transition-all text-primary"
-          stroke-width="2"
+          [size]="20"
+          color="currentColor"
+          [strokeWidth]="2"
         ></lucide-angular>
         <span class="sr-only">Toggle theme</span>
       </button>
@@ -44,7 +46,7 @@ type ColorMode = 'light' | 'dark' | 'system';
           [class.bg-accent]="currentMode === 'light'"
           [class.text-accent-foreground]="currentMode === 'light'"
         >
-          <lucide-angular name="sun" class="h-4 w-4 flex-shrink-0" stroke-width="2"></lucide-angular>
+          <lucide-angular name="sun" [size]="16" color="currentColor" [strokeWidth]="2"></lucide-angular>
           Light
         </button>
         <button
@@ -53,7 +55,7 @@ type ColorMode = 'light' | 'dark' | 'system';
           [class.bg-accent]="currentMode === 'dark'"
           [class.text-accent-foreground]="currentMode === 'dark'"
         >
-          <lucide-angular name="moon" class="h-4 w-4 flex-shrink-0" stroke-width="2"></lucide-angular>
+          <lucide-angular name="moon" [size]="16" color="currentColor" [strokeWidth]="2"></lucide-angular>
           Dark
         </button>
         <button
@@ -62,7 +64,7 @@ type ColorMode = 'light' | 'dark' | 'system';
           [class.bg-accent]="currentMode === 'system'"
           [class.text-accent-foreground]="currentMode === 'system'"
         >
-          <lucide-angular name="monitor" class="h-4 w-4 flex-shrink-0" stroke-width="2"></lucide-angular>
+          <lucide-angular name="monitor" [size]="16" color="currentColor" [strokeWidth]="2"></lucide-angular>
           System
         </button>
       </div>

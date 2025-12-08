@@ -7,9 +7,11 @@ import { FooterComponent } from './components/footer.component';
   selector: 'app-root',
   imports: [RouterOutlet, HeaderComponent, FooterComponent],
   template: `
-    <div class="flex flex-col min-h-screen bg-background">
+    <div class="flex flex-col min-h-screen bg-background text-foreground">
       <app-header />
-      <router-outlet />
+      <main class="flex-1">
+        <router-outlet />
+      </main>
       <app-footer />
     </div>
   `,

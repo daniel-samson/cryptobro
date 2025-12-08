@@ -20,7 +20,7 @@ export const tableBodyVariants = cva('', {
 });
 export type ZardTableBodyVariants = VariantProps<typeof tableBodyVariants>;
 
-export const tableRowVariants = cva('transition-colors', {
+export const tableRowVariants = cva('transition-colors hover:bg-accent/50 cursor-pointer', {
   variants: {},
 });
 export type ZardTableRowVariants = VariantProps<typeof tableRowVariants>;

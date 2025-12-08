@@ -38,25 +38,27 @@ import { ZardTableComponent, ZardTableHeaderComponent, ZardTableHeadComponent, Z
       </div>
 
       <!-- Results Table -->
-      <div *ngIf="!isLoading && !error && results.length > 0" class="overflow-x-auto">
-        <z-table>
+      <div *ngIf="!isLoading && !error && results.length > 0" class="w-full">
+        <div class="overflow-hidden rounded-md border">
+          <table z-table>
             <!-- Table Header -->
-            <z-table-header>
-              <z-table-row>
-                <z-table-head>Name</z-table-head>
-                <z-table-head>Symbol</z-table-head>
-                <z-table-head>Price</z-table-head>
-                <z-table-head>Market Cap</z-table-head>
-                <z-table-head>Action</z-table-head>
-              </z-table-row>
-            </z-table-header>
+            <thead z-table-header>
+              <tr z-table-row>
+                <th z-table-head>Name</th>
+                <th z-table-head>Symbol</th>
+                <th z-table-head>Price</th>
+                <th z-table-head>Market Cap</th>
+                <th z-table-head class="w-24">Action</th>
+              </tr>
+            </thead>
             <!-- Table Body -->
-            <z-table-body>
-              <z-table-row
+            <tbody z-table-body>
+              <tr
+                z-table-row
                 *ngFor="let coin of results"
                 (click)="navigateToCoin(coin.symbol)"
               >
-                <z-table-cell>
+                <td z-table-cell>
                   <div class="flex items-center gap-3">
                     <img
                       *ngIf="coin.image"
@@ -66,28 +68,29 @@ import { ZardTableComponent, ZardTableHeaderComponent, ZardTableHeadComponent, Z
                     />
                     <span class="font-medium">{{ coin.name }}</span>
                   </div>
-                </z-table-cell>
-                <z-table-cell>
+                </td>
+                <td z-table-cell>
                   <span class="text-muted-foreground">{{ coin.symbol | uppercase }}</span>
-                </z-table-cell>
-                <z-table-cell>
+                </td>
+                <td z-table-cell>
                   {{ formatPrice(coin.price) }}
-                </z-table-cell>
-                <z-table-cell>
+                </td>
+                <td z-table-cell>
                   <span class="text-muted-foreground">
                     {{ coin.market_cap ? formatPrice(coin.market_cap) : 'N/A' }}
                   </span>
-                </z-table-cell>
-                <z-table-cell>
+                </td>
+                <td z-table-cell>
                   <button
                     class="text-primary hover:text-primary/80 text-sm font-medium transition-colors"
                   >
                     View Details
                   </button>
-                </z-table-cell>
-              </z-table-row>
-            </z-table-body>
-          </z-table>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
       </div>
 
       <!-- No Results -->

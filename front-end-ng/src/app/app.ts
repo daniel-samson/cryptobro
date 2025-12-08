@@ -1,24 +1,17 @@
 import { Component } from '@angular/core';
-import { RouterOutlet, RouterModule } from '@angular/router';
+import { RouterOutlet } from '@angular/router';
+import { HeaderComponent } from './components/header.component';
+import { FooterComponent } from './components/footer.component';
 
 @Component({
   selector: 'app-root',
-  imports: [RouterOutlet, RouterModule],
+  imports: [RouterOutlet, HeaderComponent, FooterComponent],
   template: `
-    <nav class="bg-gray-900 text-white p-4">
-      <div class="container mx-auto flex justify-between items-center">
-        <a routerLink="/" class="text-2xl font-bold">CryptoBro</a>
-        <div class="flex gap-4">
-          <a routerLink="/" routerLinkActive="border-b-2 border-blue-500" class="hover:text-gray-300">
-            Home
-          </a>
-          <a routerLink="/search" routerLinkActive="border-b-2 border-blue-500" class="hover:text-gray-300">
-            Search
-          </a>
-        </div>
-      </div>
-    </nav>
-    <router-outlet />
+    <div class="flex flex-col min-h-screen bg-background">
+      <app-header />
+      <router-outlet />
+      <app-footer />
+    </div>
   `,
   styles: []
 })

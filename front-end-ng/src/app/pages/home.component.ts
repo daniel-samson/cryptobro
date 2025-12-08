@@ -9,32 +9,66 @@ import { Coin } from '../models/coin.model';
   standalone: true,
   imports: [CommonModule, RouterModule],
   template: `
-    <div class="container mx-auto p-4">
-      <h1 class="text-3xl font-bold mb-8">Cryptocurrency Prices</h1>
+    <!-- Main Content -->
+    <main class="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8">
+      <section>
+        <h2 class="mb-8 text-3xl font-bold text-foreground">Cryptocurrency Prices</h2>
 
-      <div *ngIf="isLoading" class="text-center py-8">
-        <p>Loading cryptocurrencies...</p>
-      </div>
+        <!-- Loading State -->
+        <div *ngIf="isLoading" class="flex items-center justify-center py-12">
+          <div class="flex flex-col items-center gap-4">
+            <div class="h-12 w-12 animate-spin rounded-full border-4 border-muted border-t-primary"></div>
+            <p class="text-lg text-muted-foreground">Loading cryptocurrency data...</p>
+          </div>
+        </div>
 
-      <div *ngIf="error" class="bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded">
-        {{ error }}
-      </div>
+        <!-- Error State -->
+        <div
+          *ngIf="error && !isLoading"
+          class="rounded-lg border border-destructive bg-destructive/10 dark:bg-destructive/20 p-6"
+        >
+          <h3 class="mb-2 font-semibold text-destructive">Error loading data</h3>
+          <p class="text-sm text-destructive">{{ error }}</p>
+        </div>
 
-      <div *ngIf="!isLoading && !error && coins.length > 0" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-        <div *ngFor="let coin of coins" class="border rounded-lg p-4 hover:shadow-lg transition-shadow">
-          <h2 class="text-xl font-semibold">{{ coin.name }}</h2>
-          <p class="text-gray-600">{{ coin.symbol | uppercase }}</p>
-          <p class="text-2xl font-bold mt-2">${{ coin.price.toFixed?.(2) || '0.00' }}</p>
-          <a [routerLink]="['/coins', coin.symbol]" class="text-blue-500 hover:text-blue-700 mt-4 inline-block">
-            View Details →
+        <!-- Coins Grid -->
+        <div *ngIf="!isLoading && !error && coins.length > 0" class="grid gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5">
+          <a
+            *ngFor="let coin of coins"
+            [routerLink]="['/coins', coin.symbol]"
+            class="block"
+          >
+            <div
+              class="flex h-full flex-col overflow-hidden transition-all hover:shadow-lg hover:ring-2 hover:ring-primary cursor-pointer bg-card text-card-foreground rounded-lg border border-border p-6"
+            >
+              <!-- Card Header -->
+              <div class="pb-3 flex items-center gap-3">
+                <img
+                  *ngIf="coin.image"
+                  [src]="coin.image"
+                  [alt]="coin.name"
+                  class="h-8 w-8 rounded-full"
+                />
+                <div class="flex-1 min-w-0">
+                  <h3 class="text-lg font-semibold text-foreground truncate">{{ coin.name }}</h3>
+                  <p class="text-sm text-muted-foreground">{{ coin.symbol | uppercase }}</p>
+                </div>
+              </div>
+
+              <!-- Card Content -->
+              <div class="flex-1">
+                <p class="text-3xl font-bold text-primary text-right">{{ formatPrice(coin.price) }}</p>
+              </div>
+            </div>
           </a>
         </div>
-      </div>
 
-      <div *ngIf="!isLoading && !error && coins.length === 0" class="text-center py-8">
-        <p>No cryptocurrencies found.</p>
-      </div>
-    </div>
+        <!-- Empty State -->
+        <div *ngIf="!isLoading && !error && coins.length === 0" class="rounded-lg border border-border bg-muted py-12 text-center">
+          <p class="text-lg text-muted-foreground">No cryptocurrency data available</p>
+        </div>
+      </section>
+    </main>
   `,
   styles: []
 })
@@ -49,6 +83,13 @@ export class HomeComponent implements OnInit {
     this.loadCoins();
   }
 
+  formatPrice(price: number): string {
+    return new Intl.NumberFormat('en-US', {
+      style: 'currency',
+      currency: 'USD'
+    }).format(price);
+  }
+
   private loadCoins(): void {
     this.isLoading = true;
     this.error = null;
@@ -58,7 +99,7 @@ export class HomeComponent implements OnInit {
         this.isLoading = false;
       },
       error: (err) => {
-        this.error = err.message || 'Failed to load cryptocurrencies';
+        this.error = err.message || 'Failed to fetch cryptocurrency data. Make sure the backend is running.';
         this.isLoading = false;
       }
     });

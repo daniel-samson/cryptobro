@@ -9,60 +9,106 @@ import { CoinDetails } from '../models/coin.model';
   standalone: true,
   imports: [CommonModule, RouterModule],
   template: `
-    <div class="container mx-auto p-4">
-      <a routerLink="/" class="text-blue-500 hover:text-blue-700 mb-4 inline-block">← Back to Home</a>
+    <!-- Main Content -->
+    <main class="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8">
+      <!-- Back Button -->
+      <a
+        routerLink="/"
+        class="mb-6 inline-flex items-center text-primary hover:text-primary/80 transition-colors"
+      >
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          class="h-4 w-4 mr-2"
+          fill="none"
+          viewBox="0 0 24 24"
+          stroke="currentColor"
+        >
+          <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            stroke-width="2"
+            d="M15 19l-7-7 7-7"
+          />
+        </svg>
+        Back to Home
+      </a>
 
-      <div *ngIf="isLoading" class="text-center py-8">
-        <p>Loading coin details...</p>
+      <!-- Loading State -->
+      <div *ngIf="isLoading" class="flex items-center justify-center py-12">
+        <div class="flex flex-col items-center gap-4">
+          <div class="h-12 w-12 animate-spin rounded-full border-4 border-muted border-t-primary"></div>
+          <p class="text-lg text-muted-foreground">Loading coin details...</p>
+        </div>
       </div>
 
-      <div *ngIf="error" class="bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded">
-        {{ error }}
+      <!-- Error State -->
+      <div
+        *ngIf="error && !isLoading"
+        class="rounded-lg border border-destructive bg-destructive/10 dark:bg-destructive/20 p-6"
+      >
+        <h3 class="mb-2 font-semibold text-destructive">Error loading data</h3>
+        <p class="text-sm text-destructive">{{ error }}</p>
       </div>
 
-      <div *ngIf="!isLoading && !error && coin" class="max-w-2xl">
-        <div class="flex items-start justify-between mb-6">
+      <!-- Coin Details -->
+      <div *ngIf="!isLoading && !error && coin" class="max-w-4xl">
+        <!-- Header Section -->
+        <div class="mb-8 flex items-start justify-between">
           <div>
-            <h1 class="text-4xl font-bold">{{ coin.name }}</h1>
-            <p class="text-gray-600 text-xl">{{ coin.symbol | uppercase }}</p>
+            <h1 class="text-4xl font-bold text-foreground">{{ coin.name }}</h1>
+            <p class="text-xl text-muted-foreground">{{ coin.symbol | uppercase }}</p>
           </div>
-          <img *ngIf="coin.image" [src]="coin.image" [alt]="coin.name" class="w-24 h-24">
+          <img *ngIf="coin.image" [src]="coin.image" [alt]="coin.name" class="h-24 w-24 rounded-lg" />
         </div>
 
-        <div class="bg-white rounded-lg shadow p-6 mb-6">
-          <p class="text-gray-600 mb-2">Current Price</p>
-          <p class="text-4xl font-bold text-green-600">${{ coin.price.toFixed?.(2) || '0.00' }}</p>
+        <!-- Price Card -->
+        <div class="mb-8 rounded-lg border border-border bg-card p-6">
+          <p class="text-sm text-muted-foreground mb-2">Current Price</p>
+          <p class="text-4xl font-bold text-primary">{{ formatPrice(coin.price) }}</p>
         </div>
 
-        <div *ngIf="coin.market_data" class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
-          <div class="bg-white rounded-lg shadow p-4">
-            <p class="text-gray-600">24h High</p>
-            <p class="text-2xl font-bold">${{ coin.market_data.high_24h?.usd?.toFixed?.(2) || 'N/A' }}</p>
+        <!-- Market Data Grid -->
+        <div *ngIf="coin.market_data" class="mb-8 grid grid-cols-1 md:grid-cols-2 gap-6">
+          <div class="rounded-lg border border-border bg-card p-6">
+            <p class="text-sm text-muted-foreground mb-2">24h High</p>
+            <p class="text-2xl font-bold text-foreground">
+              {{ coin.market_data.high_24h?.usd ? formatPrice(coin.market_data.high_24h.usd) : 'N/A' }}
+            </p>
           </div>
-          <div class="bg-white rounded-lg shadow p-4">
-            <p class="text-gray-600">24h Low</p>
-            <p class="text-2xl font-bold">${{ coin.market_data.low_24h?.usd?.toFixed?.(2) || 'N/A' }}</p>
+          <div class="rounded-lg border border-border bg-card p-6">
+            <p class="text-sm text-muted-foreground mb-2">24h Low</p>
+            <p class="text-2xl font-bold text-foreground">
+              {{ coin.market_data.low_24h?.usd ? formatPrice(coin.market_data.low_24h.usd) : 'N/A' }}
+            </p>
           </div>
-          <div class="bg-white rounded-lg shadow p-4">
-            <p class="text-gray-600">Market Cap</p>
-            <p class="text-2xl font-bold">${{ formatLargeNumber(coin.market_data.market_cap?.usd) }}</p>
+          <div class="rounded-lg border border-border bg-card p-6">
+            <p class="text-sm text-muted-foreground mb-2">Market Cap</p>
+            <p class="text-2xl font-bold text-foreground">{{ formatLargeNumber(coin.market_data.market_cap?.usd) }}</p>
           </div>
-          <div class="bg-white rounded-lg shadow p-4">
-            <p class="text-gray-600">24h Volume</p>
-            <p class="text-2xl font-bold">${{ formatLargeNumber(coin.market_data.total_volume?.usd) }}</p>
+          <div class="rounded-lg border border-border bg-card p-6">
+            <p class="text-sm text-muted-foreground mb-2">24h Volume</p>
+            <p class="text-2xl font-bold text-foreground">{{ formatLargeNumber(coin.market_data.total_volume?.usd) }}</p>
+          </div>
+          <div *ngIf="coin.market_data.price_change_percentage_24h !== undefined" class="rounded-lg border border-border bg-card p-6">
+            <p class="text-sm text-muted-foreground mb-2">24h Change</p>
+            <p [class.text-green-600]="coin.market_data.price_change_percentage_24h >= 0" [class.text-red-600]="coin.market_data.price_change_percentage_24h < 0" class="text-2xl font-bold">
+              {{ coin.market_data.price_change_percentage_24h?.toFixed?.(2) || '0.00' }}%
+            </p>
           </div>
         </div>
 
-        <div *ngIf="coin.description?.en" class="bg-white rounded-lg shadow p-6">
-          <h2 class="text-2xl font-bold mb-4">About</h2>
-          <p class="text-gray-700">{{ coin.description.en }}</p>
+        <!-- Description -->
+        <div *ngIf="coin.description?.en" class="rounded-lg border border-border bg-card p-6">
+          <h2 class="text-2xl font-bold text-foreground mb-4">About</h2>
+          <p class="text-foreground leading-relaxed">{{ coin.description.en }}</p>
         </div>
 
-        <div *ngIf="!isLoading && !error && !coin" class="text-center py-8">
-          <p>Coin not found.</p>
+        <!-- Empty State -->
+        <div *ngIf="!isLoading && !error && !coin" class="text-center py-12">
+          <p class="text-lg text-muted-foreground">Coin not found.</p>
         </div>
       </div>
-    </div>
+    </main>
   `,
   styles: []
 })
@@ -86,6 +132,22 @@ export class CoinDetailComponent implements OnInit {
     });
   }
 
+  formatPrice(price: number): string {
+    return new Intl.NumberFormat('en-US', {
+      style: 'currency',
+      currency: 'USD'
+    }).format(price);
+  }
+
+  formatLargeNumber(value?: number): string {
+    if (!value) return 'N/A';
+    if (value >= 1e12) return (value / 1e12).toFixed(2) + 'T';
+    if (value >= 1e9) return (value / 1e9).toFixed(2) + 'B';
+    if (value >= 1e6) return (value / 1e6).toFixed(2) + 'M';
+    if (value >= 1e3) return (value / 1e3).toFixed(2) + 'K';
+    return value.toFixed(2);
+  }
+
   private loadCoinDetails(): void {
     this.isLoading = true;
     this.error = null;
@@ -99,13 +161,5 @@ export class CoinDetailComponent implements OnInit {
         this.isLoading = false;
       }
     });
-  }
-
-  formatLargeNumber(value?: number): string {
-    if (!value) return 'N/A';
-    if (value >= 1e12) return (value / 1e12).toFixed(2) + 'T';
-    if (value >= 1e9) return (value / 1e9).toFixed(2) + 'B';
-    if (value >= 1e6) return (value / 1e6).toFixed(2) + 'M';
-    return value.toFixed(2);
   }
 }

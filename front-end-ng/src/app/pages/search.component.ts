@@ -1,7 +1,7 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { RouterModule } from '@angular/router';
+import { RouterModule, ActivatedRoute, Router } from '@angular/router';
 import { CoinGeckoService } from '../services/coin-gecko.service';
 import { Coin } from '../models/coin.model';
 import { debounceTime, distinctUntilChanged, Subject } from 'rxjs';
@@ -11,52 +11,102 @@ import { debounceTime, distinctUntilChanged, Subject } from 'rxjs';
   standalone: true,
   imports: [CommonModule, FormsModule, RouterModule],
   template: `
-    <div class="container mx-auto p-4">
-      <a routerLink="/" class="text-blue-500 hover:text-blue-700 mb-4 inline-block">← Back to Home</a>
-
-      <h1 class="text-3xl font-bold mb-8">Search Cryptocurrencies</h1>
-
+    <!-- Main Content -->
+    <main class="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8">
+      <!-- Search Header -->
       <div class="mb-8">
-        <input
-          type="text"
-          [(ngModel)]="searchQuery"
-          (input)="onSearch()"
-          placeholder="Search by name or symbol..."
-          class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
-        />
+        <h1 class="text-3xl font-bold text-foreground mb-2">Search Results</h1>
+        <p *ngIf="searchQuery" class="text-muted-foreground">Showing results for "{{ searchQuery }}"</p>
       </div>
 
-      <div *ngIf="isLoading" class="text-center py-8">
-        <p>Searching...</p>
-      </div>
-
-      <div *ngIf="error" class="bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded">
-        {{ error }}
-      </div>
-
-      <div *ngIf="!isLoading && !error && results.length > 0" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-        <div *ngFor="let coin of results" class="border rounded-lg p-4 hover:shadow-lg transition-shadow">
-          <h2 class="text-xl font-semibold">{{ coin.name }}</h2>
-          <p class="text-gray-600">{{ coin.symbol | uppercase }}</p>
-          <p class="text-2xl font-bold mt-2">${{ coin.price.toFixed?.(2) || '0.00' }}</p>
-          <a [routerLink]="['/coins', coin.symbol]" class="text-blue-500 hover:text-blue-700 mt-4 inline-block">
-            View Details →
-          </a>
+      <!-- Loading State -->
+      <div *ngIf="isLoading" class="flex items-center justify-center py-12">
+        <div class="flex flex-col items-center gap-4">
+          <div class="h-12 w-12 animate-spin rounded-full border-4 border-muted border-t-primary"></div>
+          <p class="text-lg text-muted-foreground">Searching...</p>
         </div>
       </div>
 
-      <div *ngIf="!isLoading && !error && searchQuery && results.length === 0" class="text-center py-8">
-        <p>No results found for "{{ searchQuery }}"</p>
+      <!-- Error State -->
+      <div
+        *ngIf="error && !isLoading"
+        class="rounded-lg border border-destructive bg-destructive/10 dark:bg-destructive/20 p-6"
+      >
+        <h3 class="mb-2 font-semibold text-destructive">Error searching</h3>
+        <p class="text-sm text-destructive">{{ error }}</p>
       </div>
 
-      <div *ngIf="!searchQuery && results.length === 0" class="text-center py-8 text-gray-600">
-        <p>Start typing to search for cryptocurrencies...</p>
+      <!-- Results Table -->
+      <div *ngIf="!isLoading && !error && results.length > 0" class="rounded-lg border border-border bg-card overflow-hidden">
+        <div class="overflow-x-auto">
+          <table class="w-full">
+            <!-- Table Header -->
+            <thead class="border-b border-border bg-muted">
+              <tr>
+                <th class="px-6 py-3 text-left text-sm font-semibold text-foreground">Name</th>
+                <th class="px-6 py-3 text-left text-sm font-semibold text-foreground">Symbol</th>
+                <th class="px-6 py-3 text-right text-sm font-semibold text-foreground">Price</th>
+                <th class="px-6 py-3 text-right text-sm font-semibold text-foreground">Market Cap</th>
+                <th class="px-6 py-3 text-right text-sm font-semibold text-foreground"></th>
+              </tr>
+            </thead>
+            <!-- Table Body -->
+            <tbody>
+              <tr
+                *ngFor="let coin of results"
+                class="border-b border-border hover:bg-accent/50 cursor-pointer transition-colors"
+                (click)="navigateToCoin(coin.symbol)"
+              >
+                <td class="px-6 py-4">
+                  <div class="flex items-center gap-3">
+                    <img
+                      *ngIf="coin.image"
+                      [src]="coin.image"
+                      [alt]="coin.name"
+                      class="h-8 w-8 rounded-full"
+                    />
+                    <span class="font-medium text-foreground">{{ coin.name }}</span>
+                  </div>
+                </td>
+                <td class="px-6 py-4">
+                  <span class="text-muted-foreground">{{ coin.symbol | uppercase }}</span>
+                </td>
+                <td class="px-6 py-4 text-right">
+                  <span class="text-foreground">{{ formatPrice(coin.price) }}</span>
+                </td>
+                <td class="px-6 py-4 text-right">
+                  <span class="text-muted-foreground">
+                    {{ coin.market_cap ? formatPrice(coin.market_cap) : 'N/A' }}
+                  </span>
+                </td>
+                <td class="px-6 py-4 text-right">
+                  <button
+                    class="text-primary hover:text-primary/80 text-sm font-medium transition-colors"
+                  >
+                    View Details
+                  </button>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
       </div>
-    </div>
+
+      <!-- No Results -->
+      <div *ngIf="!isLoading && !error && searchQuery && results.length === 0" class="rounded-lg border border-border bg-muted py-12 text-center">
+        <p class="text-lg text-muted-foreground">No cryptocurrencies found for "{{ searchQuery }}"</p>
+        <p class="text-sm text-muted-foreground/70 mt-2">Try searching with a different keyword</p>
+      </div>
+
+      <!-- No Search Query -->
+      <div *ngIf="!searchQuery && results.length === 0" class="rounded-lg border border-border bg-muted py-12 text-center">
+        <p class="text-lg text-muted-foreground">Enter a search query to find cryptocurrencies</p>
+      </div>
+    </main>
   `,
   styles: []
 })
-export class SearchComponent {
+export class SearchComponent implements OnInit {
   searchQuery = '';
   results: Coin[] = [];
   isLoading = false;
@@ -64,7 +114,11 @@ export class SearchComponent {
 
   private searchSubject = new Subject<string>();
 
-  constructor(private coinGeckoService: CoinGeckoService) {
+  constructor(
+    private coinGeckoService: CoinGeckoService,
+    private activatedRoute: ActivatedRoute,
+    private router: Router
+  ) {
     this.searchSubject
       .pipe(
         debounceTime(300),
@@ -75,12 +129,31 @@ export class SearchComponent {
       });
   }
 
-  onSearch(): void {
-    this.searchSubject.next(this.searchQuery);
+  ngOnInit(): void {
+    this.activatedRoute.queryParams.subscribe(params => {
+      const query = params['q'] || '';
+      this.searchQuery = query;
+      if (query) {
+        this.performSearch(query);
+      }
+    });
+  }
+
+  formatPrice(price: number): string {
+    return new Intl.NumberFormat('en-US', {
+      style: 'currency',
+      currency: 'USD'
+    }).format(price);
+  }
+
+  navigateToCoin(symbol: string): void {
+    this.router.navigate(['/coins', symbol.toLowerCase()], {
+      queryParams: { from: 'search', q: this.searchQuery }
+    });
   }
 
   private performSearch(query: string): void {
-    if (!query.trim()) {
+    if (!query || query.trim().length === 0) {
       this.results = [];
       this.error = null;
       return;
@@ -95,7 +168,7 @@ export class SearchComponent {
         this.isLoading = false;
       },
       error: (err) => {
-        this.error = err.message || 'Failed to search cryptocurrencies';
+        this.error = err.message || 'Failed to search cryptocurrencies. Please try again.';
         this.isLoading = false;
       }
     });

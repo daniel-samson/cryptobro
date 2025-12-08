@@ -4,35 +4,17 @@ import { ActivatedRoute, RouterModule } from '@angular/router';
 import { CoinGeckoService } from '../services/coin-gecko.service';
 import { CoinDetails } from '../models/coin.model';
 import { ZardCardComponent } from '@shared/components/card/card.component';
+import { BreadcrumbComponent, BreadcrumbItem } from '@shared/components/breadcrumb/breadcrumb.component';
 
 @Component({
   selector: 'app-coin-detail',
   standalone: true,
-  imports: [CommonModule, RouterModule, ZardCardComponent],
+  imports: [CommonModule, RouterModule, ZardCardComponent, BreadcrumbComponent],
   template: `
     <!-- Main Content -->
     <main class="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8">
-      <!-- Back Button -->
-      <a
-        routerLink="/"
-        class="mb-6 inline-flex items-center text-primary hover:text-primary/80 transition-colors"
-      >
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          class="h-4 w-4 mr-2"
-          fill="none"
-          viewBox="0 0 24 24"
-          stroke="currentColor"
-        >
-          <path
-            stroke-linecap="round"
-            stroke-linejoin="round"
-            stroke-width="2"
-            d="M15 19l-7-7 7-7"
-          />
-        </svg>
-        Back to Home
-      </a>
+      <!-- Breadcrumb Navigation -->
+      <app-breadcrumb [items]="breadcrumbItems"></app-breadcrumb>
 
       <!-- Loading State -->
       <div *ngIf="isLoading" class="flex items-center justify-center py-12">
@@ -130,6 +112,7 @@ export class CoinDetailComponent implements OnInit {
   isLoading = true;
   error: string | null = null;
   symbol: string = '';
+  breadcrumbItems: BreadcrumbItem[] = [];
 
   constructor(
     private coinGeckoService: CoinGeckoService,
@@ -143,6 +126,34 @@ export class CoinDetailComponent implements OnInit {
       if (this.symbol) {
         this.loadCoinDetails();
       }
+    });
+
+    // Build breadcrumb items based on navigation source
+    this.activatedRoute.queryParams.subscribe(queryParams => {
+      const isFromSearch = queryParams['from'] === 'search';
+      const searchQuery = queryParams['q'];
+
+      // Always start with Home
+      this.breadcrumbItems = [
+        { label: 'Home', path: '/' }
+      ];
+
+      // Add Search Results if coming from search
+      if (isFromSearch && searchQuery) {
+        this.breadcrumbItems.push({
+          label: 'Search Results',
+          path: '/search',
+          queryParams: { q: searchQuery }
+        });
+      }
+
+      // Add current coin (will be updated when coin data loads)
+      this.breadcrumbItems.push({
+        label: this.coin?.name || this.symbol,
+        isActive: true
+      });
+
+      this.cdr.markForCheck();
     });
   }
 
@@ -179,6 +190,10 @@ export class CoinDetailComponent implements OnInit {
       next: (coin) => {
         this.coin = coin;
         this.isLoading = false;
+        // Update breadcrumb with actual coin name
+        if (coin && this.breadcrumbItems.length > 0) {
+          this.breadcrumbItems[this.breadcrumbItems.length - 1].label = coin.name;
+        }
         this.cdr.markForCheck();
       },
       error: (err) => {

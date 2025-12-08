@@ -64,7 +64,7 @@ import { ZardCardComponent } from '@shared/components/card/card.component';
 
         <!-- Price Info Card -->
         <z-card>
-          <h2 class="text-lg font-semibold text-foreground mb-3">Current Price</h2>
+          <h2 class="text-lg font-semibold text-foreground mb-2">Current Price</h2>
           <div *ngIf="coin.market_data" class="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
             <div>
               <p class="text-sm text-muted-foreground">Current Price</p>
@@ -93,7 +93,7 @@ import { ZardCardComponent } from '@shared/components/card/card.component';
 
         <!-- Price Range Card -->
         <z-card *ngIf="coin.market_data">
-          <h2 class="text-lg font-semibold text-foreground mb-3">24h Price Range</h2>
+          <h2 class="text-lg font-semibold text-foreground mb-2">24h Price Range</h2>
           <div class="grid gap-4 sm:grid-cols-2">
             <div>
               <p class="text-sm text-muted-foreground">24h Low</p>
@@ -112,7 +112,7 @@ import { ZardCardComponent } from '@shared/components/card/card.component';
 
         <!-- Description Card -->
         <z-card *ngIf="coin.description?.en">
-          <h2 class="text-lg font-semibold text-foreground mb-3">About {{ coin.name }}</h2>
+          <h2 class="text-lg font-semibold text-foreground mb-2">About {{ coin.name }}</h2>
           <p class="text-foreground leading-relaxed">{{ coin.description?.en }}</p>
         </z-card>
 

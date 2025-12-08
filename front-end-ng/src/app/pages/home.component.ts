@@ -18,7 +18,7 @@ import { ZardCardComponent } from '@shared/components/card/card.component';
         <!-- Loading State -->
         <div *ngIf="isLoading" class="flex items-center justify-center py-12">
           <div class="flex flex-col items-center gap-4">
-            <div class="h-12 w-12 animate-spin rounded-full border-4 border-muted border-t-primary"></div>
+            <div class="h-12 w-12 animate-spin rounded-full border-4 border-muted loading-spinner"></div>
             <p class="text-lg text-muted-foreground">Loading cryptocurrency data...</p>
           </div>
         </div>

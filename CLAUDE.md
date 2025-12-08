@@ -6,13 +6,31 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 **Cryptobro** is a monorepo cryptocurrency price tracking application with:
 - **Backend**: Laravel 12 REST API that fetches cryptocurrency prices from the CoinGecko API
-- **Frontend**: Nuxt application (not yet implemented) that will communicate with the backend
+- **Frontend**: Two separate frontend implementations:
+  - **front-end/**: Nuxt 3 (Vue.js 3) - planned
+  - **front-end-ng/**: Angular 21 (current active frontend)
 
-Current branch: `feature/#5-setup-frontend` - setting up the Nuxt frontend.
+Current branch: `epic/angular-front-end` - developing the Angular frontend.
 
 ## Frontend Architecture
 
-### Technology Stack
+**Note**: This project has two frontend implementations. Choose based on the branch/directory you're working in.
+
+### Angular Frontend (front-end-ng/) - CURRENT
+
+#### Technology Stack
+- **Framework**: Angular 21 (Standalone Components)
+- **UI Components**: ZardUI with custom components
+- **Styling**: Tailwind CSS v4 with CSS variables for theming
+- **Component Library**: Class Variance Authority (CVA) for styled variants
+- **Build Tool**: Vite with Angular Compiler
+- **Type Safety**: TypeScript
+- **State Management**: RxJS Observables
+- **Routing**: Angular Router
+
+### Nuxt Frontend (front-end/) - PLANNED
+
+#### Technology Stack
 - **Framework**: Nuxt 3 (Vue.js 3)
 - **UI Components**: shadcn/vue with Radix Vue primitives
 - **Styling**: Tailwind CSS with CSS variables for theming
@@ -20,7 +38,31 @@ Current branch: `feature/#5-setup-frontend` - setting up the Nuxt frontend.
 - **Build Tool**: Vite
 - **Type Safety**: TypeScript
 
-### Directory Structure
+### Angular Frontend - Directory Structure (front-end-ng/)
+```
+src/
+├── app/
+│   ├── pages/              # Page components (routed)
+│   ├── shared/
+│   │   └── components/     # Shared UI components (table, card, breadcrumb, etc.)
+│   ├── services/           # Services (CoinGeckoService, etc.)
+│   ├── models/             # TypeScript interfaces and types
+│   └── app.component.ts    # Root component
+├── styles.css              # Global styles and Tailwind
+└── main.ts                 # Application entry point
+```
+
+### Angular Frontend - Common Development Commands
+```bash
+cd front-end-ng
+npm install              # Install dependencies
+npm start               # Start dev server (http://localhost:4200)
+npm run build           # Build for production
+npm run test            # Run tests
+npm run lint            # Run ESLint
+```
+
+### Nuxt Frontend - Directory Structure (front-end/)
 - `pages/` - Page components (auto-routed)
 - `components/ui/` - shadcn/vue components (Button, Card, etc.)
 - `app/composables/` - Vue 3 composables for API and logic reuse
@@ -29,23 +71,7 @@ Current branch: `feature/#5-setup-frontend` - setting up the Nuxt frontend.
 - `public/` - Static assets including favicons
 - `tests/` - Unit and component tests
 
-### Key Features
-- **Responsive Design**: Mobile-first approach with Tailwind breakpoints
-- **Component Library**: shadcn/vue provides accessible, themeable components
-- **API Integration**: `useCoinGecko` composable handles backend communication
-- **Tailwind CSS**: Utility-first CSS with custom color system via CSS variables
-- **Dark Mode Ready**: CSS variables support light/dark theme switching
-- **TypeScript**: Full type safety throughout the application
-- **Tests**: Unit tests for composables, component tests for pages
-- **CI/CD**: GitHub Actions workflow runs on frontend file changes
-
-### Environment Variables
-```
-# Backend API configuration
-NUXT_PUBLIC_API_BASE_URL=http://localhost:8000
-```
-
-### Common Development Commands
+### Nuxt Frontend - Common Development Commands
 ```bash
 cd front-end
 npm install              # Install dependencies
@@ -57,6 +83,61 @@ npm test -- --watch    # Run tests in watch mode
 npm run type-check     # Check TypeScript types
 npm run lint           # Run ESLint
 ```
+
+### Angular Frontend - Environment Variables
+```
+# Backend API configuration (in src/main.ts or environment.ts)
+API_BASE_URL=http://localhost:8000
+```
+
+### Nuxt Frontend - Environment Variables
+```
+# Backend API configuration
+NUXT_PUBLIC_API_BASE_URL=http://localhost:8000
+```
+
+### Key Features (Angular Frontend)
+- **Standalone Components**: Modern Angular architecture without NgModules
+- **ZardUI Components**: Custom reusable UI components with CVA styling
+- **RxJS**: Reactive programming with Observables for state management and API calls
+- **Responsive Design**: Mobile-first approach with Tailwind breakpoints
+- **TypeScript**: Full type safety throughout the application
+- **Tailwind CSS v4**: Utility-first CSS with custom color system via CSS variables
+- **Dark Mode Ready**: CSS variables support light/dark theme switching
+
+### Key Features (Nuxt Frontend)
+- **Responsive Design**: Mobile-first approach with Tailwind breakpoints
+- **Component Library**: shadcn/vue provides accessible, themeable components
+- **API Integration**: `useCoinGecko` composable handles backend communication
+- **Tailwind CSS**: Utility-first CSS with custom color system via CSS variables
+- **Dark Mode Ready**: CSS variables support light/dark theme switching
+- **TypeScript**: Full type safety throughout the application
+- **Tests**: Unit tests for composables, component tests for pages
+- **CI/CD**: GitHub Actions workflow runs on frontend file changes
+
+### Development Server URLs
+
+**IMPORTANT**: Remember which frontend you're working on - they run on different ports:
+- **Angular frontend (front-end-ng/)**: http://localhost:4200
+- **Nuxt frontend (front-end/)**: http://localhost:3000
+
+Always verify you're testing on the correct port for the branch/directory you're in.
+
+### Styling and Component Development
+
+**IMPORTANT**: When modifying Tailwind CSS styles or component variants (CVA):
+1. Always take a screenshot of the rendered component after making style changes
+2. Verify that the changes render correctly in the browser at the correct dev server URL
+3. Check alignment, spacing, colors, and interactive states (hover effects)
+4. Do NOT assume changes are correct without visual verification
+
+This applies especially to:
+- Table layouts and cell alignment
+- Card padding and spacing
+- Component hover states and transitions
+- Responsive breakpoint changes
+
+Test changes on the appropriate dev server before committing.
 
 ### Component System (shadcn/vue)
 

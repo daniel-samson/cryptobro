@@ -1,0 +1,207 @@
+@import 'tailwindcss';
+@plugin 'tailwindcss-animate';
+
+@custom-variant dark (&:is(.dark *));
+
+:root {
+  /* Light mode colors - matches Nuxt frontend */
+  --background: hsl(0 0% 100%);
+  --foreground: hsl(222.2 84% 4.9%);
+  --card: hsl(0 0% 100%);
+  --card-foreground: hsl(222.2 84% 4.9%);
+  --popover: hsl(0 0% 100%);
+  --popover-foreground: hsl(222.2 84% 4.9%);
+  --muted: hsl(210 40% 96.1%);
+  --muted-foreground: hsl(215.4 16.3% 46.9%);
+  --accent: hsl(210 40% 90%);
+  --accent-foreground: hsl(222.2 47.6% 11.2%);
+  --destructive: hsl(0 84.2% 60.2%);
+  --destructive-foreground: hsl(210 40% 98%);
+  --border: hsl(214.3 31.8% 91.4%);
+  --input: hsl(214.3 31.8% 91.4%);
+  --primary: hsl(217.2 91.2% 59.8%);
+  --primary-foreground: hsl(222.2 47.6% 11.2%);
+  --secondary: hsl(210 40% 96.1%);
+  --secondary-foreground: hsl(222.2 47.6% 11.2%);
+  --ring: hsl(217.2 91.2% 59.8%);
+  --radius: 0.625rem;
+  --chart-1: hsl(12 76% 61%);
+  --chart-2: hsl(173 58% 39%);
+  --chart-3: hsl(197 37% 24%);
+  --chart-4: hsl(43 74% 66%);
+  --chart-5: hsl(27 87% 67%);
+  --sidebar: hsl(210 40% 98%);
+  --sidebar-foreground: hsl(222.2 84% 4.9%);
+  --sidebar-primary: hsl(217.2 91.2% 59.8%);
+  --sidebar-primary-foreground: hsl(222.2 47.6% 11.2%);
+  --sidebar-accent: hsl(210 40% 96.1%);
+  --sidebar-accent-foreground: hsl(222.2 47.6% 11.2%);
+  --sidebar-border: hsl(214.3 31.8% 91.4%);
+  --sidebar-ring: hsl(217.2 91.2% 59.8%);
+}
+
+.dark {
+  /* Dark mode colors - matches Nuxt frontend */
+  --background: hsl(222.2 84% 4.9%);
+  --foreground: hsl(210 40% 98%);
+  --card: hsl(217.2 32.6% 17.5%);
+  --card-foreground: hsl(210 40% 98%);
+  --popover: hsl(222.2 84% 4.9%);
+  --popover-foreground: hsl(210 40% 98%);
+  --muted: hsl(217.2 32.6% 17.5%);
+  --muted-foreground: hsl(215 20.3% 65.1%);
+  --accent: hsl(217.2 32.6% 25%);
+  --accent-foreground: hsl(210 40% 98%);
+  --destructive: hsl(0 62.8% 30.6%);
+  --destructive-foreground: hsl(210 40% 98%);
+  --border: hsl(217.2 32.6% 17.5%);
+  --input: hsl(217.2 32.6% 10%);
+  --primary: hsl(217.2 91.2% 59.8%);
+  --primary-foreground: hsl(222.2 47.6% 11.2%);
+  --secondary: hsl(217.2 32.6% 10%);
+  --secondary-foreground: hsl(210 40% 98%);
+  --ring: hsl(217.2 91.2% 59.8%);
+  --chart-1: hsl(265 70% 50%);
+  --chart-2: hsl(160 84% 39%);
+  --chart-3: hsl(27 87% 67%);
+  --chart-4: hsl(280 85% 56%);
+  --chart-5: hsl(16 75% 50%);
+  --sidebar: hsl(217.2 32.6% 17.5%);
+  --sidebar-foreground: hsl(210 40% 98%);
+  --sidebar-primary: hsl(265 70% 50%);
+  --sidebar-primary-foreground: hsl(210 40% 98%);
+  --sidebar-accent: hsl(217.2 32.6% 25%);
+  --sidebar-accent-foreground: hsl(210 40% 98%);
+  --sidebar-border: hsl(217.2 32.6% 17.5%);
+  --sidebar-ring: hsl(217.2 91.2% 59.8%);
+}
+
+
+
+@layer base {
+  * {
+    border-color: var(--border);
+    outline-color: rgba(var(--ring), 0.5);
+  }
+  body {
+    background-color: var(--background);
+    color: var(--foreground);
+  }
+}
+
+@layer utilities {
+  .bg-background {
+    background-color: var(--background);
+  }
+  .bg-foreground {
+    background-color: var(--foreground);
+  }
+  .bg-card {
+    background-color: var(--card);
+  }
+  .bg-popover {
+    background-color: var(--popover);
+  }
+  .bg-primary {
+    background-color: var(--primary);
+  }
+  .bg-secondary {
+    background-color: var(--secondary);
+  }
+  .bg-muted {
+    background-color: var(--muted);
+  }
+  .bg-accent {
+    background-color: var(--accent);
+  }
+  .bg-destructive {
+    background-color: var(--destructive);
+  }
+  .bg-input {
+    background-color: var(--input);
+  }
+
+  .text-foreground {
+    color: var(--foreground);
+  }
+  .text-card-foreground {
+    color: var(--card-foreground);
+  }
+  .text-popover-foreground {
+    color: var(--popover-foreground);
+  }
+  .text-primary {
+    color: var(--primary);
+  }
+  .text-primary-foreground {
+    color: var(--primary-foreground);
+  }
+  .text-secondary {
+    color: var(--secondary);
+  }
+  .text-secondary-foreground {
+    color: var(--secondary-foreground);
+  }
+  .text-muted {
+    color: var(--muted);
+  }
+  .text-muted-foreground {
+    color: var(--muted-foreground);
+  }
+  .text-accent {
+    color: var(--accent);
+  }
+  .text-accent-foreground {
+    color: var(--accent-foreground);
+  }
+  .text-destructive {
+    color: var(--destructive);
+  }
+
+  .border-border {
+    border-color: var(--border);
+  }
+  .border-input {
+    border-color: var(--input);
+  }
+  .border-card {
+    border-color: var(--card);
+  }
+  .border-primary {
+    border-color: var(--primary);
+  }
+  .border-secondary {
+    border-color: var(--secondary);
+  }
+  .border-muted {
+    border-color: var(--muted);
+  }
+  .border-accent {
+    border-color: var(--accent);
+  }
+  .border-destructive {
+    border-color: var(--destructive);
+  }
+
+  .ring-ring {
+    --tw-ring-color: var(--ring);
+  }
+
+  .coin-card:hover {
+    box-shadow: 0 0 0 2px var(--primary);
+  }
+
+  .loading-spinner {
+    border-top-color: var(--primary);
+  }
+}
+
+@layer components {
+  tbody tr {
+    @apply transition-colors;
+  }
+
+  tbody tr:hover {
+    background-color: var(--accent);
+  }
+}

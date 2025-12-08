@@ -12,14 +12,18 @@
 ## Project Status
 
 [![Backend CI](https://github.com/daniel-samson/cryptobro/actions/workflows/backend-ci.yml/badge.svg?branch=main)](https://github.com/daniel-samson/cryptobro/actions/workflows/backend-ci.yml)
-[![Frontend CI](https://github.com/daniel-samson/cryptobro/actions/workflows/frontend-ci.yml/badge.svg)](https://github.com/daniel-samson/cryptobro/actions/workflows/frontend-ci.yml)
+[![Frontend (Nuxt) CI](https://github.com/daniel-samson/cryptobro/actions/workflows/frontend-ci.yml/badge.svg)](https://github.com/daniel-samson/cryptobro/actions/workflows/frontend-ci.yml)
+[![Frontend (Angular) CI](https://github.com/daniel-samson/cryptobro/actions/workflows/frontend-ng-ci.yml/badge.svg)](https://github.com/daniel-samson/cryptobro/actions/workflows/frontend-ng-ci.yml)
 
 ## Overview
 
-Cryptobro is a monorepo cryptocurrency price tracking application with:
+Cryptobro is a monorepo cryptocurrency price tracking application with multiple frontend implementations:
 
-- **Frontend**: Nuxt 3 application with Vue 3, Tailwind CSS, and shadcn/vue components
+- **Frontend (Nuxt)**: Nuxt 3 application with Vue 3, Tailwind CSS, and shadcn/vue components
   - 📚 **[Frontend Documentation](front-end/README.md)**
+
+- **Frontend (Angular)**: Angular 21 application with Tailwind CSS and Zard UI components
+  - 📚 **[Frontend Documentation](front-end-ng/README.md)**
 
 - **Backend**: Laravel 12 REST API that integrates with the CoinGecko API
   - 📚 **[Backend Documentation](backend/README.md)**
@@ -51,6 +55,8 @@ Cryptobro is a monorepo cryptocurrency price tracking application with:
    ```
 
 3. **Start the frontend** (in a new terminal):
+
+   **Option A - Nuxt (Vue 3):**
    ```bash
    cd front-end
    npm install
@@ -58,19 +64,35 @@ Cryptobro is a monorepo cryptocurrency price tracking application with:
    npm run dev  # Starts on http://localhost:3000
    ```
 
+   **Option B - Angular 21:**
+   ```bash
+   cd front-end-ng
+   npm install
+   cp .env.example .env
+   npm run start  # Starts on http://localhost:4200
+   ```
+
 4. **Open your browser:**
-   - Frontend: http://localhost:3000
+   - Frontend (Nuxt): http://localhost:3000
+   - Frontend (Angular): http://localhost:4200
    - Backend API: http://localhost:8000/v1/health
 
 ## Project Structure
 
 ```
 cryptobro/
-├── frontend/          # Nuxt 3 Vue application
+├── front-end/         # Nuxt 3 Vue application
 │   ├── components/    # Vue components (including shadcn/vue)
 │   ├── pages/         # File-based routing
 │   ├── app/           # Composables, utils, layouts
-│   └── README.md      # Frontend documentation
+│   └── README.md      # Frontend (Nuxt) documentation
+│
+├── front-end-ng/      # Angular 21 application
+│   ├── src/
+│   │   ├── app/       # Angular components and services
+│   │   ├── pages/     # Routed page components
+│   │   └── shared/    # Shared components and utilities
+│   └── README.md      # Frontend (Angular) documentation
 │
 ├── backend/           # Laravel 12 API
 │   ├── app/           # Application code
@@ -93,18 +115,27 @@ cryptobro/
 
 ## Documentation
 
-- **[Frontend README](front-end/README.md)** - Nuxt setup, components, testing
+- **[Frontend (Nuxt) README](front-end/README.md)** - Nuxt 3 setup, components, testing
+- **[Frontend (Angular) README](front-end-ng/README.md)** - Angular 21 setup, components, testing
 - **[Backend README](backend/README.md)** - Laravel setup, development, testing
 - **[API Documentation](backend/API.md)** - Complete REST API reference
 - **[Development Guide](CLAUDE.md)** - Git workflow and development standards
 
 ## Technology Stack
 
-### Frontend
+### Frontend Options
+
+**Option 1 - Nuxt (Vue 3):**
 - [Nuxt 3](https://nuxt.com) - Vue 3 framework
 - [Tailwind CSS](https://tailwindcss.com) - Utility-first CSS
 - [shadcn/vue](https://www.shadcn-vue.com) - Accessible component system
 - [Vitest](https://vitest.dev) - Unit testing
+
+**Option 2 - Angular 21:**
+- [Angular 21](https://angular.dev) - Full framework with standalone components
+- [Tailwind CSS](https://tailwindcss.com) - Utility-first CSS
+- [Zard UI](https://zardui.com) - Component library
+- [Vitest](https://vitest.dev) - Unit testing with Testing Library
 
 ### Backend
 - [Laravel 12](https://laravel.com) - PHP framework
@@ -122,9 +153,15 @@ cd backend
 composer run test
 ```
 
-**Frontend:**
+**Frontend (Nuxt):**
 ```bash
 cd front-end
+npm test
+```
+
+**Frontend (Angular):**
+```bash
+cd front-end-ng
 npm test
 ```
 
@@ -136,9 +173,15 @@ cd backend
 ./vendor/bin/pint
 ```
 
-**Frontend** (ESLint):
+**Frontend (Nuxt)** (ESLint):
 ```bash
 cd front-end
+npm run lint
+```
+
+**Frontend (Angular)** (ESLint):
+```bash
+cd front-end-ng
 npm run lint
 ```
 

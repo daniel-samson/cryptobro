@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { CoinGeckoService } from '../services/coin-gecko.service';
@@ -76,10 +76,21 @@ export class HomeComponent implements OnInit {
   isLoading = true;
   error: string | null = null;
 
-  constructor(private coinGeckoService: CoinGeckoService) {}
+  constructor(
+    private coinGeckoService: CoinGeckoService,
+    private cdr: ChangeDetectorRef
+  ) {}
 
   ngOnInit(): void {
+    console.log('HomeComponent ngOnInit called');
+    try {
+      localStorage.setItem('homeComponentInitialized', new Date().toISOString());
+    } catch (e) {
+      console.error('Could not write to localStorage');
+    }
+    console.log('About to call loadCoins');
     this.loadCoins();
+    console.log('loadCoins called, isLoading =', this.isLoading);
   }
 
   formatPrice(price: number): string {
@@ -92,15 +103,29 @@ export class HomeComponent implements OnInit {
   private loadCoins(): void {
     this.isLoading = true;
     this.error = null;
-    this.coinGeckoService.getCoins().subscribe({
+    console.log('Starting to load coins...');
+    console.log('API Base URL:', (this.coinGeckoService as any).apiBaseUrl || 'unknown');
+
+    const subscription = this.coinGeckoService.getCoins().subscribe({
       next: (coins) => {
+        console.log('Coins loaded successfully, count:', coins?.length);
+        console.log('First coin:', coins?.[0]);
         this.coins = coins;
         this.isLoading = false;
+        console.log('Updated isLoading to false');
+        this.cdr.markForCheck();
+        console.log('Called markForCheck');
       },
       error: (err) => {
-        this.error = err.message || 'Failed to fetch cryptocurrency data. Make sure the backend is running.';
+        console.error('Error loading coins:', err);
+        console.error('Error message:', err?.message);
+        console.error('Error status:', err?.status);
+        this.error = err?.message || 'Failed to fetch cryptocurrency data. Make sure the backend is running.';
         this.isLoading = false;
+        this.cdr.markForCheck();
       }
     });
+
+    console.log('Subscription created');
   }
 }

@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ActivatedRoute, RouterModule } from '@angular/router';
 import { CoinGeckoService } from '../services/coin-gecko.service';
@@ -121,7 +121,8 @@ export class CoinDetailComponent implements OnInit {
 
   constructor(
     private coinGeckoService: CoinGeckoService,
-    private activatedRoute: ActivatedRoute
+    private activatedRoute: ActivatedRoute,
+    private cdr: ChangeDetectorRef
   ) {}
 
   ngOnInit(): void {
@@ -156,10 +157,12 @@ export class CoinDetailComponent implements OnInit {
       next: (coin) => {
         this.coin = coin;
         this.isLoading = false;
+        this.cdr.markForCheck();
       },
       error: (err) => {
         this.error = err.message || 'Failed to load coin details';
         this.isLoading = false;
+        this.cdr.markForCheck();
       }
     });
   }

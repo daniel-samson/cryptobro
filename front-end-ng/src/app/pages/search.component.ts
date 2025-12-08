@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { RouterModule, ActivatedRoute, Router } from '@angular/router';
@@ -118,7 +118,8 @@ export class SearchComponent implements OnInit {
   constructor(
     private coinGeckoService: CoinGeckoService,
     private activatedRoute: ActivatedRoute,
-    private router: Router
+    private router: Router,
+    private cdr: ChangeDetectorRef
   ) {
     this.searchSubject
       .pipe(
@@ -157,6 +158,7 @@ export class SearchComponent implements OnInit {
     if (!query || query.trim().length === 0) {
       this.results = [];
       this.error = null;
+      this.cdr.markForCheck();
       return;
     }
 
@@ -167,10 +169,12 @@ export class SearchComponent implements OnInit {
       next: (coins) => {
         this.results = coins;
         this.isLoading = false;
+        this.cdr.markForCheck();
       },
       error: (err) => {
         this.error = err.message || 'Failed to search cryptocurrencies. Please try again.';
         this.isLoading = false;
+        this.cdr.markForCheck();
       }
     });
   }

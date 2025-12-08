@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable, throwError } from 'rxjs';
-import { catchError, map } from 'rxjs/operators';
+import { catchError, map, timeout } from 'rxjs/operators';
 import { Coin, CoinDetails, ApiResponse } from '../models/coin.model';
 import { EnvironmentService } from './environment.service';
 
@@ -26,16 +26,27 @@ export class CoinGeckoService {
    * Fetch top 10 cryptocurrencies by market cap
    */
   getCoins(): Observable<Coin[]> {
+    const apiUrl = `${this.apiBaseUrl}/v1/coins/markets`;
+    console.log('Making API request to:', apiUrl);
     return this.http
-      .get<ApiResponse<Coin[]>>(`${this.apiBaseUrl}/v1/coins/markets`)
+      .get<any>(apiUrl)
       .pipe(
+        timeout(10000),
         map(response => {
-          const coins = response.data || [];
+          console.log('API response received:', response);
+          const coins = response?.data || response || [];
+          console.log('Extracted coins:', coins);
+          if (!Array.isArray(coins)) {
+            console.error('Coins is not an array:', coins);
+            return [];
+          }
           // Map current_price to price for frontend compatibility
-          return coins.map(coin => ({
+          const mapped = coins.map((coin: any) => ({
             ...coin,
             price: coin.current_price || coin.price || 0
           }));
+          console.log('Mapped coins:', mapped);
+          return mapped;
         }),
         catchError(error => {
           console.error('Failed to fetch coins:', error);

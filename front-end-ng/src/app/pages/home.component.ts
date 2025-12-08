@@ -39,7 +39,7 @@ import { ZardCardComponent } from '@shared/components/card/card.component';
             [routerLink]="['/coins', coin.symbol]"
             class="block"
           >
-            <z-card class="flex h-full flex-col overflow-hidden transition-all hover:shadow-lg hover:ring-2 hover:ring-primary cursor-pointer">
+            <z-card class="flex h-full flex-col overflow-hidden transition-all hover:shadow-lg hover:ring-2 hover:ring-primary cursor-pointer bg-card p-4 rounded-lg">
               <!-- Card Header -->
               <div class="pb-3 flex items-center gap-3">
                 <img

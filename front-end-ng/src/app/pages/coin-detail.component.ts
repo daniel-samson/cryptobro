@@ -31,17 +31,17 @@ import { CoinDetails } from '../models/coin.model';
 
         <div class="bg-white rounded-lg shadow p-6 mb-6">
           <p class="text-gray-600 mb-2">Current Price</p>
-          <p class="text-4xl font-bold text-green-600">${{ coin.price.toFixed(2) }}</p>
+          <p class="text-4xl font-bold text-green-600">${{ coin.price.toFixed?.(2) || '0.00' }}</p>
         </div>
 
         <div *ngIf="coin.market_data" class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
           <div class="bg-white rounded-lg shadow p-4">
             <p class="text-gray-600">24h High</p>
-            <p class="text-2xl font-bold">${{ coin.market_data.high_24h?.usd?.toFixed(2) || 'N/A' }}</p>
+            <p class="text-2xl font-bold">${{ coin.market_data.high_24h?.usd?.toFixed?.(2) || 'N/A' }}</p>
           </div>
           <div class="bg-white rounded-lg shadow p-4">
             <p class="text-gray-600">24h Low</p>
-            <p class="text-2xl font-bold">${{ coin.market_data.low_24h?.usd?.toFixed(2) || 'N/A' }}</p>
+            <p class="text-2xl font-bold">${{ coin.market_data.low_24h?.usd?.toFixed?.(2) || 'N/A' }}</p>
           </div>
           <div class="bg-white rounded-lg shadow p-4">
             <p class="text-gray-600">Market Cap</p>

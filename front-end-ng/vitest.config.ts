@@ -1,8 +1,6 @@
 import { defineConfig } from 'vitest/config';
-import angular from '@angular/build/config';
 
 export default defineConfig({
-  ...angular.getAngularCompilerPlugin(),
   test: {
     globals: true,
     environment: 'happy-dom',

@@ -1,12 +1,13 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { RouterModule } from '@angular/router';
 import { CoinGeckoService } from '../services/coin-gecko.service';
 import { Coin } from '../models/coin.model';
 
 @Component({
   selector: 'app-home',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, RouterModule],
   template: `
     <div class="container mx-auto p-4">
       <h1 class="text-3xl font-bold mb-8">Cryptocurrency Prices</h1>
@@ -23,7 +24,7 @@ import { Coin } from '../models/coin.model';
         <div *ngFor="let coin of coins" class="border rounded-lg p-4 hover:shadow-lg transition-shadow">
           <h2 class="text-xl font-semibold">{{ coin.name }}</h2>
           <p class="text-gray-600">{{ coin.symbol | uppercase }}</p>
-          <p class="text-2xl font-bold mt-2">${{ coin.price.toFixed(2) }}</p>
+          <p class="text-2xl font-bold mt-2">${{ coin.price.toFixed?.(2) || '0.00' }}</p>
           <a [routerLink]="['/coins', coin.symbol]" class="text-blue-500 hover:text-blue-700 mt-4 inline-block">
             View Details →
           </a>

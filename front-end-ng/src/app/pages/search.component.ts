@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
-import { CommonModule, FormsModule } from '@angular/common';
+import { CommonModule } from '@angular/common';
+import { FormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 import { CoinGeckoService } from '../services/coin-gecko.service';
 import { Coin } from '../models/coin.model';
@@ -37,7 +38,7 @@ import { debounceTime, distinctUntilChanged, Subject } from 'rxjs';
         <div *ngFor="let coin of results" class="border rounded-lg p-4 hover:shadow-lg transition-shadow">
           <h2 class="text-xl font-semibold">{{ coin.name }}</h2>
           <p class="text-gray-600">{{ coin.symbol | uppercase }}</p>
-          <p class="text-2xl font-bold mt-2">${{ coin.price.toFixed(2) }}</p>
+          <p class="text-2xl font-bold mt-2">${{ coin.price.toFixed?.(2) || '0.00' }}</p>
           <a [routerLink]="['/coins', coin.symbol]" class="text-blue-500 hover:text-blue-700 mt-4 inline-block">
             View Details →
           </a>

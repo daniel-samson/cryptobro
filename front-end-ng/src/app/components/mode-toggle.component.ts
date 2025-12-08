@@ -1,13 +1,13 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { LucideAngularModule } from 'lucide-angular';
+import { LucideAngularModule, Moon, Sun, Monitor } from 'lucide-angular';
 
 type ColorMode = 'light' | 'dark' | 'system';
 
 @Component({
   selector: 'app-mode-toggle',
   standalone: true,
-  imports: [CommonModule, LucideAngularModule],
+  imports: [CommonModule, LucideAngularModule.pick({ Moon, Sun, Monitor })],
   template: `
     <div class="relative">
       <button

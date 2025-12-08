@@ -64,8 +64,8 @@ import { ZardCardComponent } from '@shared/components/card/card.component';
 
         <!-- Price Info Card -->
         <z-card>
-          <div class="p-6">
-            <h2 class="text-lg font-semibold text-foreground mb-4">Current Price</h2>
+          <div class="p-4">
+            <h2 class="text-lg font-semibold text-foreground mb-3">Current Price</h2>
             <div *ngIf="coin.market_data" class="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
               <div>
                 <p class="text-sm text-muted-foreground">Current Price</p>
@@ -74,13 +74,13 @@ import { ZardCardComponent } from '@shared/components/card/card.component';
               <div>
                 <p class="text-sm text-muted-foreground">Market Cap</p>
                 <p class="text-2xl font-bold text-green-500 dark:text-green-400">
-                  {{ coin.market_data.market_cap?.usd ? formatLargeNumber(coin.market_data.market_cap.usd) : 'N/A' }}
+                  {{ coin.market_data.market_cap?.usd ? formatLargeNumber(coin.market_data.market_cap!.usd!) : 'N/A' }}
                 </p>
               </div>
               <div>
                 <p class="text-sm text-muted-foreground">24h Volume</p>
                 <p class="text-2xl font-bold text-green-500 dark:text-green-400">
-                  {{ coin.market_data.total_volume?.usd ? formatLargeNumber(coin.market_data.total_volume.usd) : 'N/A' }}
+                  {{ coin.market_data.total_volume?.usd ? formatLargeNumber(coin.market_data.total_volume!.usd!) : 'N/A' }}
                 </p>
               </div>
               <div>
@@ -95,19 +95,19 @@ import { ZardCardComponent } from '@shared/components/card/card.component';
 
         <!-- Price Range Card -->
         <z-card *ngIf="coin.market_data">
-          <div class="p-6">
-            <h2 class="text-lg font-semibold text-foreground mb-4">24h Price Range</h2>
+          <div class="p-4">
+            <h2 class="text-lg font-semibold text-foreground mb-3">24h Price Range</h2>
             <div class="grid gap-4 sm:grid-cols-2">
               <div>
                 <p class="text-sm text-muted-foreground">24h Low</p>
                 <p class="text-2xl font-bold text-red-500 dark:text-red-400">
-                  {{ coin.market_data.low_24h?.usd ? formatPrice(coin.market_data.low_24h.usd) : 'N/A' }}
+                  {{ coin.market_data.low_24h?.usd ? formatPrice(coin.market_data.low_24h!.usd!) : 'N/A' }}
                 </p>
               </div>
               <div>
                 <p class="text-sm text-muted-foreground">24h High</p>
                 <p class="text-2xl font-bold text-green-500 dark:text-green-400">
-                  {{ coin.market_data.high_24h?.usd ? formatPrice(coin.market_data.high_24h.usd) : 'N/A' }}
+                  {{ coin.market_data.high_24h?.usd ? formatPrice(coin.market_data.high_24h!.usd!) : 'N/A' }}
                 </p>
               </div>
             </div>
@@ -116,8 +116,8 @@ import { ZardCardComponent } from '@shared/components/card/card.component';
 
         <!-- Description Card -->
         <z-card *ngIf="coin.description?.en">
-          <div class="p-6">
-            <h2 class="text-lg font-semibold text-foreground mb-4">About {{ coin.name }}</h2>
+          <div class="p-4">
+            <h2 class="text-lg font-semibold text-foreground mb-3">About {{ coin.name }}</h2>
             <p class="text-foreground leading-relaxed">{{ coin.description?.en }}</p>
           </div>
         </z-card>

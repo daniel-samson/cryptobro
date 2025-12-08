@@ -9,7 +9,7 @@ type ColorMode = 'light' | 'dark' | 'system';
   standalone: true,
   imports: [CommonModule, LucideAngularModule],
   template: `
-    <div class="relative">
+    <div class="relative z-40">
       <button
         (click)="toggleMenu()"
         class="inline-flex items-center justify-center rounded-lg border border-border bg-background px-3 py-2 text-sm font-medium text-foreground hover:bg-accent hover:text-accent-foreground focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 transition-colors"

@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable, throwError } from 'rxjs';
 import { catchError, map, timeout } from 'rxjs/operators';
-import { Coin, CoinDetails, ApiResponse } from '../models/coin.model';
+import { Coin, CoinDetails, ApiResponse, ImageObject } from '../models/coin.model';
 import { EnvironmentService } from './environment.service';
 
 /**
@@ -20,6 +20,17 @@ export class CoinGeckoService {
     private env: EnvironmentService
   ) {
     this.apiBaseUrl = this.env.getApiBaseUrl();
+  }
+
+  /**
+   * Normalize image to string URL
+   * Handles both string URLs and ImageObject formats
+   */
+  private normalizeImage(image?: string | ImageObject): string | undefined {
+    if (!image) return undefined;
+    if (typeof image === 'string') return image;
+    // If it's an object, prefer large > small > thumb
+    return image.large || image.small || image.thumb;
   }
 
   /**
@@ -41,8 +52,10 @@ export class CoinGeckoService {
             return [];
           }
           // Map current_price to price for frontend compatibility
+          // Normalize image to string URL
           const mapped = coins.map((coin: any) => ({
             ...coin,
+            image: this.normalizeImage(coin.image),
             price: coin.current_price || coin.price || 0
           }));
           console.log('Mapped coins:', mapped);
@@ -68,8 +81,10 @@ export class CoinGeckoService {
           const coin = response.data;
           if (coin) {
             // Ensure price field is set from market_data if available
+            // Normalize image to string URL
             return {
               ...coin,
+              image: this.normalizeImage(coin.image),
               price: coin.market_data?.current_price?.usd || coin.current_price || coin.price || 0
             };
           }
@@ -120,8 +135,10 @@ export class CoinGeckoService {
         map(response => {
           const coins = response.data || [];
           // Map current_price to price for frontend compatibility
+          // Normalize image to string URL
           return coins.map(coin => ({
             ...coin,
+            image: this.normalizeImage(coin.image),
             price: coin.current_price || coin.price || 0
           }));
         }),

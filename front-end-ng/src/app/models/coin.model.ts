@@ -1,4 +1,13 @@
 /**
+ * Image object returned by detail endpoint
+ */
+export interface ImageObject {
+  thumb?: string;
+  small?: string;
+  large?: string;
+}
+
+/**
  * Coin model representing cryptocurrency data
  */
 export interface Coin {
@@ -7,7 +16,7 @@ export interface Coin {
   symbol: string;
   price: number;
   current_price?: number;
-  image?: string;
+  image?: string | ImageObject;
   market_cap?: number;
   market_cap_rank?: number;
 }

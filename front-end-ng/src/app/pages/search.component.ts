@@ -5,12 +5,12 @@ import { RouterModule, ActivatedRoute, Router } from '@angular/router';
 import { CoinGeckoService } from '../services/coin-gecko.service';
 import { Coin } from '../models/coin.model';
 import { debounceTime, distinctUntilChanged, Subject } from 'rxjs';
-import { TableComponent, TableHeaderComponent, TableHeadComponent, TableBodyComponent, TableRowComponent, TableCellComponent } from '@shared/components/table/table.component';
+import { ZardTableComponent, ZardTableHeaderComponent, ZardTableHeadComponent, ZardTableBodyComponent, ZardTableRowComponent, ZardTableCellComponent } from '@shared/components/table/table.component';
 
 @Component({
   selector: 'app-search',
   standalone: true,
-  imports: [CommonModule, FormsModule, RouterModule, TableComponent, TableHeaderComponent, TableHeadComponent, TableBodyComponent, TableRowComponent, TableCellComponent],
+  imports: [CommonModule, FormsModule, RouterModule, ZardTableComponent, ZardTableHeaderComponent, ZardTableHeadComponent, ZardTableBodyComponent, ZardTableRowComponent, ZardTableCellComponent],
   template: `
     <!-- Main Content -->
     <main class="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8">
@@ -38,18 +38,17 @@ import { TableComponent, TableHeaderComponent, TableHeadComponent, TableBodyComp
       </div>
 
       <!-- Results Table -->
-      <div *ngIf="!isLoading && !error && results.length > 0" class="border border-border rounded-lg overflow-hidden bg-card">
-        <div class="overflow-x-auto">
-          <z-table>
+      <div *ngIf="!isLoading && !error && results.length > 0" class="overflow-x-auto">
+        <z-table>
             <!-- Table Header -->
             <z-table-header>
-              <tr>
-                <z-table-head align="left">Name</z-table-head>
-                <z-table-head align="left">Symbol</z-table-head>
-                <z-table-head align="right">Price</z-table-head>
-                <z-table-head align="right">Market Cap</z-table-head>
-                <z-table-head align="right"></z-table-head>
-              </tr>
+              <z-table-row>
+                <z-table-head>Name</z-table-head>
+                <z-table-head>Symbol</z-table-head>
+                <z-table-head>Price</z-table-head>
+                <z-table-head>Market Cap</z-table-head>
+                <z-table-head>Action</z-table-head>
+              </z-table-row>
             </z-table-header>
             <!-- Table Body -->
             <z-table-body>
@@ -57,7 +56,7 @@ import { TableComponent, TableHeaderComponent, TableHeadComponent, TableBodyComp
                 *ngFor="let coin of results"
                 (click)="navigateToCoin(coin.symbol)"
               >
-                <z-table-cell align="left">
+                <z-table-cell>
                   <div class="flex items-center gap-3">
                     <img
                       *ngIf="coin.image"
@@ -68,18 +67,18 @@ import { TableComponent, TableHeaderComponent, TableHeadComponent, TableBodyComp
                     <span class="font-medium">{{ coin.name }}</span>
                   </div>
                 </z-table-cell>
-                <z-table-cell align="left">
+                <z-table-cell>
                   <span class="text-muted-foreground">{{ coin.symbol | uppercase }}</span>
                 </z-table-cell>
-                <z-table-cell align="right">
+                <z-table-cell>
                   {{ formatPrice(coin.price) }}
                 </z-table-cell>
-                <z-table-cell align="right">
+                <z-table-cell>
                   <span class="text-muted-foreground">
                     {{ coin.market_cap ? formatPrice(coin.market_cap) : 'N/A' }}
                   </span>
                 </z-table-cell>
-                <z-table-cell align="right">
+                <z-table-cell>
                   <button
                     class="text-primary hover:text-primary/80 text-sm font-medium transition-colors"
                   >
@@ -89,7 +88,6 @@ import { TableComponent, TableHeaderComponent, TableHeadComponent, TableBodyComp
               </z-table-row>
             </z-table-body>
           </z-table>
-        </div>
       </div>
 
       <!-- No Results -->

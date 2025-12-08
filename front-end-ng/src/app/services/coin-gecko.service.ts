@@ -12,7 +12,7 @@ import { Coin, CoinDetails, ApiResponse } from '../models/coin.model';
   providedIn: 'root'
 })
 export class CoinGeckoService {
-  private apiBaseUrl = import.meta.env.VITE_API_BASE_URL || 'http://localhost:8000';
+  private apiBaseUrl = 'http://localhost:8000';
 
   constructor(private http: HttpClient) {}
 

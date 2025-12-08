@@ -12,7 +12,8 @@
 ## Project Status
 
 [![Backend CI](https://github.com/daniel-samson/cryptobro/actions/workflows/backend-ci.yml/badge.svg?branch=main)](https://github.com/daniel-samson/cryptobro/actions/workflows/backend-ci.yml)
-[![Frontend CI](https://github.com/daniel-samson/cryptobro/actions/workflows/frontend-ci.yml/badge.svg)](https://github.com/daniel-samson/cryptobro/actions/workflows/frontend-ci.yml)
+[![Frontend (Nuxt) CI](https://github.com/daniel-samson/cryptobro/actions/workflows/frontend-ci.yml/badge.svg)](https://github.com/daniel-samson/cryptobro/actions/workflows/frontend-ci.yml)
+[![Frontend (Angular) CI](https://github.com/daniel-samson/cryptobro/actions/workflows/frontend-ng-ci.yml/badge.svg)](https://github.com/daniel-samson/cryptobro/actions/workflows/frontend-ng-ci.yml)
 
 ## Overview
 

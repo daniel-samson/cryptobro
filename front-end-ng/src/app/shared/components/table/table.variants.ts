@@ -1,6 +1,6 @@
 import { cva, type VariantProps } from 'class-variance-authority';
 
-export const tableVariants = cva('w-full border-collapse', {
+export const tableVariants = cva('w-full border-collapse table-layout-fixed', {
   variants: {},
 });
 export type ZardTableVariants = VariantProps<typeof tableVariants>;

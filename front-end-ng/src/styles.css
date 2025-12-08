@@ -186,4 +186,8 @@
   .ring-ring {
     --tw-ring-color: var(--ring);
   }
+
+  .coin-card:hover {
+    box-shadow: 0 0 0 2px var(--primary);
+  }
 }

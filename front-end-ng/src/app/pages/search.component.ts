@@ -5,11 +5,12 @@ import { RouterModule, ActivatedRoute, Router } from '@angular/router';
 import { CoinGeckoService } from '../services/coin-gecko.service';
 import { Coin } from '../models/coin.model';
 import { debounceTime, distinctUntilChanged, Subject } from 'rxjs';
+import { ZardCardComponent } from '@shared/components/card/card.component';
 
 @Component({
   selector: 'app-search',
   standalone: true,
-  imports: [CommonModule, FormsModule, RouterModule],
+  imports: [CommonModule, FormsModule, RouterModule, ZardCardComponent],
   template: `
     <!-- Main Content -->
     <main class="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8">
@@ -37,7 +38,7 @@ import { debounceTime, distinctUntilChanged, Subject } from 'rxjs';
       </div>
 
       <!-- Results Table -->
-      <div *ngIf="!isLoading && !error && results.length > 0" class="rounded-lg border border-border bg-card overflow-hidden">
+      <z-card *ngIf="!isLoading && !error && results.length > 0" class="overflow-hidden">
         <div class="overflow-x-auto">
           <table class="w-full">
             <!-- Table Header -->
@@ -90,7 +91,7 @@ import { debounceTime, distinctUntilChanged, Subject } from 'rxjs';
             </tbody>
           </table>
         </div>
-      </div>
+      </z-card>
 
       <!-- No Results -->
       <div *ngIf="!isLoading && !error && searchQuery && results.length === 0" class="rounded-lg border border-border bg-muted py-12 text-center">

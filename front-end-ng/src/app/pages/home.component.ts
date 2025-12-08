@@ -3,11 +3,12 @@ import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { CoinGeckoService } from '../services/coin-gecko.service';
 import { Coin } from '../models/coin.model';
+import { ZardCardComponent } from '@shared/components/card/card.component';
 
 @Component({
   selector: 'app-home',
   standalone: true,
-  imports: [CommonModule, RouterModule],
+  imports: [CommonModule, RouterModule, ZardCardComponent],
   template: `
     <!-- Main Content -->
     <main class="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8">
@@ -38,9 +39,7 @@ import { Coin } from '../models/coin.model';
             [routerLink]="['/coins', coin.symbol]"
             class="block"
           >
-            <div
-              class="flex h-full flex-col overflow-hidden transition-all hover:shadow-lg hover:ring-2 hover:ring-primary cursor-pointer bg-card text-card-foreground rounded-lg border border-border p-6"
-            >
+            <z-card class="flex h-full flex-col overflow-hidden transition-all hover:shadow-lg hover:ring-2 hover:ring-primary cursor-pointer">
               <!-- Card Header -->
               <div class="pb-3 flex items-center gap-3">
                 <img
@@ -59,7 +58,7 @@ import { Coin } from '../models/coin.model';
               <div class="flex-1">
                 <p class="text-3xl font-bold text-primary text-right">{{ formatPrice(coin.price) }}</p>
               </div>
-            </div>
+            </z-card>
           </a>
         </div>
 

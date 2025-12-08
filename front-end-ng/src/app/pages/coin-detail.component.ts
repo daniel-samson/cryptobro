@@ -3,11 +3,12 @@ import { CommonModule } from '@angular/common';
 import { ActivatedRoute, RouterModule } from '@angular/router';
 import { CoinGeckoService } from '../services/coin-gecko.service';
 import { CoinDetails } from '../models/coin.model';
+import { ZardCardComponent } from '@shared/components/card/card.component';
 
 @Component({
   selector: 'app-coin-detail',
   standalone: true,
-  imports: [CommonModule, RouterModule],
+  imports: [CommonModule, RouterModule, ZardCardComponent],
   template: `
     <!-- Main Content -->
     <main class="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8">
@@ -62,46 +63,46 @@ import { CoinDetails } from '../models/coin.model';
         </div>
 
         <!-- Price Card -->
-        <div class="mb-8 rounded-lg border border-border bg-card p-6">
+        <z-card class="mb-8 p-6">
           <p class="text-sm text-muted-foreground mb-2">Current Price</p>
           <p class="text-4xl font-bold text-primary">{{ formatPrice(coin.price) }}</p>
-        </div>
+        </z-card>
 
         <!-- Market Data Grid -->
         <div *ngIf="coin.market_data" class="mb-8 grid grid-cols-1 md:grid-cols-2 gap-6">
-          <div class="rounded-lg border border-border bg-card p-6">
+          <z-card class="p-6">
             <p class="text-sm text-muted-foreground mb-2">24h High</p>
             <p class="text-2xl font-bold text-foreground">
               {{ formatLargeNumber(coin.market_data.high_24h?.usd) }}
             </p>
-          </div>
-          <div class="rounded-lg border border-border bg-card p-6">
+          </z-card>
+          <z-card class="p-6">
             <p class="text-sm text-muted-foreground mb-2">24h Low</p>
             <p class="text-2xl font-bold text-foreground">
               {{ formatLargeNumber(coin.market_data.low_24h?.usd) }}
             </p>
-          </div>
-          <div class="rounded-lg border border-border bg-card p-6">
+          </z-card>
+          <z-card class="p-6">
             <p class="text-sm text-muted-foreground mb-2">Market Cap</p>
             <p class="text-2xl font-bold text-foreground">{{ formatLargeNumber(coin.market_data.market_cap?.usd) }}</p>
-          </div>
-          <div class="rounded-lg border border-border bg-card p-6">
+          </z-card>
+          <z-card class="p-6">
             <p class="text-sm text-muted-foreground mb-2">24h Volume</p>
             <p class="text-2xl font-bold text-foreground">{{ formatLargeNumber(coin.market_data.total_volume?.usd) }}</p>
-          </div>
-          <div *ngIf="coin.market_data.price_change_percentage_24h !== undefined && coin.market_data.price_change_percentage_24h !== null" class="rounded-lg border border-border bg-card p-6">
+          </z-card>
+          <z-card *ngIf="coin.market_data.price_change_percentage_24h !== undefined && coin.market_data.price_change_percentage_24h !== null" class="p-6">
             <p class="text-sm text-muted-foreground mb-2">24h Change</p>
             <p [class.text-green-600]="coin.market_data.price_change_percentage_24h >= 0" [class.text-red-600]="coin.market_data.price_change_percentage_24h < 0" class="text-2xl font-bold">
               {{ coin.market_data.price_change_percentage_24h.toFixed(2) }}%
             </p>
-          </div>
+          </z-card>
         </div>
 
         <!-- Description -->
-        <div *ngIf="coin.description?.en" class="rounded-lg border border-border bg-card p-6">
+        <z-card *ngIf="coin.description?.en" class="p-6">
           <h2 class="text-2xl font-bold text-foreground mb-4">About</h2>
           <p class="text-foreground leading-relaxed">{{ coin.description?.en }}</p>
-        </div>
+        </z-card>
 
         <!-- Empty State -->
         <div *ngIf="!isLoading && !error && !coin" class="text-center py-12">

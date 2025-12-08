@@ -22,7 +22,7 @@ import {
   imports: [CommonModule],
   changeDetection: ChangeDetectionStrategy.OnPush,
   encapsulation: ViewEncapsulation.None,
-  template: `<table [class]="classes()"><ng-content></ng-content></table>`,
+  template: `<ng-content></ng-content>`,
   host: {
     '[class]': 'classes()',
   },
@@ -42,7 +42,7 @@ export class ZardTableComponent {
   imports: [CommonModule],
   changeDetection: ChangeDetectionStrategy.OnPush,
   encapsulation: ViewEncapsulation.None,
-  template: `<thead [class]="classes()"><ng-content></ng-content></thead>`,
+  template: `<ng-content></ng-content>`,
   host: {
     '[class]': 'classes()',
   },
@@ -62,7 +62,7 @@ export class ZardTableHeaderComponent {
   imports: [CommonModule],
   changeDetection: ChangeDetectionStrategy.OnPush,
   encapsulation: ViewEncapsulation.None,
-  template: `<th [class]="classes()"><ng-content></ng-content></th>`,
+  template: `<ng-content></ng-content>`,
   host: {
     '[class]': 'classes()',
   },
@@ -82,7 +82,7 @@ export class ZardTableHeadComponent {
   imports: [CommonModule],
   changeDetection: ChangeDetectionStrategy.OnPush,
   encapsulation: ViewEncapsulation.None,
-  template: `<tbody [class]="classes()"><ng-content></ng-content></tbody>`,
+  template: `<ng-content></ng-content>`,
   host: {
     '[class]': 'classes()',
   },
@@ -102,7 +102,7 @@ export class ZardTableBodyComponent {
   imports: [CommonModule],
   changeDetection: ChangeDetectionStrategy.OnPush,
   encapsulation: ViewEncapsulation.None,
-  template: `<tr [class]="classes()"><ng-content></ng-content></tr>`,
+  template: `<ng-content></ng-content>`,
   host: {
     '[class]': 'classes()',
   },
@@ -122,7 +122,7 @@ export class ZardTableRowComponent {
   imports: [CommonModule],
   changeDetection: ChangeDetectionStrategy.OnPush,
   encapsulation: ViewEncapsulation.None,
-  template: `<td [class]="classes()"><ng-content></ng-content></td>`,
+  template: `<ng-content></ng-content>`,
   host: {
     '[class]': 'classes()',
   },

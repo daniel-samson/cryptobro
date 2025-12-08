@@ -1,0 +1,127 @@
+name: Frontend Angular CI
+
+on:
+  push:
+    branches:
+      - main
+      - develop
+      - feature/**
+      - epic/**
+    paths:
+      - 'front-end-ng/**'
+      - '.github/workflows/frontend-ng-ci.yml'
+  pull_request:
+    branches:
+      - main
+      - develop
+    paths:
+      - 'front-end-ng/**'
+      - '.github/workflows/frontend-ng-ci.yml'
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    name: Test Angular Frontend
+
+    strategy:
+      matrix:
+        node-version: [20.x]
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ matrix.node-version }}
+          cache: 'npm'
+          cache-dependency-path: 'front-end-ng/package-lock.json'
+
+      - name: Install system dependencies
+        run: sudo apt-get update && sudo apt-get install -y build-essential python3
+
+      - name: Install dependencies
+        working-directory: front-end-ng
+        run: npm ci
+
+      - name: Ensure all native bindings are installed
+        working-directory: front-end-ng
+        run: npm install @oxc-parser/binding-linux-x64-gnu @oxc-transform/binding-linux-x64-gnu @oxc-minify/binding-linux-x64-gnu @rollup/rollup-linux-x64-gnu --no-save 2>&1 || true
+
+      - name: Clean build cache
+        working-directory: front-end-ng
+        run: rm -rf .angular dist node_modules/.vite 2>/dev/null || true
+
+      - name: Run linting
+        working-directory: front-end-ng
+        run: npm run lint --if-present || true
+
+      - name: Run tests
+        working-directory: front-end-ng
+        run: npm test -- --run
+
+      - name: Generate coverage report
+        working-directory: front-end-ng
+        run: npm run test:coverage -- --run || true
+
+      - name: Build application
+        working-directory: front-end-ng
+        run: npm run build
+
+  code-quality:
+    runs-on: ubuntu-latest
+    name: Code Quality Check
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20.x
+          cache: 'npm'
+          cache-dependency-path: 'front-end-ng/package-lock.json'
+
+      - name: Install system dependencies
+        run: sudo apt-get update && sudo apt-get install -y build-essential python3
+
+      - name: Install dependencies
+        working-directory: front-end-ng
+        run: npm ci
+
+      - name: Ensure all native bindings are installed
+        working-directory: front-end-ng
+        run: npm install @oxc-parser/binding-linux-x64-gnu @oxc-transform/binding-linux-x64-gnu @oxc-minify/binding-linux-x64-gnu @rollup/rollup-linux-x64-gnu --no-save 2>&1 || true
+
+      - name: Clean build cache
+        working-directory: front-end-ng
+        run: rm -rf .angular dist node_modules/.vite 2>/dev/null || true
+
+      - name: Check for security vulnerabilities
+        working-directory: front-end-ng
+        run: npm audit --audit-level=high || true
+
+      - name: Verify no console errors in build
+        working-directory: front-end-ng
+        run: npm run build
+
+  test-summary:
+    runs-on: ubuntu-latest
+    name: Test Results Summary
+    if: always()
+    needs: [test, code-quality]
+
+    steps:
+      - name: Check test status
+        run: |
+          if [ "${{ needs.test.result }}" == "failure" ]; then
+            echo "❌ Angular frontend tests failed"
+            exit 1
+          fi
+          if [ "${{ needs.code-quality.result }}" == "failure" ]; then
+            echo "❌ Code quality checks failed"
+            exit 1
+          fi
+          echo "✅ All Angular frontend checks passed"

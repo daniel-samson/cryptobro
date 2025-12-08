@@ -58,6 +58,22 @@ npm run type-check     # Check TypeScript types
 npm run lint           # Run ESLint
 ```
 
+### Styling and Component Development
+
+**IMPORTANT**: When modifying Tailwind CSS styles or component variants (CVA):
+1. Always take a screenshot of the rendered component after making style changes
+2. Verify that the changes render correctly in the browser (http://localhost:4200)
+3. Check alignment, spacing, colors, and interactive states (hover effects)
+4. Do NOT assume changes are correct without visual verification
+
+This applies especially to:
+- Table layouts and cell alignment
+- Card padding and spacing
+- Component hover states and transitions
+- Responsive breakpoint changes
+
+Use the dev server at http://localhost:4200 to test changes before committing.
+
 ### Component System (shadcn/vue)
 
 shadcn/vue components are built on:

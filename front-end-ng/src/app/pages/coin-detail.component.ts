@@ -52,56 +52,74 @@ import { ZardCardComponent } from '@shared/components/card/card.component';
       </div>
 
       <!-- Coin Details -->
-      <div *ngIf="!isLoading && !error && coin" class="max-w-4xl">
+      <div *ngIf="!isLoading && !error && coin" class="space-y-8">
         <!-- Header Section -->
-        <div class="mb-8 flex items-start justify-between">
+        <div class="flex items-center gap-6">
+          <img *ngIf="coin.image" [src]="coin.image" [alt]="coin.name" class="h-16 w-16 rounded-full" />
           <div>
             <h1 class="text-4xl font-bold text-foreground">{{ coin.name }}</h1>
             <p class="text-xl text-muted-foreground">{{ coin.symbol | uppercase }}</p>
           </div>
-          <img *ngIf="coin.image" [src]="coin.image" [alt]="coin.name" class="h-24 w-24 rounded-lg" />
         </div>
 
-        <!-- Price Card -->
-        <z-card class="mb-8 p-6">
-          <p class="text-sm text-muted-foreground mb-2">Current Price</p>
-          <p class="text-4xl font-bold text-primary">{{ formatPrice(coin.price) }}</p>
+        <!-- Price Info Card -->
+        <z-card>
+          <div class="p-6">
+            <h2 class="text-lg font-semibold text-foreground mb-4">Current Price</h2>
+            <div *ngIf="coin.market_data" class="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+              <div>
+                <p class="text-sm text-muted-foreground">Current Price</p>
+                <p class="text-2xl font-bold text-primary">{{ formatPrice(coin.price) }}</p>
+              </div>
+              <div>
+                <p class="text-sm text-muted-foreground">Market Cap</p>
+                <p class="text-2xl font-bold text-green-500 dark:text-green-400">
+                  {{ coin.market_data.market_cap?.usd ? formatLargeNumber(coin.market_data.market_cap.usd) : 'N/A' }}
+                </p>
+              </div>
+              <div>
+                <p class="text-sm text-muted-foreground">24h Volume</p>
+                <p class="text-2xl font-bold text-green-500 dark:text-green-400">
+                  {{ coin.market_data.total_volume?.usd ? formatLargeNumber(coin.market_data.total_volume.usd) : 'N/A' }}
+                </p>
+              </div>
+              <div>
+                <p class="text-sm text-muted-foreground">24h Change</p>
+                <p [class]="getPriceChangeClass(coin.market_data.price_change_percentage_24h)" class="text-2xl font-bold">
+                  {{ coin.market_data.price_change_percentage_24h !== undefined && coin.market_data.price_change_percentage_24h !== null ? formatPercentage(coin.market_data.price_change_percentage_24h) : 'N/A' }}
+                </p>
+              </div>
+            </div>
+          </div>
         </z-card>
 
-        <!-- Market Data Grid -->
-        <div *ngIf="coin.market_data" class="mb-8 grid grid-cols-1 md:grid-cols-2 gap-6">
-          <z-card class="p-6">
-            <p class="text-sm text-muted-foreground mb-2">24h High</p>
-            <p class="text-2xl font-bold text-foreground">
-              {{ formatLargeNumber(coin.market_data.high_24h?.usd) }}
-            </p>
-          </z-card>
-          <z-card class="p-6">
-            <p class="text-sm text-muted-foreground mb-2">24h Low</p>
-            <p class="text-2xl font-bold text-foreground">
-              {{ formatLargeNumber(coin.market_data.low_24h?.usd) }}
-            </p>
-          </z-card>
-          <z-card class="p-6">
-            <p class="text-sm text-muted-foreground mb-2">Market Cap</p>
-            <p class="text-2xl font-bold text-foreground">{{ formatLargeNumber(coin.market_data.market_cap?.usd) }}</p>
-          </z-card>
-          <z-card class="p-6">
-            <p class="text-sm text-muted-foreground mb-2">24h Volume</p>
-            <p class="text-2xl font-bold text-foreground">{{ formatLargeNumber(coin.market_data.total_volume?.usd) }}</p>
-          </z-card>
-          <z-card *ngIf="coin.market_data.price_change_percentage_24h !== undefined && coin.market_data.price_change_percentage_24h !== null" class="p-6">
-            <p class="text-sm text-muted-foreground mb-2">24h Change</p>
-            <p [class.text-green-600]="coin.market_data.price_change_percentage_24h >= 0" [class.text-red-600]="coin.market_data.price_change_percentage_24h < 0" class="text-2xl font-bold">
-              {{ coin.market_data.price_change_percentage_24h.toFixed(2) }}%
-            </p>
-          </z-card>
-        </div>
+        <!-- Price Range Card -->
+        <z-card *ngIf="coin.market_data">
+          <div class="p-6">
+            <h2 class="text-lg font-semibold text-foreground mb-4">24h Price Range</h2>
+            <div class="grid gap-4 sm:grid-cols-2">
+              <div>
+                <p class="text-sm text-muted-foreground">24h Low</p>
+                <p class="text-2xl font-bold text-red-500 dark:text-red-400">
+                  {{ coin.market_data.low_24h?.usd ? formatPrice(coin.market_data.low_24h.usd) : 'N/A' }}
+                </p>
+              </div>
+              <div>
+                <p class="text-sm text-muted-foreground">24h High</p>
+                <p class="text-2xl font-bold text-green-500 dark:text-green-400">
+                  {{ coin.market_data.high_24h?.usd ? formatPrice(coin.market_data.high_24h.usd) : 'N/A' }}
+                </p>
+              </div>
+            </div>
+          </div>
+        </z-card>
 
-        <!-- Description -->
-        <z-card *ngIf="coin.description?.en" class="p-6">
-          <h2 class="text-2xl font-bold text-foreground mb-4">About</h2>
-          <p class="text-foreground leading-relaxed">{{ coin.description?.en }}</p>
+        <!-- Description Card -->
+        <z-card *ngIf="coin.description?.en">
+          <div class="p-6">
+            <h2 class="text-lg font-semibold text-foreground mb-4">About {{ coin.name }}</h2>
+            <p class="text-foreground leading-relaxed">{{ coin.description?.en }}</p>
+          </div>
         </z-card>
 
         <!-- Empty State -->
@@ -148,6 +166,16 @@ export class CoinDetailComponent implements OnInit {
     if (value >= 1e6) return (value / 1e6).toFixed(2) + 'M';
     if (value >= 1e3) return (value / 1e3).toFixed(2) + 'K';
     return value.toFixed(2);
+  }
+
+  formatPercentage(percentage: number): string {
+    const sign = percentage >= 0 ? '+' : '';
+    return `${sign}${percentage.toFixed(2)}%`;
+  }
+
+  getPriceChangeClass(change?: number): string {
+    if (!change) return 'text-muted-foreground';
+    return change >= 0 ? 'text-green-500 dark:text-green-400' : 'text-red-500 dark:text-red-400';
   }
 
   private loadCoinDetails(): void {

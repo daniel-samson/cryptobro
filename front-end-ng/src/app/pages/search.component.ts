@@ -6,11 +6,12 @@ import { CoinGeckoService } from '../services/coin-gecko.service';
 import { Coin } from '../models/coin.model';
 import { debounceTime, distinctUntilChanged, Subject } from 'rxjs';
 import { ZardTableComponent, ZardTableHeaderComponent, ZardTableHeadComponent, ZardTableBodyComponent, ZardTableRowComponent, ZardTableCellComponent } from '@shared/components/table/table.component';
+import { ZardButtonComponent } from '@shared/components/button/button.component';
 
 @Component({
   selector: 'app-search',
   standalone: true,
-  imports: [CommonModule, FormsModule, RouterModule, ZardTableComponent, ZardTableHeaderComponent, ZardTableHeadComponent, ZardTableBodyComponent, ZardTableRowComponent, ZardTableCellComponent],
+  imports: [CommonModule, FormsModule, RouterModule, ZardTableComponent, ZardTableHeaderComponent, ZardTableHeadComponent, ZardTableBodyComponent, ZardTableRowComponent, ZardTableCellComponent, ZardButtonComponent],
   template: `
     <!-- Main Content -->
     <main class="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8">
@@ -81,9 +82,7 @@ import { ZardTableComponent, ZardTableHeaderComponent, ZardTableHeadComponent, Z
                   </span>
                 </td>
                 <td z-table-cell>
-                  <button
-                    class="text-primary hover:text-primary/80 text-sm font-medium transition-colors"
-                  >
+                  <button z-button zType="secondary" zSize="sm">
                     View Details
                   </button>
                 </td>

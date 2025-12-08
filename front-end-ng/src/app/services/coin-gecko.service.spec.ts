@@ -1,11 +1,14 @@
 import { describe, it, expect, beforeEach } from 'vitest';
 import { CoinGeckoService } from './coin-gecko.service';
+import { EnvironmentService } from './environment.service';
 
 describe('CoinGeckoService', () => {
   let service: CoinGeckoService;
+  let envService: EnvironmentService;
 
   beforeEach(() => {
-    service = new CoinGeckoService(null as any);
+    envService = new EnvironmentService();
+    service = new CoinGeckoService(null as any, envService);
   });
 
   it('should be created', () => {

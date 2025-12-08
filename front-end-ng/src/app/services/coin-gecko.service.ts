@@ -3,6 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { Observable, throwError } from 'rxjs';
 import { catchError, map } from 'rxjs/operators';
 import { Coin, CoinDetails, ApiResponse } from '../models/coin.model';
+import { EnvironmentService } from './environment.service';
 
 /**
  * Service for CoinGecko API integration
@@ -12,9 +13,14 @@ import { Coin, CoinDetails, ApiResponse } from '../models/coin.model';
   providedIn: 'root'
 })
 export class CoinGeckoService {
-  private apiBaseUrl = 'http://localhost:8000';
+  private apiBaseUrl: string;
 
-  constructor(private http: HttpClient) {}
+  constructor(
+    private http: HttpClient,
+    private env: EnvironmentService
+  ) {
+    this.apiBaseUrl = this.env.getApiBaseUrl();
+  }
 
   /**
    * Fetch top 10 cryptocurrencies by market cap

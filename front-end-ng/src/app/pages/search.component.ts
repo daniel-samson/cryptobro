@@ -5,7 +5,6 @@ import { RouterModule, ActivatedRoute, Router } from '@angular/router';
 import { CoinGeckoService } from '../services/coin-gecko.service';
 import { Coin } from '../models/coin.model';
 import { debounceTime, distinctUntilChanged, Subject } from 'rxjs';
-import { ZardCardComponent } from '@shared/components/card/card.component';
 import { TableComponent, TableHeaderComponent, TableHeadComponent, TableBodyComponent, TableRowComponent, TableCellComponent } from '@shared/components/table/table.component';
 
 @Component({

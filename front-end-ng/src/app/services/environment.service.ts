@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 
 /**
  * Service for accessing environment variables
- * Reads from process.env in Node.js / Angular CLI
+ * Provides API configuration for the application
  */
 @Injectable({
   providedIn: 'root'
@@ -11,11 +11,13 @@ export class EnvironmentService {
   constructor() {}
 
   /**
-   * Get the API base URL from environment or default to localhost
+   * Get the API base URL
+   * Defaults to localhost:8000 for development
    */
   getApiBaseUrl(): string {
-    // In Angular CLI with Vite, environment variables are available via process.env
-    // The VITE_API_BASE_URL will be replaced during build if defined in .env
-    return (process.env['VITE_API_BASE_URL'] as string) || 'http://localhost:8000';
+    // Default to localhost:8000 for development
+    // Can be overridden via environment.ts for production builds
+    const apiUrl = typeof window !== 'undefined' && (window as any).__ENV__?.apiBaseUrl;
+    return apiUrl || 'http://localhost:8000';
   }
 }

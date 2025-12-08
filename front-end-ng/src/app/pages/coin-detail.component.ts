@@ -72,13 +72,13 @@ import { CoinDetails } from '../models/coin.model';
           <div class="rounded-lg border border-border bg-card p-6">
             <p class="text-sm text-muted-foreground mb-2">24h High</p>
             <p class="text-2xl font-bold text-foreground">
-              {{ coin.market_data.high_24h?.usd ? formatPrice(coin.market_data.high_24h.usd) : 'N/A' }}
+              {{ formatLargeNumber(coin.market_data.high_24h?.usd) }}
             </p>
           </div>
           <div class="rounded-lg border border-border bg-card p-6">
             <p class="text-sm text-muted-foreground mb-2">24h Low</p>
             <p class="text-2xl font-bold text-foreground">
-              {{ coin.market_data.low_24h?.usd ? formatPrice(coin.market_data.low_24h.usd) : 'N/A' }}
+              {{ formatLargeNumber(coin.market_data.low_24h?.usd) }}
             </p>
           </div>
           <div class="rounded-lg border border-border bg-card p-6">
@@ -89,10 +89,10 @@ import { CoinDetails } from '../models/coin.model';
             <p class="text-sm text-muted-foreground mb-2">24h Volume</p>
             <p class="text-2xl font-bold text-foreground">{{ formatLargeNumber(coin.market_data.total_volume?.usd) }}</p>
           </div>
-          <div *ngIf="coin.market_data.price_change_percentage_24h !== undefined" class="rounded-lg border border-border bg-card p-6">
+          <div *ngIf="coin.market_data.price_change_percentage_24h !== undefined && coin.market_data.price_change_percentage_24h !== null" class="rounded-lg border border-border bg-card p-6">
             <p class="text-sm text-muted-foreground mb-2">24h Change</p>
             <p [class.text-green-600]="coin.market_data.price_change_percentage_24h >= 0" [class.text-red-600]="coin.market_data.price_change_percentage_24h < 0" class="text-2xl font-bold">
-              {{ coin.market_data.price_change_percentage_24h?.toFixed?.(2) || '0.00' }}%
+              {{ coin.market_data.price_change_percentage_24h.toFixed(2) }}%
             </p>
           </div>
         </div>
@@ -100,7 +100,7 @@ import { CoinDetails } from '../models/coin.model';
         <!-- Description -->
         <div *ngIf="coin.description?.en" class="rounded-lg border border-border bg-card p-6">
           <h2 class="text-2xl font-bold text-foreground mb-4">About</h2>
-          <p class="text-foreground leading-relaxed">{{ coin.description.en }}</p>
+          <p class="text-foreground leading-relaxed">{{ coin.description?.en }}</p>
         </div>
 
         <!-- Empty State -->

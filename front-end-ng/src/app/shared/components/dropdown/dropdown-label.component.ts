@@ -17,7 +17,7 @@ import { dropdownLabelVariants } from './dropdown.variants';
   },
 })
 export class ZardDropdownMenuLabelComponent {
-  readonly inset = input(false, { transform });
+  readonly inset = input<boolean>(false);
   readonly class = input<ClassValue>('');
 
   protected readonly classes = computed(() =>

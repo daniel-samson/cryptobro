@@ -26,8 +26,8 @@ export class ZardDropdownMenuItemComponent {
   private readonly dropdownService = inject(ZardDropdownService);
 
   readonly variant = input<ZardDropdownItemVariants['variant']>('default');
-  readonly inset = input(false, { transform });
-  readonly disabled = input(false, { transform });
+  readonly inset = input<boolean>(false);
+  readonly disabled = input<boolean>(false);
   readonly class = input<ClassValue>('');
 
   @HostListener('click', ['$event'])

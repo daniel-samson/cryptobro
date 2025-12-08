@@ -2,7 +2,7 @@
  * Merge Tailwind CSS classes intelligently
  * Handles conflicting class names by preferring later values
  */
-export function mergeClasses(...classes: (string | undefined | null | false)[]): string {
+export function mergeClasses(...classes: any[]): string {
   return classes
     .filter((c) => typeof c === 'string')
     .join(' ')

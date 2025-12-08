@@ -61,7 +61,7 @@ export class ZardDropdownMenuComponent implements OnInit, OnDestroy {
   private portal?: TemplatePortal;
 
   readonly class = input<ClassValue>('');
-  readonly disabled = input(false, { transform });
+  readonly disabled = input<boolean>(false);
 
   readonly openChange = output<boolean>();
 

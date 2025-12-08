@@ -17,7 +17,7 @@ export class ZardInputDirective {
   readonly elementRef = inject(ElementRef);
   private readonly isTextarea = this.elementRef.nativeElement.tagName.toLowerCase() === 'textarea';
 
-  readonly zBorderless = input(false, { transform });
+  readonly zBorderless = input<boolean>(false);
   readonly zSize = input<ZardInputVariants['zSize']>('default');
   readonly zStatus = input<ZardInputVariants['zStatus']>();
 

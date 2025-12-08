@@ -31,8 +31,8 @@ export class ZardButtonComponent implements OnDestroy {
   readonly zSize = input<ZardButtonVariants['zSize']>('default');
   readonly zShape = input<ZardButtonVariants['zShape']>('default');
   readonly class = input<ClassValue>('');
-  readonly zFull = input(false, { transform });
-  readonly zLoading = input(false, { transform });
+  readonly zFull = input<boolean>(false);
+  readonly zLoading = input<boolean>(false);
 
   private readonly iconOnlyState = signal(false);
   readonly iconOnly = this.iconOnlyState.asReadonly();

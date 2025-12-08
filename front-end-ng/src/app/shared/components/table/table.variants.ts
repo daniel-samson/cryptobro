@@ -5,7 +5,7 @@ export const tableVariants = cva('w-full border-collapse', {
 });
 export type ZardTableVariants = VariantProps<typeof tableVariants>;
 
-export const tableHeaderVariants = cva('border-b border-border bg-muted', {
+export const tableHeaderVariants = cva('bg-muted', {
   variants: {},
 });
 export type ZardTableHeaderVariants = VariantProps<typeof tableHeaderVariants>;

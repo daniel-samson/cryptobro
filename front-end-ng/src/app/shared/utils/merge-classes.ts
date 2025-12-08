@@ -1,30 +1,31 @@
-/**
- * Merge Tailwind CSS classes intelligently
- * Handles conflicting class names by preferring later values
- */
-export function mergeClasses(...classes: any[]): string {
-  return classes
-    .filter((c) => typeof c === 'string')
-    .join(' ')
-    .split(/\s+/)
-    .filter((c) => c.length > 0)
-    .reverse()
-    .reduce((acc, c) => {
-      if (!acc.includes(c)) {
-        acc.push(c);
-      }
-      return acc;
-    }, [] as string[])
-    .reverse()
-    .join(' ');
+import { twMerge } from 'tailwind-merge';
+import { ClassValue, clsx } from 'clsx';
+
+export type { ClassValue };
+
+export function mergeClasses(...inputs: ClassValue[]) {
+  return twMerge(clsx(inputs));
 }
 
-/**
- * Transform function for CVA variants
- */
-export function transform(obj: Record<string, any>): string {
-  return Object.entries(obj)
-    .filter(([, value]) => value)
-    .map(([key]) => key)
-    .join(' ');
+export function transform(value: boolean | string): boolean {
+  return typeof value === 'string' ? value === '' : value;
 }
+
+export function generateId(prefix = ''): string {
+  const id = crypto.randomUUID();
+  return prefix ? `${prefix}-${id}` : id;
+}
+
+export const noopFun = () => void 0;
+
+export const isElementContentTruncated = (element: HTMLElement | undefined): boolean => {
+  if (!element) {
+    return false;
+  }
+  const range = document.createRange();
+  range.selectNodeContents(element);
+  const rangeWidth = range.getBoundingClientRect().width;
+  const elementWidth = element.getBoundingClientRect().width;
+
+  return rangeWidth > elementWidth;
+};

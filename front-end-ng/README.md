@@ -1,59 +1,184 @@
-# FrontEndNg
+# CryptoBro Angular Frontend
 
-This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 21.0.2.
+A modern cryptocurrency price tracking application built with Angular 21, Zard UI components, and Tailwind CSS.
 
-## Development server
+## Features
 
-To start a local development server, run:
+- **Display Top Cryptocurrencies**: View the top 10 cryptocurrencies by market cap with real-time prices
+- **Detailed Coin Information**: Browse detailed market data including 24h high/low, market cap, and trading volume
+- **Search Functionality**: Search cryptocurrencies by name or symbol with debounced input
+- **Responsive Design**: Mobile-first design with Tailwind CSS for all screen sizes
+- **Type-Safe**: Full TypeScript support with strict type checking
+- **Tested**: Unit tests with Vitest for services and components
 
-```bash
-ng serve
+## Technology Stack
+
+- **Framework**: Angular 21 (Standalone Components)
+- **UI Component Library**: Zard UI (@ngzard/ui)
+- **Styling**: Tailwind CSS + PostCSS
+- **Testing**: Vitest + Testing Library
+- **HTTP Client**: Angular HttpClient with RxJS Observables
+- **Routing**: Angular Router with lazy loading support
+
+## Project Structure
+
+```
+src/
+├── app/
+│   ├── models/           # TypeScript interfaces and data models
+│   │   └── coin.model.ts
+│   ├── services/         # API and business logic services
+│   │   ├── coin-gecko.service.ts
+│   │   └── coin-gecko.service.spec.ts
+│   ├── pages/            # Routed page components
+│   │   ├── home.component.ts
+│   │   ├── coin-detail.component.ts
+│   │   └── search.component.ts
+│   ├── app.ts            # Root application component
+│   ├── app.routes.ts     # Route configuration
+│   ├── app.config.ts     # Application configuration
+│   └── app.spec.ts       # App tests
+├── index.html
+├── main.ts
+└── styles.css            # Global Tailwind styles
 ```
 
-Once the server is running, open your browser and navigate to `http://localhost:4200/`. The application will automatically reload whenever you modify any of the source files.
+## Setup
 
-## Code scaffolding
+### Prerequisites
 
-Angular CLI includes powerful code scaffolding tools. To generate a new component, run:
+- Node.js 18+ and npm 9+
+- Angular CLI 21+ (optional, can use `npm run ng`)
 
-```bash
-ng generate component component-name
-```
-
-For a complete list of available schematics (such as `components`, `directives`, or `pipes`), run:
+### Installation
 
 ```bash
-ng generate --help
+cd front-end-ng
+npm install
 ```
 
-## Building
+### Environment Configuration
 
-To build the project run:
+Create a `.env` file in the project root:
 
 ```bash
-ng build
+cp .env.example .env
 ```
 
-This will compile your project and store the build artifacts in the `dist/` directory. By default, the production build optimizes your application for performance and speed.
+Edit `.env` with your backend API URL:
 
-## Running unit tests
+```
+VITE_API_BASE_URL=http://localhost:8000
+```
 
-To execute unit tests with the [Vitest](https://vitest.dev/) test runner, use the following command:
+## Development
+
+### Start Development Server
 
 ```bash
-ng test
+npm run start
 ```
 
-## Running end-to-end tests
+The application will be available at `http://localhost:4200/`
 
-For end-to-end (e2e) testing, run:
+### Run Tests
 
 ```bash
-ng e2e
+# Run tests once
+npm test
+
+# Run tests with UI
+npm run test:ui
+
+# Run tests with coverage
+npm run test:coverage
 ```
 
-Angular CLI does not come with an end-to-end testing framework by default. You can choose one that suits your needs.
+### Build for Production
 
-## Additional Resources
+```bash
+npm run build
+```
 
-For more information on using the Angular CLI, including detailed command references, visit the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
+Output will be in the `dist/` directory.
+
+### Watch Mode (Development Build)
+
+```bash
+npm run watch
+```
+
+## API Integration
+
+The application communicates with the Laravel backend API:
+
+### Endpoints
+
+- `GET /v1/coins/markets` - Get top 10 cryptocurrencies
+- `GET /v1/coins/:symbol` - Get coin details by symbol
+- `GET /v1/coins/search?q=:query` - Search coins
+
+### Service: CoinGeckoService
+
+Located in `src/app/services/coin-gecko.service.ts`
+
+Methods:
+- `getCoins()` - Fetch top cryptocurrencies
+- `getCoinBySymbol(symbol)` - Get coin details
+- `getCoinById(id)` - Get coin by ID
+- `searchCoins(query)` - Search cryptocurrencies
+
+## Components
+
+### HomeComponent (`pages/home.component.ts`)
+Displays a grid of top 10 cryptocurrencies with prices and links to detail pages.
+
+### CoinDetailComponent (`pages/coin-detail.component.ts`)
+Shows detailed information about a specific cryptocurrency including market data and description.
+
+### SearchComponent (`pages/search.component.ts`)
+Provides a search interface with debounced input for finding cryptocurrencies.
+
+## Styling
+
+This project uses Tailwind CSS for utility-first styling. Global styles are defined in `src/styles.css`.
+
+### Tailwind Configuration
+- `tailwind.config.js` - Tailwind configuration
+- `postcss.config.js` - PostCSS configuration
+
+To customize Tailwind, edit `tailwind.config.js`.
+
+## Linting and Formatting
+
+Format code using Prettier:
+
+```bash
+npm run format  # (if configured)
+```
+
+## Additional Commands
+
+- `npm run ng` - Run Angular CLI commands
+- `npm run build` - Production build
+- `npm run watch` - Watch mode build
+- `npm test` - Run tests once
+- `npm run test:ui` - Run tests with UI
+- `npm run test:coverage` - Run tests with coverage report
+
+## Contributing
+
+When adding new features:
+
+1. Create services in `src/app/services/`
+2. Define models in `src/app/models/`
+3. Create page components in `src/app/pages/`
+4. Add routes in `src/app/app.routes.ts`
+5. Write tests alongside your code (`.spec.ts` files)
+
+## Resources
+
+- [Angular Documentation](https://angular.dev)
+- [Zard UI Documentation](https://zardui.com)
+- [Tailwind CSS Documentation](https://tailwindcss.com)
+- [Vitest Documentation](https://vitest.dev)

@@ -1,184 +1,332 @@
-# CryptoBro Angular Frontend
+# Cryptobro Frontend (Angular)
 
-A modern cryptocurrency price tracking application built with Angular 21, Zard UI components, and Tailwind CSS.
+Angular 21 application for cryptocurrency price tracking with Zard UI components and Tailwind CSS.
 
 ## Features
 
-- **Display Top Cryptocurrencies**: View the top 10 cryptocurrencies by market cap with real-time prices
-- **Detailed Coin Information**: Browse detailed market data including 24h high/low, market cap, and trading volume
-- **Search Functionality**: Search cryptocurrencies by name or symbol with debounced input
-- **Responsive Design**: Mobile-first design with Tailwind CSS for all screen sizes
-- **Type-Safe**: Full TypeScript support with strict type checking
-- **Tested**: Unit tests with Vitest for services and components
+- Real-time cryptocurrency price display
+- Search functionality for cryptocurrencies
+- Detailed coin information pages
+- Breadcrumb navigation with search context
+- Responsive design with Tailwind CSS
+- Dark mode support
+- Zard UI components
+- TypeScript support
+- Comprehensive test coverage
 
 ## Technology Stack
 
-- **Framework**: Angular 21 (Standalone Components)
-- **UI Component Library**: Zard UI (@ngzard/ui)
-- **Styling**: Tailwind CSS + PostCSS
-- **Testing**: Vitest + Testing Library
+- **Framework**: [Angular 21](https://angular.dev) with Standalone Components
+- **Styling**: [Tailwind CSS](https://tailwindcss.com)
+- **Components**: [Zard UI](https://zardui.com)
+- **Testing**: Vitest with Testing Library
+- **Type Safety**: TypeScript with strict type checking
 - **HTTP Client**: Angular HttpClient with RxJS Observables
-- **Routing**: Angular Router with lazy loading support
 
-## Project Structure
+## Prerequisites
 
-```
-src/
-├── app/
-│   ├── models/           # TypeScript interfaces and data models
-│   │   └── coin.model.ts
-│   ├── services/         # API and business logic services
-│   │   ├── coin-gecko.service.ts
-│   │   └── coin-gecko.service.spec.ts
-│   ├── pages/            # Routed page components
-│   │   ├── home.component.ts
-│   │   ├── coin-detail.component.ts
-│   │   └── search.component.ts
-│   ├── app.ts            # Root application component
-│   ├── app.routes.ts     # Route configuration
-│   ├── app.config.ts     # Application configuration
-│   └── app.spec.ts       # App tests
-├── index.html
-├── main.ts
-└── styles.css            # Global Tailwind styles
-```
+- Node.js 18+
+- npm or yarn
+- Backend API running on `http://localhost:8000` (or configured URL)
 
-## Setup
+## Quick Start
 
-### Prerequisites
+1. **Install dependencies:**
+   ```bash
+   npm install
+   ```
 
-- Node.js 18+ and npm 9+
-- Angular CLI 21+ (optional, can use `npm run ng`)
+2. **Set up environment configuration:**
+   ```bash
+   cp .env.example .env
+   ```
 
-### Installation
+   The frontend expects the backend API at:
+   ```env
+   NG_APP_API_BASE_URL=http://localhost:8000/api
+   ```
 
-```bash
-cd front-end-ng
-npm install
-```
+   Update this if your backend is running on a different host/port.
 
-### Environment Configuration
+3. **Start the development server:**
+   ```bash
+   npm run start
+   ```
 
-Create a `.env` file in the project root:
+   The frontend will be available at `http://localhost:4200`
+
+## Development Commands
 
 ```bash
-cp .env.example .env
-```
-
-Edit `.env` with your backend API URL:
-
-```
-VITE_API_BASE_URL=http://localhost:8000
-```
-
-## Development
-
-### Start Development Server
-
-```bash
+# Development server with hot reload
 npm run start
-```
 
-The application will be available at `http://localhost:4200/`
+# Build for production
+npm run build
 
-### Run Tests
+# Watch mode for development
+npm run watch
 
-```bash
-# Run tests once
+# Run tests
 npm test
 
-# Run tests with UI
-npm run test:ui
+# Run tests in watch mode
+npm test -- --watch
 
-# Run tests with coverage
+# Run tests with coverage report
 npm run test:coverage
+
+# Type checking
+npm run ng exec -- @angular/cli:extract-i18n
 ```
 
-### Build for Production
+## Building for Production
 
 ```bash
 npm run build
 ```
 
-Output will be in the `dist/` directory.
+This creates an optimized build in the `dist/` directory.
 
-### Watch Mode (Development Build)
+## Testing
+
+The frontend uses Vitest with Testing Library for unit testing:
 
 ```bash
-npm run watch
+# Run all tests
+npm test
+
+# Run tests in watch mode
+npm test -- --watch
+
+# Generate coverage report
+npm run test:coverage
 ```
+
+**Test Structure:**
+- `src/app/services/` - Service tests for API integration
+- `src/app/pages/` - Component tests for pages
+
+**Test Coverage:**
+- `CoinGeckoService` - API integration tests
+- Page components - UI rendering and interaction tests
+
+## Project Structure
+
+```
+front-end-ng/
+├── src/
+│   ├── app/
+│   │   ├── models/          # TypeScript interfaces and data models
+│   │   │   └── coin.model.ts
+│   │   ├── services/        # API and business logic services
+│   │   │   └── coin-gecko.service.ts
+│   │   ├── pages/           # Routed page components
+│   │   │   ├── home.component.ts
+│   │   │   ├── coin-detail.component.ts
+│   │   │   └── search.component.ts
+│   │   ├── components/      # Reusable components
+│   │   │   ├── header.component.ts
+│   │   │   └── mode-toggle.component.ts
+│   │   ├── shared/          # Shared components and utilities
+│   │   │   └── components/
+│   │   │       ├── loading-spinner/
+│   │   │       ├── breadcrumb/
+│   │   │       ├── card/
+│   │   │       └── table/
+│   │   ├── app.ts          # Root application component
+│   │   ├── app.routes.ts   # Route configuration
+│   │   └── app.config.ts   # Application configuration
+│   ├── index.html
+│   ├── main.ts
+│   └── styles.css          # Global Tailwind styles
+├── angular.json
+├── tailwind.config.js
+├── tsconfig.json
+└── README.md
+```
+
+## Pages
+
+| Route              | Component               | Description                       |
+|--------------------|-------------------------|-----------------------------------|
+| `/`                | `home.component.ts`     | Homepage with top 10 coins        |
+| `/search`          | `search.component.ts`   | Search results for cryptocurrencies |
+| `/coins/{symbol}`  | `coin-detail.component.ts` | Detailed coin information      |
 
 ## API Integration
 
-The application communicates with the Laravel backend API:
+The frontend communicates with the backend via services. The `CoinGeckoService` provides methods for fetching cryptocurrency data:
 
-### Endpoints
+```typescript
+import { CoinGeckoService } from '../services/coin-gecko.service'
 
-- `GET /v1/coins/markets` - Get top 10 cryptocurrencies
-- `GET /v1/coins/:symbol` - Get coin details by symbol
-- `GET /v1/coins/search?q=:query` - Search coins
+export class YourComponent implements OnInit {
+  constructor(private coinGeckoService: CoinGeckoService) {}
 
-### Service: CoinGeckoService
+  ngOnInit() {
+    this.coinGeckoService.getCoins().subscribe(coins => {
+      console.log(coins)
+    })
+  }
+}
+```
 
-Located in `src/app/services/coin-gecko.service.ts`
+### Available Methods
 
-Methods:
-- `getCoins()` - Fetch top cryptocurrencies
-- `getCoinBySymbol(symbol)` - Get coin details
+- `getCoins()` - Fetch top 10 cryptocurrencies
+- `getCoinBySymbol(symbol)` - Get coin details by symbol
 - `getCoinById(id)` - Get coin by ID
-- `searchCoins(query)` - Search cryptocurrencies
+- `searchCoins(query)` - Search for cryptocurrencies
 
-## Components
+The API base URL is configured via the `NG_APP_API_BASE_URL` environment variable.
 
-### HomeComponent (`pages/home.component.ts`)
-Displays a grid of top 10 cryptocurrencies with prices and links to detail pages.
+## Component System
 
-### CoinDetailComponent (`pages/coin-detail.component.ts`)
-Shows detailed information about a specific cryptocurrency including market data and description.
+The frontend uses [Zard UI](https://zardui.com) components with [Tailwind CSS](https://tailwindcss.com) styling.
 
-### SearchComponent (`pages/search.component.ts`)
-Provides a search interface with debounced input for finding cryptocurrencies.
+### Available Components
+
+- **Layout**: Card, Table, Breadcrumb
+- **Navigation**: Header with search and theme toggle
+- **Feedback**: Loading Spinner
+- **Customizable**: Styled with Tailwind CSS and CSS variables
+
+### Custom Components
+
+- **LoadingSpinnerComponent** - Reusable loading indicator with customizable message
+- **HeaderComponent** - Navigation header with search functionality
+- **ModeToggleComponent** - Dark mode toggle
 
 ## Styling
 
-This project uses Tailwind CSS for utility-first styling. Global styles are defined in `src/styles.css`.
+The frontend uses [Tailwind CSS](https://tailwindcss.com) for styling with custom CSS variables for theming:
 
-### Tailwind Configuration
-- `tailwind.config.js` - Tailwind configuration
-- `postcss.config.js` - PostCSS configuration
+- **Dark Mode**: Built-in with CSS variable system
+- **Responsive Design**: Mobile-first approach with Tailwind breakpoints
+- **Custom Theme**: Modify colors in `src/styles.css`
 
-To customize Tailwind, edit `tailwind.config.js`.
+### Customizing the Theme
 
-## Linting and Formatting
+Edit the CSS variables in the `src/styles.css` file:
 
-Format code using Prettier:
-
-```bash
-npm run format  # (if configured)
+```css
+:root {
+  --background: 0 0% 100%;
+  --foreground: 222.2 84% 4.9%;
+  --primary: 222.2 47.6% 11.2%;
+  /* ... more variables */
+}
 ```
 
-## Additional Commands
+## Environment Variables
 
-- `npm run ng` - Run Angular CLI commands
-- `npm run build` - Production build
-- `npm run watch` - Watch mode build
-- `npm test` - Run tests once
-- `npm run test:ui` - Run tests with UI
-- `npm run test:coverage` - Run tests with coverage report
+| Variable                  | Description                    | Default                          |
+|---------------------------|--------------------------------|----------------------------------|
+| `NG_APP_API_BASE_URL`     | Backend API base URL           | `http://localhost:8000/api`      |
 
-## Contributing
+## Browser Support
 
-When adding new features:
+The frontend supports:
+- Safari 12.1+
+- iOS 12+
+- Modern Chrome, Firefox, Edge
 
-1. Create services in `src/app/services/`
-2. Define models in `src/app/models/`
-3. Create page components in `src/app/pages/`
-4. Add routes in `src/app/app.routes.ts`
-5. Write tests alongside your code (`.spec.ts` files)
+## Continuous Integration
 
-## Resources
+The project uses GitHub Actions for automated testing and quality checks.
+
+**Workflow:** `.github/workflows/frontend-ci.yml`
+- Runs on push to `main` and feature branches
+- Only triggers on changes to `front-end-ng/` directory
+- Tests on Node.js 18.x and 20.x
+- Includes:
+  - Unit and component tests
+  - TypeScript type checking
+  - Production build verification
+
+**Status Check:**
+All CI checks must pass before merging to main.
+
+## Performance
+
+The application implements several performance optimizations:
+
+- **Standalone Components**: Efficient component encapsulation
+- **Tree Shaking**: Angular's built-in optimization removes unused code
+- **Lazy Loading**: Route-based code splitting
+- **Change Detection**: OnPush strategy for optimal performance
+- **API Caching**: Backend implements caching (60s for coins, 5min for search)
+
+## Troubleshooting
+
+### Port Already in Use
+
+If port 4200 is already in use:
+```bash
+ng serve --port 4201
+```
+
+### API Connection Issues
+
+1. Ensure backend is running on `http://localhost:8000`
+2. Check `NG_APP_API_BASE_URL` in `.env`
+3. Verify CORS is enabled on backend
+4. Check browser console for specific errors
+
+### TypeScript Errors
+
+Clear Angular cache and rebuild:
+```bash
+rm -rf .angular
+npm run start
+```
+
+### Module Resolution Issues
+
+Reinstall dependencies:
+```bash
+rm -rf node_modules package-lock.json
+npm install
+```
+
+## Development Notes
+
+### Using Angular CLI
+
+```bash
+npm run ng -- <command>
+```
+
+### Creating Components
+
+Components in this project use Angular's standalone component pattern:
+
+```typescript
+import { Component } from '@angular/core'
+
+@Component({
+  selector: 'app-example',
+  standalone: true,
+  imports: [CommonModule],
+  template: `...`,
+  styles: []
+})
+export class ExampleComponent {}
+```
+
+## Documentation
 
 - [Angular Documentation](https://angular.dev)
 - [Zard UI Documentation](https://zardui.com)
 - [Tailwind CSS Documentation](https://tailwindcss.com)
 - [Vitest Documentation](https://vitest.dev)
+- [RxJS Documentation](https://rxjs.dev)
+
+## Contributing
+
+Please see [../CLAUDE.md](../CLAUDE.md) for development guidelines and git workflow.
+
+## License
+
+This project is part of the Cryptobro monorepo.

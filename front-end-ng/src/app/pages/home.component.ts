@@ -37,9 +37,9 @@ import { ZardCardComponent } from '@shared/components/card/card.component';
           <a
             *ngFor="let coin of coins"
             [routerLink]="['/coins', coin.symbol]"
-            class="block"
+            class="block transition-all hover:shadow-lg hover:ring-2 hover:ring-primary cursor-pointer rounded-lg"
           >
-            <z-card class="flex h-full flex-col overflow-hidden transition-all hover:shadow-lg hover:ring-2 hover:ring-primary cursor-pointer bg-card p-4 rounded-lg">
+            <z-card class="flex h-full flex-col overflow-hidden bg-card p-4 rounded-lg">
               <!-- Card Header -->
               <div class="pb-3 flex items-center gap-3">
                 <img

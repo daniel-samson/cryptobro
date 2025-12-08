@@ -16,22 +16,22 @@ type ColorMode = 'light' | 'dark' | 'system';
         [attr.aria-label]="isDark ? 'Switch to light mode' : 'Switch to dark mode'"
       >
         <!-- Moon Icon (Light Mode) -->
-        <lucide-angular
+        <lucide-icon
           *ngIf="!isDark"
           name="moon"
           [size]="20"
           color="currentColor"
           [strokeWidth]="2"
-        ></lucide-angular>
+        ></lucide-icon>
 
         <!-- Sun Icon (Dark Mode) -->
-        <lucide-angular
+        <lucide-icon
           *ngIf="isDark"
           name="sun"
           [size]="20"
           color="currentColor"
           [strokeWidth]="2"
-        ></lucide-angular>
+        ></lucide-icon>
         <span class="sr-only">Toggle theme</span>
       </button>
 
@@ -46,7 +46,7 @@ type ColorMode = 'light' | 'dark' | 'system';
           [class.bg-accent]="currentMode === 'light'"
           [class.text-accent-foreground]="currentMode === 'light'"
         >
-          <lucide-angular name="sun" [size]="16" color="currentColor" [strokeWidth]="2"></lucide-angular>
+          <lucide-icon name="sun" [size]="16" color="currentColor" [strokeWidth]="2"></lucide-icon>
           Light
         </button>
         <button
@@ -55,7 +55,7 @@ type ColorMode = 'light' | 'dark' | 'system';
           [class.bg-accent]="currentMode === 'dark'"
           [class.text-accent-foreground]="currentMode === 'dark'"
         >
-          <lucide-angular name="moon" [size]="16" color="currentColor" [strokeWidth]="2"></lucide-angular>
+          <lucide-icon name="moon" [size]="16" color="currentColor" [strokeWidth]="2"></lucide-icon>
           Dark
         </button>
         <button
@@ -64,7 +64,7 @@ type ColorMode = 'light' | 'dark' | 'system';
           [class.bg-accent]="currentMode === 'system'"
           [class.text-accent-foreground]="currentMode === 'system'"
         >
-          <lucide-angular name="monitor" [size]="16" color="currentColor" [strokeWidth]="2"></lucide-angular>
+          <lucide-icon name="monitor" [size]="16" color="currentColor" [strokeWidth]="2"></lucide-icon>
           System
         </button>
       </div>

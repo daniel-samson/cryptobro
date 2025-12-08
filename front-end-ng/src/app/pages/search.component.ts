@@ -6,11 +6,12 @@ import { CoinGeckoService } from '../services/coin-gecko.service';
 import { Coin } from '../models/coin.model';
 import { debounceTime, distinctUntilChanged, Subject } from 'rxjs';
 import { ZardCardComponent } from '@shared/components/card/card.component';
+import { TableComponent, TableHeaderComponent, TableHeadComponent, TableBodyComponent, TableRowComponent, TableCellComponent } from '@shared/components/table/table.component';
 
 @Component({
   selector: 'app-search',
   standalone: true,
-  imports: [CommonModule, FormsModule, RouterModule, ZardCardComponent],
+  imports: [CommonModule, FormsModule, RouterModule, TableComponent, TableHeaderComponent, TableHeadComponent, TableBodyComponent, TableRowComponent, TableCellComponent],
   template: `
     <!-- Main Content -->
     <main class="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8">
@@ -38,27 +39,26 @@ import { ZardCardComponent } from '@shared/components/card/card.component';
       </div>
 
       <!-- Results Table -->
-      <z-card *ngIf="!isLoading && !error && results.length > 0" class="overflow-hidden">
+      <div *ngIf="!isLoading && !error && results.length > 0" class="border border-border rounded-lg overflow-hidden bg-card">
         <div class="overflow-x-auto">
-          <table class="w-full">
+          <z-table>
             <!-- Table Header -->
-            <thead class="border-b border-border bg-muted">
+            <z-table-header>
               <tr>
-                <th class="px-6 py-3 text-left text-sm font-semibold text-foreground">Name</th>
-                <th class="px-6 py-3 text-left text-sm font-semibold text-foreground">Symbol</th>
-                <th class="px-6 py-3 text-right text-sm font-semibold text-foreground">Price</th>
-                <th class="px-6 py-3 text-right text-sm font-semibold text-foreground">Market Cap</th>
-                <th class="px-6 py-3 text-right text-sm font-semibold text-foreground"></th>
+                <z-table-head align="left">Name</z-table-head>
+                <z-table-head align="left">Symbol</z-table-head>
+                <z-table-head align="right">Price</z-table-head>
+                <z-table-head align="right">Market Cap</z-table-head>
+                <z-table-head align="right"></z-table-head>
               </tr>
-            </thead>
+            </z-table-header>
             <!-- Table Body -->
-            <tbody>
-              <tr
+            <z-table-body>
+              <z-table-row
                 *ngFor="let coin of results"
-                class="border-b border-border hover:bg-accent/50 cursor-pointer transition-colors"
                 (click)="navigateToCoin(coin.symbol)"
               >
-                <td class="px-6 py-4">
+                <z-table-cell align="left">
                   <div class="flex items-center gap-3">
                     <img
                       *ngIf="coin.image"
@@ -66,32 +66,32 @@ import { ZardCardComponent } from '@shared/components/card/card.component';
                       [alt]="coin.name"
                       class="h-8 w-8 rounded-full"
                     />
-                    <span class="font-medium text-foreground">{{ coin.name }}</span>
+                    <span class="font-medium">{{ coin.name }}</span>
                   </div>
-                </td>
-                <td class="px-6 py-4">
+                </z-table-cell>
+                <z-table-cell align="left">
                   <span class="text-muted-foreground">{{ coin.symbol | uppercase }}</span>
-                </td>
-                <td class="px-6 py-4 text-right">
-                  <span class="text-foreground">{{ formatPrice(coin.price) }}</span>
-                </td>
-                <td class="px-6 py-4 text-right">
+                </z-table-cell>
+                <z-table-cell align="right">
+                  {{ formatPrice(coin.price) }}
+                </z-table-cell>
+                <z-table-cell align="right">
                   <span class="text-muted-foreground">
                     {{ coin.market_cap ? formatPrice(coin.market_cap) : 'N/A' }}
                   </span>
-                </td>
-                <td class="px-6 py-4 text-right">
+                </z-table-cell>
+                <z-table-cell align="right">
                   <button
                     class="text-primary hover:text-primary/80 text-sm font-medium transition-colors"
                   >
                     View Details
                   </button>
-                </td>
-              </tr>
-            </tbody>
-          </table>
+                </z-table-cell>
+              </z-table-row>
+            </z-table-body>
+          </z-table>
         </div>
-      </z-card>
+      </div>
 
       <!-- No Results -->
       <div *ngIf="!isLoading && !error && searchQuery && results.length === 0" class="rounded-lg border border-border bg-muted py-12 text-center">
